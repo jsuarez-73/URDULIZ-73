@@ -1,0 +1,72 @@
+/**
+This is file is made to write all the stuff we figure out about C lenguage.
+Similar as slack App.
+**/
+
+START-
+
+CURIOSDAD: Variables y globales. Evitar doble definicion y sus complicaciones.
+//The compiler or the makefile processed the global vars twice, throwing E.
+/*The error of duplicate load about this two globals variables
+was that their types were instances variables so when the compiler
+build both files that use this header file, the variable were initializated
+twice, to avoid it, it was necessary to change their types to static, meaning
+that these variables are just gonna get initialized once.
+
+The big headache is the global variable must be used in every c.file,
+as ft_printf.c and ft_printf_parser.c and so on, so this is not the best
+way to approach this problem.
+*/
+static char	g_cnv[9] = {'c', 's', 'p','d', 'i', 'u', 'x', 'X', '%'};
+static char	g_flgs[6] = {'#', '0', '-', '.', ' ', '+'};
+
+FIN-
+
+START-
+
+RECORDATORIO: Acerca de variables y direcciones de memoria.
+
+int	ft_parser(char *fstr, t_fstr *root)
+{
+	...
+	ft_set_nd(&fstr, root, &off);
+}
+
+int	ft_set_nd(char **fstr, t_fstr *root, char **off)
+{
+	while ((**fstr)++ != (*conv)++);
+}
+
+Hipotesis 1:
+
+EL error ocasionado en el while se explica como sigue:
+1. EL puntero fstr se indirecciona doblemente con el operador *
+2. AL haberse indireccionado doblemente, se convierte en un caracter.
+3. Incrementar un caracter no corresponde a incrementar un puntero.
+4. El puntero conv, se indirecciona a caracter e igualmente se incrementa,
+	lo cual no corresponde a incrementar el puntero.
+
+Hipotesis 2:
+1. El puntero se incrementa no al puntero que apunta a la cadena de caracteres
+	si no que incrementa al puntero que apunta al puntero mencionado anteriormente.
+	Lo cual causa el segmentation fault.
+
+while (*(*fstr)++ != *conv++ && printf("D:\t %c - %c\n", **fstr, *conv));
+
+El while superior muestra la manera correcta en que se debian indireccionar
+los punteros para que no ocurriera un segmentation fault.
+
+D:	   - c
+D:	 e - s
+D:	 s - p
+D:	   - d
+D:	 u - i
+D:	 n - u
+D:	 a - x
+D:	   - X
+D:	 c - %
+D:	 o - 
+D:	 n - D
+D:	 s - :
+D:	 t - 	
+
