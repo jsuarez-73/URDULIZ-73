@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:56:29 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/08/04 19:55:58 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/08/08 21:16:23 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ typedef struct s_fstr
 }	t_fstr;
 
 int	ft_printf(const char *fstr);
-int	ft_add_nd(t_fstr *root, t_nd nd, t_lm lm);
-int	ft_parser(char *fstr, t_fstr *root);
-int	ft_set_nd(char **fstr, t_fstr *root, char **off);
+int	ft_tree_drv(char *fstr, t_fstr *root);
+int	ft_nd_drv(t_fstr *root);
 
 #endif

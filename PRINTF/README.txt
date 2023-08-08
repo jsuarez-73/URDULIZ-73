@@ -27,6 +27,7 @@ REGISTERED NOTES FROM PRINFT MANUAL.
 			<flags>		::= (0 | - | # | +| space)<flags>
 			<width>		::= [<number>] | [* | *<number>$]
 			<precision>	::= .[<number>] | [* | *<number>$]
+			<number>	::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 <number>
 
 
 2.	Flags to Bonus :
