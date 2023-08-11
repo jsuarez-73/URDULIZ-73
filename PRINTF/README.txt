@@ -24,7 +24,7 @@ REGISTERED NOTES FROM PRINFT MANUAL.
 			<conv>		::=	c | s | p | u | d | i | x | X | %
 			<modifiers> ::= [<var_arg>][<flags>][<width>][<precision>]
 			<var_arg>	::= <number>$
-			<flags>		::= (0 | - | # | +| space)<flags>
+			<flags>		::= (0 | -| # | +| space)<flags>
 			<width>		::= [<number>] | [* | *<number>$]
 			<precision>	::= .[<number>] | [* | *<number>$]
 			<number>	::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 <number>
@@ -65,7 +65,7 @@ REGISTERED NOTES FROM PRINFT MANUAL.
 			from a string for s and S conversions.
 
 			The precision could be followed by an optional decimal string "*" or "*m$"
-			(field width) to specify that the preicsion is fiven in the next argument.
+			(field width) to specify that the preicsion is given in the next argument.
 
 			!Important: If the field width < precision then field width is ignored.
 	

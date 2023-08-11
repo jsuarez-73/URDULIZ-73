@@ -6,7 +6,7 @@
 #    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 11:36:09 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/08/08 21:17:49 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/08/09 18:24:45 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ CFLAGS = -Wall -Werror -Wextra
 NAME = ft_printf.jsb
 SRCS = ft_printf.c\
 		ft_printf_nddrv.c\
-		ft_printf_treedrv.c
+		ft_printf_treedrv.c\
+		ft_printf_parser.c
 OBJS = $(SRCS:%.c=%.o)
 
 $(NAME):
