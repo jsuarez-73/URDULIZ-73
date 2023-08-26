@@ -44,6 +44,8 @@ REGISTERED NOTES FROM PRINFT MANUAL.
 			flag 0 is ignored.
 
 			For other conversions the behaviour is undefined.
+
+			Note: This modifier doesn't affect the memory size.
 		
 		2.1.2 "-" : The converted value is to be left adjusted on the field boundary.
 			(the default is rigth justification). Field boundary references to the
@@ -52,6 +54,8 @@ REGISTERED NOTES FROM PRINFT MANUAL.
 
 			The converted value is padded on the right with blanks, rather than on
 			the left with blanks or zeros.
+
+			Note: This modifier doesn't affect the memory size.
 
 		2.1.3 "." (Precision) : If the precision is given as just '.', the precision
 			is taken to be zero.
@@ -77,14 +81,20 @@ REGISTERED NOTES FROM PRINFT MANUAL.
 
 			For others conversions, the result is undefined. Excepting (a, A, e, E, f, F,
 			g, G, m, o).
+
+			Note: this modifier can modify the memory size.
 		
 		2.2.2 "+" : A sign (+ or -) should always be placed before a number produced by
 		a signed conversion. By default, a sign is just used only for negative numbers.
+
+			Note: this modifier can modify the memory size.
 		
 		A + overrides a space if both are used.
 
 		2.2.3 " " : A blank should be left before a positive number (or empty string) 
 			produced by a signed conversion.
+			
+			Note: this modifier can modify the memory size.
 
 3.	Mandatories conversion specifiers :
 

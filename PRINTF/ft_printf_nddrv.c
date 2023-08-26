@@ -6,13 +6,12 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 18:39:18 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/08/10 16:38:46 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/08/19 11:38:19 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-/*Algunas pruebas realizadas, falta realizar mas pruebas de nivel asi como disminuir
-el tamano de la funcion ft_trip_set.*/
+
 static void	ft_trip_helper(char **off, t_lm *lm, short *fnd, char **set)
 {
 	while (**set != 0 && *fnd != 2)
@@ -65,23 +64,24 @@ static int	ft_chopper(t_nd *p_rt, char *off, char *end)
 	lm = ft_trip_set(p_rt->wdth.end, end, "0123456789.*");
 	p_rt->prcsn.off = lm.off;
 	p_rt->prcsn.end = lm.end;
-	// printf("D:\t off flgs: %s\t end flgs: %s\n", p_rt->flgs.off, p_rt->flgs.end);
-	// printf("D:\t off width: %s\t end_width: %s\n", p_rt->wdth.off, p_rt->wdth.end);
-	// printf("D:\t off prcsn: %s\t end_prcsn: %s\n\n", p_rt->prcsn.off, p_rt->prcsn.end);
-
 	return (0);
 }
-
+/*Initialization a chopping to the nodes.
+We do the initialization here, because it's gonna
+be very useful when we will get the leaves to 
+put the conversor expanded.*/
 int	ft_nd_drv(t_fstr *root)
 {
-	t_fstr	*p_rt;
+	unsigned int	q_nd;
 
-	p_rt = root;
-	while (p_rt->nxt != NULL)
+	q_nd = root->q_nd;
+	while (q_nd--)
 	{
-		if (p_rt->nd.is_lf == 0)
-			ft_chopper(&p_rt->nd, p_rt->lm.off, p_rt->lm.end);
-		p_rt = p_rt->nxt;
+		root->nd.lf.off = NULL;
+		root->nd.lf.end = NULL;
+		if (root->nd.is_lf == 0)
+			ft_chopper(&root->nd, root->lm.off, root->lm.end);
+		root = root->nxt;
 	}
 	return (0);
 }

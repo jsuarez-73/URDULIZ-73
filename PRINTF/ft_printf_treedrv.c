@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_parser.c                                 :+:      :+:    :+:   */
+/*   ft_printf_treedrv.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:50:31 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/08/08 21:16:04 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:53:24 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ static int	ft_set_nd(char **fstr, t_fstr *root, char **off)
 	char	*conv;
 	char	*off_pc;
 
-	conv = "ecspdiuxX%";
+	conv = "cspdiuxX%";
 	off_pc = *fstr;
 	*fstr = ft_matcher(*fstr, conv);
 	ft_setter(*fstr, off, off_pc, root);

@@ -69,3 +69,42 @@ D:	 o -
 D:	 n - D
 D:	 s - :
 D:	 t - 	
+
+ft_itoa, allow conversions of variable number to string. Removed, not needed.
+
+static void	ft_memcpy(char *lf, char *tmp, int dig)
+{
+	*tmp++ = dig;
+	while (*lf != '\0')
+		*tmp++ = *lf++;
+	return ;
+}
+
+static char	*ft_itoa(unsigned long int num, char *lf)
+{
+	int		counter;
+	char	dig;
+	char	*tmp;
+
+	counter = 0;
+	if (num == 0)
+		return ("0");
+	while (num != 0)
+	{
+		dig = num % 10 + '0';
+		num = (num - num % 10) / 10;
+		counter++;
+		tmp = (char *) malloc(sizeof(char) * (counter + 1));
+		if (tmp == NULL)
+			return (NULL);
+		*(tmp + counter) = '\0';
+		if (counter == 1)
+			*tmp = dig;
+		else
+			ft_memcpy(lf, tmp, dig);
+		if (lf != NULL)
+			free(lf);
+		lf = tmp;
+	}
+	return (lf);
+}
