@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 11:23:46 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/08/26 21:11:11 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:17:27 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	main(void)
 	test = 15;
 	printf("%2$+*3$.*1$d %1$d\n", 2, 1, test);
 	printf("%2$-+10.*3$d %1$d\n", 10, 3, 5); //show that it's not compulsory for field and precision an $ style.
-	printf("E%%% -4.4iaaaa%20.sbbbbbb%13.16skkk%015xWWW\n", 13132, "Holaaaa", "Hooooooooolaaaa", 12312312); //Shows if possible use * but any of them request an argument, as also any <conv>
-	ft_printf("EEE%%%04.saaa%-15c%- 10.4i%paaa%-#15xbbb%u", "Holaaaa", 'B', 13132, &test, 12312312, -234);
+	printf("E%%%+4.iaaaa%20.sbbbbbb%13.16skkk%15xWWW\n", 0, "Holaaaa", "Hooooooooolaaaa", 12312312); //Shows if possible use * but any of them request an argument, as also any <conv>
+	ft_printf("EEE%%%04.saaa%-15c%+4.i%paaa%#15xbbb%u", "Holaaaa", 'B', 0, &test, 12312312, -234);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:56:29 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/08/26 10:44:16 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/08/30 18:00:04 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@
 # include <stdarg.h>
 
 typedef unsigned int u_int;
+
+typedef enum e_caphex
+{
+	UPPER = 65,
+	LOWER = 97
+} t_caphex;
+
 typedef enum e_ndtype
 {
 	FLAGS,
@@ -66,6 +73,7 @@ typedef struct	s_wrtr
 	int		rg_lf;
 	char	*off_dt;
 	char	*end_dt;
+	void	*d;
 }	t_wrtr;
 
 typedef struct s_fstr
