@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 16:55:45 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/08/31 19:41:21 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/08/31 19:51:49 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -589,26 +589,63 @@ int ft_hex_exp(t_nd *nd, unsigned int hex)
 	printf("D:\t Debuggin hex: %s\t%d\t%s\n", nd->lf.off, hex, wr.dt);
 	return (1);
 }
-
+/*----------------------START usgn CONVERSION---------------------*/
 int ft_usgn_exp(t_nd *nd, unsigned int usgn)
 {
 	
 	printf("D:\t Debuggin usgn: %d\t%d\n",nd->is_lf, usgn);
 	return (0);
 }
+/*----------------------START chex CONVERSION--------------------*/
+static void	ft_wr_chex(t_wrtr *wr, char *off)
+{
+	t_map	mp;
+	
+	mp = wr->nd->map;
+	if (wr->rg_lf == 1)
+	{
+		if (off >= wr->off - wr->sz + 1 && *(u_int *) wr->d != 0)
+			*off = *wr->end_dt--;
+		else
+			ft_hash_vldtn(mp, off, wr, UPPER);
+
+	}
+	else
+	{
+		if (mp.hash != 0 && *(u_int *) wr->d != 0)
+			ft_hex_vldtn(off, wr, 2, UPPER);
+		else
+			ft_hex_vldtn(off, wr, 0, UPPER);
+	}
+}
 
 int ft_chex_exp(t_nd *nd, unsigned int hx)
 {
-	printf("D:\t Debuggin chex: %d\t%d\n", nd->is_lf, hx);
-	return (0);
-}
+	t_wrtr			wr;
+	unsigned int	(*ft_mchex)(t_wrtr *);
+	void			(*ft_chex)(t_wrtr *, char *);
 
+	ft_mchex = ft_mng_hex;
+	ft_chex = ft_wr_chex;
+	wr.nd = nd;
+	wr.dt = ft_mkhex(hx, UPPER);
+	wr.d = &hx;
+	if (wr.dt == NULL)
+		return (0);
+	wr.sz = ft_strlen(wr.dt);
+	if (ft_mem_mng(&wr, ft_mchex) == 0)
+		return (0);
+	ft_wr_mch(&wr, ft_chex);
+	printf("D:\t Debuggin hex: %s\t%d\t%s\n", nd->lf.off, hx, wr.dt);
+	return (1);
+}
+/*------------------START ptr CONVERSION-----------------------*/
 int ft_ptr_exp(t_nd *nd, void * ptr)
 {
 	printf("D:\t Debuggin ptr: %d\t%p\n", nd->is_lf, ptr);
 	return (0);
 }
-
+/*------------------START per CONVERSION-----------------------*/
 int	ft_per_exp(t_nd *nd)
 {
 	printf("D:\t Debuggin per %p\n", nd);
