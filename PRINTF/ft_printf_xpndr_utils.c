@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 16:55:45 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/08/30 18:33:33 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/08/31 19:41:21 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ static u_int	ft_mng_dbl(t_wrtr *wr)
 
 	sgned = 0;
 	mp = wr->nd->map;
-	exp = (mp.ppoint != 0 && mp.pnum == 0 && *(int *) wr->dt == 0);
+	exp = (mp.ppoint != 0 && mp.pnum == 0 && *(int *) wr->d == 0);
 	if (mp.plus != 0 || mp.sgned != 0 || mp.space != 0)
 		sgned = 1;
 	if (exp && mp.fnum >= 1)
@@ -255,33 +255,43 @@ static char	*ft_mkdbl(int n, unsigned int size)
 	return (off_dt);
 }
 
-static void ft_dbl_vldtns(t_map mp, char *off, t_wrtr *wr, int flag)
+/*Con pocas pruebas parece estar parcheado el script*/
+static void ft_dbl_vldtns(t_map mp, char *off, t_wrtr *wr, int f)
 {
+	int	exp;
 
+	exp = (mp.ppoint != 0 && mp.pnum == 0 && *(int *) wr->d == 0);
 	if (off == wr->off && mp.sgned != 0)
 		*off = '-';
 	else if (off == wr->off && mp.plus != 0)
 		*off = '+';
 	else if (off == wr->off && mp.space != 0)
 		*off = 'k';
-	else if (mp.pnum > wr->sz && off <= wr->off + mp.pnum - wr->sz - flag)
+	else if (mp.pnum > wr->sz && off <= wr->off + mp.pnum - wr->sz - f)
 		*off = '0';
-	else if (mp.pnum > wr->sz && off <= wr->off + mp.pnum - flag)
+	else if (mp.pnum > wr->sz && off <= wr->off + mp.pnum - f)
 		*off = *wr->off_dt++;
-	else if (mp.pnum < wr->sz && off <= wr->off + wr->sz - flag)
+	else if (mp.pnum < wr->sz && off <= wr->off + wr->sz - f && !exp)
 		*off = *wr->off_dt++;
 	else
 		*off = 'k';
 }
-
-static void	ft_dbl_sgnvld(t_map mp, char *off, char *end, char dflt)
+/*Presuntamente esta parcheado rg_lf del script teniendo en cuenta la precision 0 con dbl 0*/
+static void	ft_dbl_sgnvld(t_wrtr *wr, char *off, char *end, char dflt)
 {
-	if (mp.sgned != 0 && off == end)
+	int		exp;
+	t_map	mp;
+
+	mp = wr->nd->map;
+	exp = (mp.ppoint != 0 && mp.pnum == 0 && *(int *) wr->d == 0);
+	if (mp.sgned != 0 && off == end && !exp)
 		*off = '-';
-	else if (mp.plus != 0 && off == end)
+	else if (mp.plus != 0 && off == end && !exp)
 		*off = '+';
-	else if (mp.space != 0 && off == end)
+	else if (mp.space != 0 && off == end && !exp)
 		*off = 'k';
+	else if (exp && mp.plus != 0 && off == wr->off)
+		*off = '+';
 	else
 		*off = dflt;
 }
@@ -289,20 +299,22 @@ static void	ft_dbl_sgnvld(t_map mp, char *off, char *end, char dflt)
 static void	ft_wr_dbl(t_wrtr *wr, char *off)
 {
 	t_map	mp;
+	int		exp;
 
 	mp = wr->nd->map;
+	exp = (mp.ppoint != 0 && mp.pnum == 0 && *(int *) wr->d == 0);
 	if (wr->rg_lf == 1)
 	{
-		if (off >= wr->off - wr->sz + 1 && !(mp.ppoint != 0 && mp.pnum == 0 && *(int *) wr->d == 0))
+		if (off >= wr->off - wr->sz + 1 && !exp)
 			*off = *wr->end_dt--;
 		else if (mp.zero != 0)
-			ft_dbl_sgnvld(mp, off, wr->end, '0');
+			ft_dbl_sgnvld(wr, off, wr->end, '0');
 		else if (mp.pnum > wr->sz && off >= wr->off - mp.pnum + 1)
 			*off = '0';
 		else if (mp.pnum > wr->sz)
-			ft_dbl_sgnvld(mp, off, wr->off - mp.pnum, 'k');
+			ft_dbl_sgnvld(wr, off, wr->off - mp.pnum, 'k');
 		else
-			ft_dbl_sgnvld(mp, off, wr->off - wr->sz, 'k');
+			ft_dbl_sgnvld(wr, off, wr->off - wr->sz, 'k');
 	}
 	else
 	{
@@ -402,6 +414,7 @@ int ft_int_exp(t_nd *nd, int intg)
 	return (rtn);
 }
 /*----------------------START hex CONVERSION-------------------*/
+/*Parcheado, corregido para contemplar el espacio requerido cuando hex == 0*/
 static u_int	ft_mng_hex(t_wrtr *wr)
 {
 	int		hashed;
@@ -411,7 +424,13 @@ static u_int	ft_mng_hex(t_wrtr *wr)
 	mp = wr->nd->map;
 	if (mp.hash != 0)
 		hashed = 2;
-	if (mp.fnum > mp.pnum + hashed)
+	if (*(u_int *) wr->d == 0 && mp.fnum >= 1 && mp.fnum >= mp.pnum)
+		return (mp.fnum);
+	else if (*(u_int *) wr->d == 0 && mp.pnum >= 1 && mp.pnum >= mp.fnum)
+		return (mp.pnum);
+	else if (*(u_int *) wr->d == 0 && mp.fnum < 1 && mp.pnum < 1)
+		return (0);
+	else if (mp.fnum > mp.pnum + hashed)
 	{
 		if (mp.fnum <= wr->sz + hashed)
 			return (wr->sz + hashed);
@@ -423,7 +442,7 @@ static u_int	ft_mng_hex(t_wrtr *wr)
 	else
 		return (wr->sz + hashed);
 }
-
+/*Parcheado, corrigiendo error a la hora de eliminar memoria.*/
 static char	*ft_mem_asgn(char **tmp, char **dt, u_int num, u_int *counter)
 {
 	if (*counter == 0)
@@ -433,23 +452,24 @@ static char	*ft_mem_asgn(char **tmp, char **dt, u_int num, u_int *counter)
 			return (NULL);
 		*(*tmp + *counter) = '\0';
 		**tmp = (char) num;
+		*dt = *tmp;
 	}
 	else
 	{
-		*dt = (char *) malloc(sizeof(char) * ++(*counter) + 1);
-		if (*dt == NULL)
+		*tmp = (char *) malloc(sizeof(char) * ++(*counter) + 1);
+		if (*tmp == NULL)
 			return (NULL);
-		*(*dt + *counter) = '\0';
-		*(*dt)++ = (char) num;
-		while (**tmp != '\0')
-			*(*dt)++ = *(*tmp)++;
-		*dt -= *counter;
-		free(*tmp - *counter + 1);
-		*tmp = *dt;
+		*(*tmp + *counter) = '\0';
+		*(*tmp)++ = (char) num;
+		while (**dt != '\0')
+			*(*tmp)++ = *(*dt)++;
+		*tmp -= *counter;
+		free(*dt - *counter + 1);
+		*dt = *tmp;
 	}
 	return (*dt);
 }
-
+/*Parcheado, era redudante y no contemplaba el caso de hex == 0*/
 static char	*ft_mkhex(unsigned int hex, t_caphex capital)
 {
 	u_int	num;
@@ -458,7 +478,14 @@ static char	*ft_mkhex(unsigned int hex, t_caphex capital)
 	char	*tmp;
 
 	counter = 0;
-	while (hex >= 16)
+	if (hex == 0)
+	{
+		if (ft_mem_asgn(&tmp, &dt, '0', &counter) == NULL)
+			return (NULL);
+		else
+			return (dt);
+	}
+	while (hex > 0)
 	{
 		num = hex % 16;
 		hex /= 16;
@@ -469,60 +496,53 @@ static char	*ft_mkhex(unsigned int hex, t_caphex capital)
 		if (ft_mem_asgn(&tmp, &dt, num, &counter) == NULL)
 			return (NULL);
 	}
-	if (hex <= 9)
-		hex += '0';
-	else if (hex >= 10 && hex <= 16)
-		hex = hex - 10 + capital;
-	if (ft_mem_asgn(&tmp, &dt, num, &counter) == NULL)
-		return (NULL);
 	return (dt);
 }
-
-static void ft_hex_vldtn(char *off, t_wrtr *wr, int flag, t_caphex capital)
+/*Parcheado, no muchas pruebas.*/
+static void ft_hex_vldtn(char *off, t_wrtr *wr, int f, t_caphex capital)
 {
 	t_map	mp;
+	int		exp;
 
 	mp = wr->nd->map;
-	if (mp.hash != 0 && off == wr->off)
+	exp = (*(u_int *) wr->d == 0);
+	if (mp.hash != 0 && off == wr->off && !exp)
 		*off = '0';
-	else if (mp.hash != 0 && off == wr->off + 1)
+	else if (mp.hash != 0 && off == wr->off + 1 && !exp)
 		*off = 23 + capital;
-	else if (mp.pnum > wr->sz && off < wr->off + mp.pnum - wr->sz + flag)
+	else if (mp.pnum > wr->sz && off < wr->off + mp.pnum - wr->sz + f)
 		*off = '0';
-	else if (mp.pnum > wr->sz && off < wr->off + mp.pnum + flag)
+	else if (mp.pnum > wr->sz && off < wr->off + mp.pnum + f && !exp)
 		*off = *wr->off_dt++;
-	else if (mp.pnum > wr->sz && off >= wr->off + mp.pnum + flag)
-		*off = 'k';
-	else if (mp.pnum <= wr->sz && off < wr->off + wr->sz + flag)
+	else if (mp.pnum <= wr->sz && off < wr->off + wr->sz + f && !exp)
 		*off = *wr->off_dt++;
-	else if (mp.pnum <= wr->sz && off >= wr->off + wr->sz + flag)
+	else
 		*off = 'k';
 }
-
+/*Parcheado, no muchas pruebas.*/
 static void	ft_hash_vldtn(t_map mp, char *off, t_wrtr *wr, t_caphex cp)
 {
-	if (mp.zero != 0 && mp.hash != 0 && off == wr->end + 1)
+	int	exp;
+
+	exp = (mp.hash != 0 && *(u_int *) wr->d != 0);
+	if (mp.zero != 0 && exp && off > wr->end + 1)
+		*off = '0';
+	else if (mp.zero != 0 && exp && off == wr->end + 1)
 		*off = 23 + cp;
-	else if (mp.zero != 0 && mp.hash != 0 && off == wr->end)
+	else if (mp.zero != 0 && exp && off == wr->end)
+		*off = '0';
+	else if (mp.zero != 0 && (mp.hash == 0 || *(u_int *) wr->d == 0))
 		*off = '0';
 	else if (mp.pnum > wr->sz && off >= wr->off - mp.pnum + 1)
 		*off = '0';
-	else if (mp.pnum > wr->sz && mp.hash != 0 && off == wr->off - mp.pnum)
+	else if (mp.pnum > wr->sz && exp && off == wr->off - mp.pnum)
 		*off = 23 + cp;
-	else if (mp.pnum > wr->sz && mp.hash != 0 && off == wr->off - mp.pnum)
-		*off = 23 + cp;
-	else if (mp.pnum > wr->sz && mp.hash != 0 && off == wr->off - mp.pnum - 1)
+	else if (mp.pnum > wr->sz && exp && off == wr->off - mp.pnum - 1)
 		*off = '0';
-	else if (mp.pnum > wr->sz && mp.hash != 0 && off < wr->off - mp.pnum - 1)
-		*off = 'k';
-	else if (mp.pnum > wr->sz && mp.hash == 0 && off < wr->off - mp.pnum)
-		*off = 'k';
-	else if (mp.pnum <= wr->sz && mp.hash != 0 && off == wr->off - wr->sz)
+	else if (mp.pnum <= wr->sz && exp && off == wr->off - wr->sz)
 		*off = 23 + cp;
-	else if (mp.pnum <= wr->sz && mp.hash != 0 && off == wr->off - wr->sz - 1)
+	else if (mp.pnum <= wr->sz && exp && off == wr->off - wr->sz - 1)
 		*off = '0';
-	else if (mp.pnum <= wr->sz && mp.hash == 0 && off < wr->off - wr->sz)
-		*off = 'k';
 	else
 		*off = 'k';
 }
@@ -534,19 +554,15 @@ static void	ft_wr_hex(t_wrtr *wr, char *off)
 	mp = wr->nd->map;
 	if (wr->rg_lf == 1)
 	{
-		if (off >= wr->off - wr->sz + 1)
+		if (off >= wr->off - wr->sz + 1 && *(u_int *) wr->d != 0)
 			*off = *wr->end_dt--;
-		else if (mp.zero != 0 && mp.hash != 0 && off > wr->end + 1)
-			*off = '0';
-		else if (mp.zero != 0 && mp.hash == 0)
-			*off = '0';
 		else
 			ft_hash_vldtn(mp, off, wr, LOWER);
 
 	}
 	else
 	{
-		if (mp.hash != 0)
+		if (mp.hash != 0 && *(u_int *) wr->d != 0)
 			ft_hex_vldtn(off, wr, 2, LOWER);
 		else
 			ft_hex_vldtn(off, wr, 0, LOWER);
@@ -555,9 +571,9 @@ static void	ft_wr_hex(t_wrtr *wr, char *off)
 
 int ft_hex_exp(t_nd *nd, unsigned int hex)
 {
-	t_wrtr	wr;
+	t_wrtr			wr;
 	unsigned int	(*ft_mhex)(t_wrtr *);
-	void	(*ft_hex)(t_wrtr *, char *);
+	void			(*ft_hex)(t_wrtr *, char *);
 
 	ft_mhex = ft_mng_hex;
 	ft_hex = ft_wr_hex;
