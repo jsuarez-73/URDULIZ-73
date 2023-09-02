@@ -6,7 +6,7 @@
 #    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 11:36:09 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/08/26 21:13:48 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/09/02 21:12:32 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,16 @@ SRCS = ft_printf.c\
 		ft_printf_treedrv.c\
 		ft_printf_parser.c\
 		ft_printf_parser_utils.c\
-		ft_printf_xpndr_utils.c
+		ft_printf_xpndr_utils.c\
+		ft_printf_strexp.c\
+		ft_printf_dblexp.c\
+		ft_printf_chrexp.c\
+		ft_printf_hexexp.c\
+		ft_printf_chexexp.c\
+		ft_printf_usgnexp.c\
+		ft_printf_ptrexp.c\
+		ft_printf_perexp.c
+
 OBJS = $(SRCS:%.c=%.o)
 
 $(NAME):

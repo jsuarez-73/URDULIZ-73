@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:05:12 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/08/25 20:33:36 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/02 20:50:38 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int	ft_exp_arg(va_list list, t_fstr *root)
 			else if (*(root->lm.end) == 'c')
 				ft_chr_exp(&root->nd, va_arg(list, int));
 			else if (*(root->lm.end) == 'i')
-				ft_int_exp(&root->nd, va_arg(list, int));
+				ft_dbl_exp(&root->nd, va_arg(list, int));
 			else if (*(root->lm.end) == 'x')
 				ft_hex_exp(&root->nd, va_arg(list, unsigned int));
 			else if (*(root->lm.end) == 'u')
