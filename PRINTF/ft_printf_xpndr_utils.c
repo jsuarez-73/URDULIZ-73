@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 16:55:45 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/08/31 19:51:49 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/02 20:33:00 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,33 +24,34 @@ static unsigned int	ft_strlen(char *str)
 	return (counter);
 }
 
-static unsigned int	ft_numlen(void *n, char type)
+/*Parcheado, corrigiendo error a la hora de eliminar memoria.*/
+static char	*ft_mem_asgn(char **tmp, char **dt, long num, u_int *counter)
 {
-	u_int	counter;
-
-	counter = 0;
-	if (type == '-')
+	if (*counter == 0)
 	{
-		if (*(int *) n == 0)
-			return (1);
-		while (*(int *)n != 0)
-		{
-			*(int *)n = (*(int *)n - *(int *)n % 10) / 10;
-			counter++;
-		}
+		*tmp = (char *) malloc(sizeof(char) * ++(*counter) + 1);
+		if (*tmp == NULL)
+			return (NULL);
+		*(*tmp + *counter) = '\0';
+		**tmp = (char) num;
+		*dt = *tmp;
 	}
-	else if ( type == '+')
+	else
 	{
-		if (*(u_int *) n == 0)
-			return (1);
-		while (*(u_int *) n != 0)
-		{
-			*(u_int*)n = (*(u_int*)n - *(u_int*)n % 10) / 10;
-			counter++;
-		}
+		*tmp = (char *) malloc(sizeof(char) * ++(*counter) + 1);
+		if (*tmp == NULL)
+			return (NULL);
+		*(*tmp + *counter) = '\0';
+		*(*tmp)++ = (char) num;
+		while (**dt != '\0')
+			*(*tmp)++ = *(*dt)++;
+		*tmp -= *counter;
+		free(*dt - *counter + 1);
+		*dt = *tmp;
 	}
-	return (counter);
+	return (*dt);
 }
+
 /*----------------------START wr_mchn CONVERSION-------------------*/
 static void	ft_lf_rg(t_wrtr *wr, void (*f)(t_wrtr *, char *))
 {
@@ -227,32 +228,29 @@ static u_int	ft_mng_dbl(t_wrtr *wr)
 		return (wr->sz + sgned);
 }
 
-static char	*ft_mkdbl(int n, unsigned int size)
+static char	*ft_mkdbl(int n)
 {
-	char		*off_dt;
-	char		*end_dt;
-	char		dig;
+	long	num;
+	char	*dt;
+	u_int	counter;
+	char	*tmp;
 
-	off_dt = (char *) malloc(size + 1);
-	if (off_dt == NULL)
-		return (NULL);
-	end_dt = off_dt + sizeof(char) * size;
-	*end_dt = '\0';
+	counter = 0;
 	if (n == 0)
 	{
-		*(--end_dt) = '0';
-		return (end_dt);
-	}
-	while (n != 0)
-	{
-		if (n > 0)
-			dig = n % 10 + '0';
+		if (ft_mem_asgn(&tmp, &dt, '0', &counter) == NULL)
+			return (NULL);
 		else
-			dig = '0' - n % 10;
-		n = (n - n % 10) / 10;
-		*(--end_dt) = dig;
+			return (dt);
 	}
-	return (off_dt);
+	while (n > 0)
+	{
+		num = n % 10 + '0';
+		n /= 10;
+		if (ft_mem_asgn(&tmp, &dt, num, &counter) == NULL)
+			return (NULL);
+	}
+	return (dt);
 }
 
 /*Con pocas pruebas parece estar parcheado el script*/
@@ -324,30 +322,31 @@ static void	ft_wr_dbl(t_wrtr *wr, char *off)
 			ft_dbl_vldtns(mp, off, wr, 1);
 	}
 }
-
+/*Probablemente no sea necesario calcular la longitud del numero cuando 
+podemos calcular la longitud del string. (Modificar)*/
 int ft_dbl_exp(t_nd *nd, int dbl)
 {
-	int		num;
-	t_wrtr	wr;
+	t_wrtr			wr;
 	unsigned int	(*ft_mdbl)(t_wrtr *);
-	void	(*ft_dbl)(t_wrtr *, char *);
+	void			(*ft_dbl)(t_wrtr *, char *);
 
-	num = dbl;
-	wr.sz = ft_numlen(&num, '-');
-	wr.nd = nd;
-	wr.d = &dbl;
-	if (dbl < 0)
-		nd->map.sgned = 1;
 	ft_mdbl = ft_mng_dbl;
 	ft_dbl = ft_wr_dbl;
-	if (ft_mem_mng(&wr, ft_mdbl) == 0)
-		return (0);
-	wr.dt = ft_mkdbl(dbl, wr.sz);
+	if (dbl < 0)
+	{
+		nd->map.sgned = 1;
+		dbl *= -1;
+	}
+	wr.nd = nd;
+	wr.d = &dbl;
+	wr.dt = ft_mkdbl(dbl);
 	if (wr.dt == NULL)
+		return (0);
+	wr.sz = ft_strlen(wr.dt);
+	if (ft_mem_mng(&wr, ft_mdbl) == 0)
 		return (0);
 	ft_wr_mch(&wr, ft_dbl);
 	printf("D:\t Debuggin dbl: %s\n", nd->lf.off);
-	free(wr.dt);
 	return (1);
 }
 /*----------------------START chr CONVERSION-------------------*/
@@ -367,7 +366,7 @@ static void	ft_wr_chr(t_wrtr *wr, char *off)
 	if (off == wr->off)
 		*off = *wr->dt;
 	else
-		*off = ' ';
+		*off = 'k';
 }
 
 static char	*ft_mkchr(char chr)
@@ -422,13 +421,13 @@ static u_int	ft_mng_hex(t_wrtr *wr)
 
 	hashed = 0;
 	mp = wr->nd->map;
-	if (mp.hash != 0)
+	if (mp.hash != 0 && *(u_int *) wr->d != 0)
 		hashed = 2;
 	if (*(u_int *) wr->d == 0 && mp.fnum >= 1 && mp.fnum >= mp.pnum)
 		return (mp.fnum);
 	else if (*(u_int *) wr->d == 0 && mp.pnum >= 1 && mp.pnum >= mp.fnum)
 		return (mp.pnum);
-	else if (*(u_int *) wr->d == 0 && mp.fnum < 1 && mp.pnum < 1)
+	else if (*(u_int *) wr->d == 0 && mp.ppoint != 0)
 		return (0);
 	else if (mp.fnum > mp.pnum + hashed)
 	{
@@ -442,37 +441,10 @@ static u_int	ft_mng_hex(t_wrtr *wr)
 	else
 		return (wr->sz + hashed);
 }
-/*Parcheado, corrigiendo error a la hora de eliminar memoria.*/
-static char	*ft_mem_asgn(char **tmp, char **dt, u_int num, u_int *counter)
-{
-	if (*counter == 0)
-	{
-		*tmp = (char *) malloc(sizeof(char) * ++(*counter) + 1);
-		if (*tmp == NULL)
-			return (NULL);
-		*(*tmp + *counter) = '\0';
-		**tmp = (char) num;
-		*dt = *tmp;
-	}
-	else
-	{
-		*tmp = (char *) malloc(sizeof(char) * ++(*counter) + 1);
-		if (*tmp == NULL)
-			return (NULL);
-		*(*tmp + *counter) = '\0';
-		*(*tmp)++ = (char) num;
-		while (**dt != '\0')
-			*(*tmp)++ = *(*dt)++;
-		*tmp -= *counter;
-		free(*dt - *counter + 1);
-		*dt = *tmp;
-	}
-	return (*dt);
-}
 /*Parcheado, era redudante y no contemplaba el caso de hex == 0*/
-static char	*ft_mkhex(unsigned int hex, t_caphex capital)
+static char	*ft_mkhex(long hex, t_caphex capital)
 {
-	u_int	num;
+	long	num;
 	char	*dt;
 	u_int	counter;
 	char	*tmp;
@@ -498,17 +470,18 @@ static char	*ft_mkhex(unsigned int hex, t_caphex capital)
 	}
 	return (dt);
 }
-/*Parcheado, no muchas pruebas.*/
+/*Corregido, enviaba flag 2, lo que hacia que desfasara el pointer del data
+a copiar.*/
 static void ft_hex_vldtn(char *off, t_wrtr *wr, int f, t_caphex capital)
 {
 	t_map	mp;
 	int		exp;
 
 	mp = wr->nd->map;
-	exp = (*(u_int *) wr->d == 0);
-	if (mp.hash != 0 && off == wr->off && !exp)
+	exp = (mp.ppoint != 0 && mp.pnum == 0 && *(int *) wr->d == 0);
+	if (mp.hash != 0 && off == wr->off && *(int *) wr->d != 0)
 		*off = '0';
-	else if (mp.hash != 0 && off == wr->off + 1 && !exp)
+	else if (mp.hash != 0 && off == wr->off + 1 && *(int *) wr->d != 0)
 		*off = 23 + capital;
 	else if (mp.pnum > wr->sz && off < wr->off + mp.pnum - wr->sz + f)
 		*off = '0';
@@ -519,7 +492,9 @@ static void ft_hex_vldtn(char *off, t_wrtr *wr, int f, t_caphex capital)
 	else
 		*off = 'k';
 }
-/*Parcheado, no muchas pruebas.*/
+/*Corregir no se esta teniendo en cuenta cuando el caracter es 0 y no existe
+la precision deifnida explciitamente como 0, con lo cual se debe imprimir el
+numero 0.*/
 static void	ft_hash_vldtn(t_map mp, char *off, t_wrtr *wr, t_caphex cp)
 {
 	int	exp;
@@ -550,11 +525,13 @@ static void	ft_hash_vldtn(t_map mp, char *off, t_wrtr *wr, t_caphex cp)
 static void	ft_wr_hex(t_wrtr *wr, char *off)
 {
 	t_map	mp;
+	int		exp;
 	
 	mp = wr->nd->map;
+	exp = (mp.ppoint != 0 && mp.pnum == 0 && *(int *) wr->d == 0);
 	if (wr->rg_lf == 1)
 	{
-		if (off >= wr->off - wr->sz + 1 && *(u_int *) wr->d != 0)
+		if (off >= wr->off - wr->sz + 1 && !exp)
 			*off = *wr->end_dt--;
 		else
 			ft_hash_vldtn(mp, off, wr, LOWER);
@@ -590,21 +567,128 @@ int ft_hex_exp(t_nd *nd, unsigned int hex)
 	return (1);
 }
 /*----------------------START usgn CONVERSION---------------------*/
+static u_int	ft_mng_usgn(t_wrtr * wr)
+{
+	t_map	mp;
+
+	mp = wr->nd->map;
+	if (*(u_int *) wr->d == 0 && mp.fnum >= 1 && mp.fnum >= mp.pnum)
+		return (mp.fnum);
+	else if (*(u_int *) wr->d == 0 && mp.pnum >= 1 && mp.pnum >= mp.fnum)
+		return (mp.pnum);
+	else if (*(u_int *) wr->d == 0 && mp.ppoint != 0)
+		return (0);
+	else if (*(u_int *) wr->d == 0 && mp.ppoint == 0)
+		return (1);
+	else if (mp.fnum > mp.pnum)
+	{
+		if (mp.fnum <= wr->sz)
+			return (wr->sz);
+		else
+			return (mp.fnum);
+	}
+	else if (mp.pnum > wr->sz)
+		return (mp.pnum);
+	else
+		return (wr->sz);
+}
+
+static char	*ft_mkusgn(unsigned int usgn)
+{
+	u_int	num;
+	char	*dt;
+	u_int	counter;
+	char	*tmp;
+
+	counter = 0;
+	if (usgn == 0)
+	{
+		if (ft_mem_asgn(&tmp, &dt, '0', &counter) == NULL)
+			return (NULL);
+		else
+			return (dt);
+	}
+	while (usgn > 0)
+	{
+		num = usgn % 10 + '0';
+		usgn /= 10;
+		if (ft_mem_asgn(&tmp, &dt, num, &counter) == NULL)
+			return (NULL);
+	}
+	return (dt);	
+}
+
+static void	ft_usgn_vldtn(t_wrtr *wr, char *off)
+{
+	t_map	mp;
+
+	mp = wr->nd->map;
+	if (mp.zero != 0 && off >= wr->end)
+		*off = '0';
+	else if (mp.pnum > wr->sz && off >= wr->off - mp.pnum + 1)
+		*off = '0';
+	else
+		*off = 'k';
+}
+
+static void	ft_wr_usgn(t_wrtr *wr, char *off)
+{
+	t_map	mp;
+	int		exp;
+
+	mp = wr->nd->map;
+	exp = (mp.ppoint != 0 && mp.pnum == 0 && *(int *) wr->d == 0);
+	if (wr->rg_lf == 1)
+	{
+		if (off >= wr->off - wr->sz + 1 && !exp)
+			*off = *wr->end_dt--;
+		else
+			ft_usgn_vldtn(wr, off);
+	}
+	else
+	{
+		if (mp.pnum > wr->sz && off < wr->off + mp.pnum - wr->sz)
+			*off = '0';
+		else if (mp.pnum > wr->sz && off < wr->off + mp.pnum && !exp)
+			*off = *wr->off_dt++;
+		else if (mp.pnum <= wr->sz && off < wr->off + wr->sz && !exp)
+			*off = *wr->off_dt++;
+		else
+			*off = 'k';
+	}
+}
+
 int ft_usgn_exp(t_nd *nd, unsigned int usgn)
 {
-	
-	printf("D:\t Debuggin usgn: %d\t%d\n",nd->is_lf, usgn);
-	return (0);
+	t_wrtr			wr;
+	unsigned int	(*ft_musgn)(t_wrtr *);
+	void			(*ft_usgn)(t_wrtr *, char *);
+
+	ft_musgn = ft_mng_usgn;
+	ft_usgn = ft_wr_usgn;
+	wr.nd = nd;
+	wr.dt = ft_mkusgn(usgn);
+	wr.d = &usgn;
+	if (wr.dt == NULL)
+		return (0);
+	wr.sz = ft_strlen(wr.dt);
+	if (ft_mem_mng(&wr, ft_musgn) == 0)
+		return (0);
+	ft_wr_mch(&wr, ft_usgn);
+	printf("D:\t Debuggin usgn: %s\t%d\t%s\n",nd->lf.off, usgn, wr.dt);
+	return (1);
 }
 /*----------------------START chex CONVERSION--------------------*/
 static void	ft_wr_chex(t_wrtr *wr, char *off)
 {
 	t_map	mp;
+	int		exp;
 	
 	mp = wr->nd->map;
+	exp = (mp.ppoint != 0 && mp.pnum == 0 && *(int *) wr->d == 0);
 	if (wr->rg_lf == 1)
 	{
-		if (off >= wr->off - wr->sz + 1 && *(u_int *) wr->d != 0)
+		if (off >= wr->off - wr->sz + 1 && !exp)
 			*off = *wr->end_dt--;
 		else
 			ft_hash_vldtn(mp, off, wr, UPPER);
@@ -640,14 +724,82 @@ int ft_chex_exp(t_nd *nd, unsigned int hx)
 	return (1);
 }
 /*------------------START ptr CONVERSION-----------------------*/
-int ft_ptr_exp(t_nd *nd, void * ptr)
+static u_int	ft_mng_ptr(t_wrtr *wr)
 {
-	printf("D:\t Debuggin ptr: %d\t%p\n", nd->is_lf, ptr);
-	return (0);
+	t_map	mp;
+	int		hashed;
+
+	mp = wr->nd->map;
+	if (*(long *) wr->d == 0)
+		hashed = 0;
+	else
+		hashed = 2;
+	if (mp.fnum >= wr->sz + hashed)
+		return (mp.fnum);
+	else
+		return (wr->sz + hashed);
+}
+
+static void	ft_wr_ptr(t_wrtr *wr, char *off)
+{
+	if (wr->rg_lf == 1)
+	{
+		if (off >= wr->off - wr->sz + 1)
+			*off = *wr->end_dt--;
+		else if (off == wr->off - wr->sz && *(long *) wr->d != 0)
+			*off = 'x';
+		else if (off == wr->off - wr->sz - 1 && *(long *) wr->d != 0)
+			*off = '0';
+		else
+			*off = 'k';
+	}
+	else
+	{
+		if (off == wr->off && *(long *) wr->d != 0)
+			*off = '0';
+		else if (off == wr->off + 1 && *(long *) wr->d != 0)
+			*off = 'x';
+		else if (off < wr->off + wr->sz + 2 && *(long *) wr->d != 0)
+			*off = *wr->off_dt++;
+		else if (off < wr->off + wr->sz && *(long *) wr->d == 0)
+			*off = *wr->off_dt++;
+		else
+			*off = 'k';
+	}
+}
+
+int ft_ptr_exp(t_nd *nd, void *ptr)
+{
+	long			ptr_d;
+	t_wrtr			wr;
+	unsigned int	(*ft_mptr)(t_wrtr *);
+	void			(*ft_ptr)(t_wrtr *, char *);
+
+	ptr_d = (long) ptr;
+	ft_mptr = ft_mng_ptr;
+	ft_ptr = ft_wr_ptr;
+	wr.nd = nd;
+	if (ptr_d != 0)
+		wr.dt = ft_mkhex(ptr_d, LOWER);
+	else
+		wr.dt = "(nil)";
+	wr.d = &ptr_d;
+	if (wr.dt == NULL)
+		return (0);
+	wr.sz = ft_strlen(wr.dt);
+	if (ft_mem_mng(&wr, ft_mptr) == 0)
+		return (0);
+	ft_wr_mch(&wr, ft_ptr);
+	printf("D:\t Debuggin ptr: %s\t%p\t%ld\t%s\n", nd->lf.off, ptr, ptr_d, wr.dt);
+	return (1);
 }
 /*------------------START per CONVERSION-----------------------*/
 int	ft_per_exp(t_nd *nd)
 {
-	printf("D:\t Debuggin per %p\n", nd);
-	return (0);
+	nd->lf.off = (char *) malloc(sizeof(char) * 1);
+	if (nd->lf.off == NULL)
+		return (0);
+	*nd->lf.off = '%';
+	printf("D:\t Debuggin per: %s\n", nd->lf.off);
+	return (1);
 }
