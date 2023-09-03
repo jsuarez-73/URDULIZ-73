@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:56:59 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/02 21:13:37 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 11:41:58 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@ int	ft_per_exp(t_nd *nd)
 	if (nd->lf.off == NULL)
 		return (0);
 	*nd->lf.off = '%';
-	printf("D:\t Debuggin per: %s\n", nd->lf.off);
+	nd->lf.end = nd->lf.off;
 	return (1);
 }

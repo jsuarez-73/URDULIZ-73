@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:54:41 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/02 21:13:56 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 11:42:37 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	ft_usgn_vldtn(t_wrtr *wr, char *off)
 	else if (mp.pnum > wr->sz && off >= wr->off - mp.pnum + 1)
 		*off = '0';
 	else
-		*off = 'k';
+		*off = ' ';
 }
 
 static void	ft_wr_usgn(t_wrtr *wr, char *off)
@@ -99,7 +99,7 @@ static void	ft_wr_usgn(t_wrtr *wr, char *off)
 		else if (mp.pnum <= wr->sz && off < wr->off + wr->sz && !exp)
 			*off = *wr->off_dt++;
 		else
-			*off = 'k';
+			*off = ' ';
 	}
 }
 
@@ -120,6 +120,6 @@ int ft_usgn_exp(t_nd *nd, unsigned int usgn)
 	if (ft_mem_mng(&wr, ft_musgn) == 0)
 		return (0);
 	ft_wr_mch(&wr, ft_usgn);
-	printf("D:\t Debuggin usgn: %s\t%d\t%s\n",nd->lf.off, usgn, wr.dt);
+	free(wr.dt);
 	return (1);
 }

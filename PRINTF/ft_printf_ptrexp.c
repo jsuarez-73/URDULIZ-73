@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:56:22 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/02 21:13:43 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 11:42:31 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	ft_wr_ptr(t_wrtr *wr, char *off)
 		else if (off == wr->off - wr->sz - 1 && *(long *) wr->d != 0)
 			*off = '0';
 		else
-			*off = 'k';
+			*off = ' ';
 	}
 	else
 	{
@@ -52,7 +52,7 @@ static void	ft_wr_ptr(t_wrtr *wr, char *off)
 		else if (off < wr->off + wr->sz && *(long *) wr->d == 0)
 			*off = *wr->off_dt++;
 		else
-			*off = 'k';
+			*off = ' ';
 	}
 }
 
@@ -78,6 +78,7 @@ int ft_ptr_exp(t_nd *nd, void *ptr)
 	if (ft_mem_mng(&wr, ft_mptr) == 0)
 		return (0);
 	ft_wr_mch(&wr, ft_ptr);
-	printf("D:\t Debuggin ptr: %s\t%p\t%ld\t%s\n", nd->lf.off, ptr, ptr_d, wr.dt);
+	if (ptr_d != 0)
+		free(wr.dt);
 	return (1);
 }

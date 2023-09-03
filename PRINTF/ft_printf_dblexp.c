@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:45:46 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/02 21:13:22 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 11:42:13 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,32 +40,6 @@ static u_int	ft_mng_dbl(t_wrtr *wr)
 		return (wr->sz + sgned);
 }
 
-static char	*ft_mkdbl(int n)
-{
-	long	num;
-	char	*dt;
-	u_int	counter;
-	char	*tmp;
-
-	counter = 0;
-	if (n == 0)
-	{
-		if (ft_mem_asgn(&tmp, &dt, '0', &counter) == NULL)
-			return (NULL);
-		else
-			return (dt);
-	}
-	while (n > 0)
-	{
-		num = n % 10 + '0';
-		n /= 10;
-		if (ft_mem_asgn(&tmp, &dt, num, &counter) == NULL)
-			return (NULL);
-	}
-	return (dt);
-}
-
-/*Con pocas pruebas parece estar parcheado el script*/
 static void ft_dbl_vldtns(t_map mp, char *off, t_wrtr *wr, int f)
 {
 	int	exp;
@@ -76,7 +50,7 @@ static void ft_dbl_vldtns(t_map mp, char *off, t_wrtr *wr, int f)
 	else if (off == wr->off && mp.plus != 0)
 		*off = '+';
 	else if (off == wr->off && mp.space != 0)
-		*off = 'k';
+		*off = ' ';
 	else if (mp.pnum > wr->sz && off <= wr->off + mp.pnum - wr->sz - f)
 		*off = '0';
 	else if (mp.pnum > wr->sz && off <= wr->off + mp.pnum - f)
@@ -84,9 +58,9 @@ static void ft_dbl_vldtns(t_map mp, char *off, t_wrtr *wr, int f)
 	else if (mp.pnum < wr->sz && off <= wr->off + wr->sz - f && !exp)
 		*off = *wr->off_dt++;
 	else
-		*off = 'k';
+		*off = ' ';
 }
-/*Presuntamente esta parcheado rg_lf del script teniendo en cuenta la precision 0 con dbl 0*/
+
 static void	ft_dbl_sgnvld(t_wrtr *wr, char *off, char *end, char dflt)
 {
 	int		exp;
@@ -99,7 +73,7 @@ static void	ft_dbl_sgnvld(t_wrtr *wr, char *off, char *end, char dflt)
 	else if (mp.plus != 0 && off == end && !exp)
 		*off = '+';
 	else if (mp.space != 0 && off == end && !exp)
-		*off = 'k';
+		*off = ' ';
 	else if (exp && mp.plus != 0 && off == wr->off)
 		*off = '+';
 	else
@@ -122,9 +96,9 @@ static void	ft_wr_dbl(t_wrtr *wr, char *off)
 		else if (mp.pnum > wr->sz && off >= wr->off - mp.pnum + 1)
 			*off = '0';
 		else if (mp.pnum > wr->sz)
-			ft_dbl_sgnvld(wr, off, wr->off - mp.pnum, 'k');
+			ft_dbl_sgnvld(wr, off, wr->off - mp.pnum, ' ');
 		else
-			ft_dbl_sgnvld(wr, off, wr->off - wr->sz, 'k');
+			ft_dbl_sgnvld(wr, off, wr->off - wr->sz, ' ');
 	}
 	else
 	{
@@ -134,8 +108,7 @@ static void	ft_wr_dbl(t_wrtr *wr, char *off)
 			ft_dbl_vldtns(mp, off, wr, 1);
 	}
 }
-/*Probablemente no sea necesario calcular la longitud del numero cuando 
-podemos calcular la longitud del string. (Modificar)*/
+
 int ft_dbl_exp(t_nd *nd, int dbl)
 {
 	t_wrtr			wr;
@@ -158,6 +131,6 @@ int ft_dbl_exp(t_nd *nd, int dbl)
 	if (ft_mem_mng(&wr, ft_mdbl) == 0)
 		return (0);
 	ft_wr_mch(&wr, ft_dbl);
-	printf("D:\t Debuggin dbl: %s\n", nd->lf.off);
+	free(wr.dt);
 	return (1);
 }

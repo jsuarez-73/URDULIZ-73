@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:43:05 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/02 21:13:50 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 11:42:17 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	ft_wr_str(t_wrtr *wr, char *off)
 		else if (wr->nd->map.zero != 0)
 			*off = '0';
 		else
-			*off = 'k';
+			*off = ' ';
 	}
 	else
 	{
@@ -30,7 +30,7 @@ static void	ft_wr_str(t_wrtr *wr, char *off)
 		else if (wr->nd->map.zero != 0)
 			*off = '0';
 		else
-			*off = 'k';
+			*off = ' ';
 	}
 }
 
@@ -93,7 +93,6 @@ int ft_str_exp(t_nd *nd, char *str)
 	if (wr.dt == NULL)
 		return (0);
 	ft_wr_mch(&wr, ft_str);
-	printf("D:\t Debuggin str: %s\n", nd->lf.off);
 	free(wr.dt);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:22:05 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/08/18 18:57:49 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 11:43:21 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	ft_cnst(t_fstr *root)
 			if (nd->prcsn.off != NULL)
 				ft_get_maps(&(nd->map), nd->prcsn.off, nd->prcsn.end, PRCSN);
 			if (ft_nd_cnst(nd->map, root->lm.end) == 0)
-				printf("D:\tValidando\n");// return (0);
+				return (0);
 		}
 		root = root->nxt;
 	}

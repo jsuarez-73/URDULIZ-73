@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:48:17 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/02 21:13:14 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 11:44:43 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	ft_wr_chr(t_wrtr *wr, char *off)
 	if (off == wr->off)
 		*off = *wr->dt;
 	else
-		*off = 'k';
+		*off = ' ';
 }
 
 static char	*ft_mkchr(char chr)
@@ -61,6 +61,6 @@ int ft_chr_exp(t_nd *nd, unsigned char chr)
 	if (ft_mem_mng(&wr, ft_mchr) == 0)
 		return (0);
 	ft_wr_mch(&wr, ft_chr);
-	printf("D:\t Debuggin chr: %s\t%d\n", nd->lf.off, chr);
+	free(wr.dt);
 	return (0);
 }

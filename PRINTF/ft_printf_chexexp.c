@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:55:40 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/02 21:13:09 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 11:42:05 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,6 @@ int ft_chex_exp(t_nd *nd, unsigned int hx)
 	if (ft_mem_mng(&wr, ft_mchex) == 0)
 		return (0);
 	ft_wr_mch(&wr, ft_chex);
-	printf("D:\t Debuggin hex: %s\t%d\t%s\n", nd->lf.off, hx, wr.dt);
+	free(wr.dt);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:53:39 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/02 21:13:32 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 11:42:24 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void ft_hex_vldtn(char *off, t_wrtr *wr, int f, t_caphex capital)
 	else if (mp.pnum <= wr->sz && off < wr->off + wr->sz + f && !exp)
 		*off = *wr->off_dt++;
 	else
-		*off = 'k';
+		*off = ' ';
 }
 
 void	ft_hash_vldtn(t_map mp, char *off, t_wrtr *wr, t_caphex cp)
@@ -85,7 +85,7 @@ void	ft_hash_vldtn(t_map mp, char *off, t_wrtr *wr, t_caphex cp)
 	else if (mp.pnum <= wr->sz && exp && off == wr->off - wr->sz - 1)
 		*off = '0';
 	else
-		*off = 'k';
+		*off = ' ';
 }
 
 static void	ft_wr_hex(t_wrtr *wr, char *off)
@@ -129,6 +129,6 @@ int ft_hex_exp(t_nd *nd, unsigned int hex)
 	if (ft_mem_mng(&wr, ft_mhex) == 0)
 		return (0);
 	ft_wr_mch(&wr, ft_hex);
-	printf("D:\t Debuggin hex: %s\t%d\t%s\n", nd->lf.off, hex, wr.dt);
+	free(wr.dt);
 	return (1);
 }
