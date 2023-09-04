@@ -20,6 +20,9 @@ way to approach this problem.
 static char	g_cnv[9] = {'c', 's', 'p','d', 'i', 'u', 'x', 'X', '%'};
 static char	g_flgs[6] = {'#', '0', '-', '.', ' ', '+'};
 
+Also the implementation made it was a string of characters wrapping all the
+conversors specifiers: "cspdiuxX%"
+
 FIN-
 
 START-
@@ -108,3 +111,18 @@ static char	*ft_itoa(unsigned long int num, char *lf)
 	}
 	return (lf);
 }
+
+// int	main(void)
+// {
+// 	int	test;
+
+// 	test = 15;
+// 	printf("%2$+*3$.*1$d %1$d\n", 2, 1, test);
+// 	printf("%2$-+10.*3$d %1$d\n", 10, 3, 5); //show that it's not compulsory for field and precision an $ style.
+// 	printf("E%%%iaaaa%20.skkk%-10ubbb%#xWWW%20pZZZ\n", 0, "Holaaaa", 0, -123, &test);
+// 	ft_printf("EEE%%%04.saaa%-15c%-+10.3d%20paaa%#xbbb%010u", "Holaaaa", 'B', 0, &test, -123, 0);
+// 	printf("\n");
+// 	ft_printf("E%%%iaaaa%20.skkk%-10ubbb%#xWWW%20pZZZ", 0, "Holaaaa", 0, -123, &test);
+// 	printf("\n");
+// 	return (0);
+// }

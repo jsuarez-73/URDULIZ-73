@@ -6,13 +6,13 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:45:46 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 11:42:13 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:13:51 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static u_int	ft_mng_dbl(t_wrtr *wr)
+static t_uns	ft_mng_dbl(t_wrtr *wr)
 {
 	t_map	mp;
 	int		sgned;
@@ -40,7 +40,7 @@ static u_int	ft_mng_dbl(t_wrtr *wr)
 		return (wr->sz + sgned);
 }
 
-static void ft_dbl_vldtns(t_map mp, char *off, t_wrtr *wr, int f)
+static void	ft_dbl_vldtns(t_map mp, char *off, t_wrtr *wr, int f)
 {
 	int	exp;
 
@@ -109,7 +109,7 @@ static void	ft_wr_dbl(t_wrtr *wr, char *off)
 	}
 }
 
-int ft_dbl_exp(t_nd *nd, int dbl)
+int	ft_dbl_exp(t_nd *nd, int dbl)
 {
 	t_wrtr			wr;
 	unsigned int	(*ft_mdbl)(t_wrtr *);

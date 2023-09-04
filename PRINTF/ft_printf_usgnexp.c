@@ -6,24 +6,24 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:54:41 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 11:42:37 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:13:51 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static u_int	ft_mng_usgn(t_wrtr * wr)
+static t_uns	ft_mng_usgn(t_wrtr *wr)
 {
 	t_map	mp;
 
 	mp = wr->nd->map;
-	if (*(u_int *) wr->d == 0 && mp.fnum >= 1 && mp.fnum >= mp.pnum)
+	if (*(t_uns *) wr->d == 0 && mp.fnum >= 1 && mp.fnum >= mp.pnum)
 		return (mp.fnum);
-	else if (*(u_int *) wr->d == 0 && mp.pnum >= 1 && mp.pnum >= mp.fnum)
+	else if (*(t_uns *) wr->d == 0 && mp.pnum >= 1 && mp.pnum >= mp.fnum)
 		return (mp.pnum);
-	else if (*(u_int *) wr->d == 0 && mp.ppoint != 0)
+	else if (*(t_uns *) wr->d == 0 && mp.ppoint != 0)
 		return (0);
-	else if (*(u_int *) wr->d == 0 && mp.ppoint == 0)
+	else if (*(t_uns *) wr->d == 0 && mp.ppoint == 0)
 		return (1);
 	else if (mp.fnum > mp.pnum)
 	{
@@ -40,9 +40,9 @@ static u_int	ft_mng_usgn(t_wrtr * wr)
 
 static char	*ft_mkusgn(unsigned int usgn)
 {
-	u_int	num;
+	t_uns	num;
 	char	*dt;
-	u_int	counter;
+	t_uns	counter;
 	char	*tmp;
 
 	counter = 0;
@@ -60,7 +60,7 @@ static char	*ft_mkusgn(unsigned int usgn)
 		if (ft_mem_asgn(&tmp, &dt, num, &counter) == NULL)
 			return (NULL);
 	}
-	return (dt);	
+	return (dt);
 }
 
 static void	ft_usgn_vldtn(t_wrtr *wr, char *off)
@@ -103,7 +103,7 @@ static void	ft_wr_usgn(t_wrtr *wr, char *off)
 	}
 }
 
-int ft_usgn_exp(t_nd *nd, unsigned int usgn)
+int	ft_usgn_exp(t_nd *nd, unsigned int usgn)
 {
 	t_wrtr			wr;
 	unsigned int	(*ft_musgn)(t_wrtr *);

@@ -6,13 +6,13 @@
 #    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 11:36:09 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/09/03 10:19:59 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/09/04 18:45:04 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CFLAGS = -Wall -Werror -Wextra
-NAME = ft_printf.jsb
-NAME_GDB = ft_printf.gdb
+NAME = libftprintf.a
+# NAME_GDB = ft_printf.gdb
 SRCS = ft_printf.c\
 		ft_printf_nddrv.c\
 		ft_printf_treedrv.c\
@@ -35,7 +35,7 @@ OBJS = $(SRCS:%.c=%.o)
 
 $(NAME):
 	cc $(CFLAGS) -c $(SRCS)
-	cc -o $(NAME) $(OBJS)
+	ar rcs $(NAME) $(OBJS)
 
 all: $(NAME)
 
@@ -45,20 +45,26 @@ clean:
 fclean:
 	rm -f $(NAME)
 
-fcleang:
-	rm -f $(NAME_GDB)
+# fcleang:
+# 	rm -f $(NAME_GDB)
 
 re: fclean all
 
-re_e: fclean all exec
+# re_e: fclean all exec
 
-exec: clean
-	bash -c ./$(NAME)
+# exec: clean
+# 	bash -c ./$(NAME)
 
-debug:
-	cc -g $(CFLAGS) -o $(NAME_GDB) $(SRCS)
+# debug:
+# 	cc -g $(CFLAGS) -o $(NAME_GDB) $(SRCS)
 
-xgdb: debug
-	gdb $(NAME_GDB)
+# xgdb: debug
+# 	gdb $(NAME_GDB)
 
-.PHONY: all clean fclean fcleang re exec debug xgdb
+# mklib:
+# 	cc $(CFLAGS) -c $(SRCS)
+# 	ar -rc $(NAME_LIB) $(OBJS)
+
+# lib: mklib fclean clean
+.PHONY: all clean fclean re
+# .PHONY: all clean fclean fcleang re exec debug xgdb mklib lib

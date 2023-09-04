@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:05:12 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 09:53:53 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:07:39 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static void	ft_mknum(char *end, char *off, t_map *map, t_ndtype type)
 	{
 		if (end == off)
 			pow = 1;
-		
 	}
 	else if (type == PRCSN)
 	{

@@ -6,13 +6,13 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:56:22 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 11:42:31 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:13:51 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static u_int	ft_mng_ptr(t_wrtr *wr)
+static t_uns	ft_mng_ptr(t_wrtr *wr)
 {
 	t_map	mp;
 	int		hashed;
@@ -56,7 +56,7 @@ static void	ft_wr_ptr(t_wrtr *wr, char *off)
 	}
 }
 
-int ft_ptr_exp(t_nd *nd, void *ptr)
+int	ft_ptr_exp(t_nd *nd, void *ptr)
 {
 	long			ptr_d;
 	t_wrtr			wr;

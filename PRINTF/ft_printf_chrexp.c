@@ -6,13 +6,13 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:48:17 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 11:44:43 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:13:51 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static u_int	ft_mng_chr(t_wrtr *wr)
+static t_uns	ft_mng_chr(t_wrtr *wr)
 {
 	t_map	mp;
 
@@ -41,14 +41,13 @@ static char	*ft_mkchr(char chr)
 	*(dt + sizeof(char) * 1) = '\0';
 	*dt = chr;
 	return (dt);
-
 }
-/*Testeado levemente, pero funcional hasta el momento.*/
-int ft_chr_exp(t_nd *nd, unsigned char chr)
+
+int	ft_chr_exp(t_nd *nd, unsigned char chr)
 {
 	unsigned int	(*ft_mchr)(t_wrtr *);
-	void	(*ft_chr)(t_wrtr *, char *);
-	t_wrtr	wr;
+	void			(*ft_chr)(t_wrtr *, char *);
+	t_wrtr			wr;
 
 	ft_chr = ft_wr_chr;
 	ft_mchr = ft_mng_chr;
@@ -62,5 +61,5 @@ int ft_chr_exp(t_nd *nd, unsigned char chr)
 		return (0);
 	ft_wr_mch(&wr, ft_chr);
 	free(wr.dt);
-	return (0);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:43:05 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 11:42:17 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:13:51 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ static void	ft_wr_str(t_wrtr *wr, char *off)
 	}
 }
 
-static u_int	ft_mng_str(t_wrtr *wr)
+static t_uns	ft_mng_str(t_wrtr *wr)
 {
 	t_map	mp;
-	
+
 	mp = wr->nd->map;
 	if (mp.fnum > mp.pnum)
 	{
@@ -57,17 +57,17 @@ static u_int	ft_mng_str(t_wrtr *wr)
 		return (wr->sz);
 }
 
-static char	*ft_mkstr(t_map mp, char *str, u_int *dlen)
+static char	*ft_mkstr(t_map mp, char *str, t_uns *dlen)
 {
 	char	*dt;
-	u_int	size;
+	t_uns	size;
 
 	if (mp.pnum <= *dlen && mp.ppoint != 0)
 		size = sizeof(char) * mp.pnum;
 	else
 		size = sizeof(char) * (*dlen);
 	dt = (char *) malloc(size + 1);
-	if(dt == NULL)
+	if (dt == NULL)
 		return (NULL);
 	*dlen = size;
 	*(dt + size) = '\0';
@@ -76,12 +76,12 @@ static char	*ft_mkstr(t_map mp, char *str, u_int *dlen)
 	return (dt);
 }
 
-int ft_str_exp(t_nd *nd, char *str)
+int	ft_str_exp(t_nd *nd, char *str)
 {
 	t_wrtr			wr;
 	void			(*ft_str)(t_wrtr *, char *);
 	unsigned int	(*ft_mstr)(t_wrtr *);
-	
+
 	ft_str = ft_wr_str;
 	ft_mstr = ft_mng_str;
 	wr.nd = nd;

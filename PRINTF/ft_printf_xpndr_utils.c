@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 16:55:45 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 09:50:31 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:13:51 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ unsigned int	ft_strlen(char *str)
 	return (counter);
 }
 
-char	*ft_mem_asgn(char **tmp, char **dt, long num, u_int *counter)
+char	*ft_mem_asgn(char **tmp, char **dt, long num, t_uns *counter)
 {
 	if (*counter == 0)
 	{
@@ -49,9 +49,9 @@ char	*ft_mem_asgn(char **tmp, char **dt, long num, u_int *counter)
 	return (*dt);
 }
 
-int ft_mem_mng(t_wrtr *wr, u_int (*m)(t_wrtr *))
+int	ft_mem_mng(t_wrtr *wr, t_uns (*m)(t_wrtr *))
 {
-	u_int	size;
+	t_uns	size;
 	char	*m_mng;
 	t_nd	*nd;
 
@@ -72,7 +72,7 @@ char	*ft_mkhex(long hex, t_caphex capital)
 {
 	long	num;
 	char	*dt;
-	u_int	counter;
+	t_uns	counter;
 	char	*tmp;
 
 	counter = 0;
@@ -101,7 +101,7 @@ char	*ft_mkdbl(int n)
 {
 	long	num;
 	char	*dt;
-	u_int	counter;
+	t_uns	counter;
 	char	*tmp;
 
 	counter = 0;

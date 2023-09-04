@@ -6,11 +6,32 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 18:39:18 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/08/19 11:38:19 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:00:00 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+/*Summary: This function receive the percent position as
+str and the set of conversor specifiers as set, it's meant
+to return the position where one conversor specifiers match
+with the str which is the same fstr*/
+char	*ft_matcher(char *str, char *set)
+{
+	char	*conv;
+	short	flg;
+
+	conv = set;
+	flg = 0;
+	while (*str++ != 0 && flg == 0)
+	{
+		while (*conv != 0 && flg == 0)
+			if (*str == *conv++)
+				flg = 1;
+		conv = set;
+	}
+	return (str - 1);
+}
 
 static void	ft_trip_helper(char **off, t_lm *lm, short *fnd, char **set)
 {
@@ -20,10 +41,10 @@ static void	ft_trip_helper(char **off, t_lm *lm, short *fnd, char **set)
 		{
 			*fnd = 1;
 			(*lm).off = *off;
-			break;
+			break ;
 		}
 		else if (**set == **off && *fnd == 1)
-			break;
+			break ;
 		else if (*(*set + 1) == 0 && **set != **off)
 		{
 			if (*fnd == 0)
@@ -51,7 +72,7 @@ static t_lm	ft_trip_set(char *off, char *end, char *set)
 	return (lm);
 }
 
-static int	ft_chopper(t_nd *p_rt, char *off, char *end)
+static void	ft_chopper(t_nd *p_rt, char *off, char *end)
 {
 	t_lm	lm;
 
@@ -64,13 +85,13 @@ static int	ft_chopper(t_nd *p_rt, char *off, char *end)
 	lm = ft_trip_set(p_rt->wdth.end, end, "0123456789.*");
 	p_rt->prcsn.off = lm.off;
 	p_rt->prcsn.end = lm.end;
-	return (0);
 }
+
 /*Initialization a chopping to the nodes.
 We do the initialization here, because it's gonna
 be very useful when we will get the leaves to 
 put the conversor expanded.*/
-int	ft_nd_drv(t_fstr *root)
+void	ft_nd_drv(t_fstr *root)
 {
 	unsigned int	q_nd;
 
@@ -83,5 +104,4 @@ int	ft_nd_drv(t_fstr *root)
 			ft_chopper(&root->nd, root->lm.off, root->lm.end);
 		root = root->nxt;
 	}
-	return (0);
 }

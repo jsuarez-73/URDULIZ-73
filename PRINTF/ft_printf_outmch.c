@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 09:59:03 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 11:41:42 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:03:27 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_freemch(t_fstr *root)
 	unsigned int	q_nd;
 	t_fstr			*tmp;
 	unsigned int	counter;
-	
+
 	q_nd = root->q_nd;
 	tmp = root;
 	counter = 0;

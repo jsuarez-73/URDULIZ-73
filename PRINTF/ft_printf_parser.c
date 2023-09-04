@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:22:05 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 11:43:21 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/03 15:08:43 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ static int	ft_nd_cnst(t_map map, char *conv)
 
 	off_map = &(map.plus);
 	end_map = &(map.ppoint);
-
 	if (ft_vldtn_cons(map, conv) == 0)
-		return 0;
+		return (0);
 	while (off_map <= end_map)
 	{
 		if (off_map != &(map.fnum) && off_map != &(map.pnum))
@@ -60,7 +59,6 @@ static int	ft_cnst(t_fstr *root)
 
 static int	ft_nd_wdfnd(t_lm flgs, t_lm wdth, t_lm prcsn, t_lm lm)
 {
-	
 	if (flgs.off == NULL && wdth.off == NULL && prcsn.off == NULL)
 	{
 		if (lm.end - lm.off == 1)
@@ -107,10 +105,6 @@ static int	ft_wdfnd(t_fstr *root)
 int	ft_parser(t_fstr *root)
 {
 	if (ft_wdfnd(root) == 1 && ft_cnst(root) == 1)
-	{
-		printf("D:\t Format String (OK): %s\n", root->lm.off);
 		return (1);
-	}
-	printf("D:\t Format String (KO): %s\n", root->lm.off);
 	return (0);
 }
