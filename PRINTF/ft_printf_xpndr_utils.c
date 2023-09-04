@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 16:55:45 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 15:13:51 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/04 20:53:27 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ char	*ft_mkhex(long hex, t_caphex capital)
 	return (dt);
 }
 
-char	*ft_mkdbl(int n)
+char	*ft_mkdbl(u_int n)
 {
-	long	num;
+	u_int	num;
 	char	*dt;
 	t_uns	counter;
 	char	*tmp;

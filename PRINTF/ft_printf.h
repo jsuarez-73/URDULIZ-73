@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:56:29 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 15:16:49 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/04 20:55:15 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ char			*ft_mkhex(long hex, t_caphex capital);
 void			ft_hash_vldtn(t_map mp, char *off, t_wrtr *wr, t_caphex cp);
 void			ft_hex_vldtn(char *off, t_wrtr *wr, int f, t_caphex capital);
 t_uns			ft_mng_hex(t_wrtr *wr);
-char			*ft_mkdbl(int n);
+char			*ft_mkdbl(u_int n);
 
 /*Writer Machine functions*/
 void			ft_wr_mch(t_wrtr *wr, void (*f)(t_wrtr *, char *));

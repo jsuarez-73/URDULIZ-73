@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:45:46 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 15:13:51 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/04 21:03:49 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,10 +118,7 @@ int	ft_dbl_exp(t_nd *nd, int dbl)
 	ft_mdbl = ft_mng_dbl;
 	ft_dbl = ft_wr_dbl;
 	if (dbl < 0)
-	{
 		nd->map.sgned = 1;
-		dbl *= -1;
-	}
 	wr.nd = nd;
 	wr.d = &dbl;
 	wr.dt = ft_mkdbl(dbl);

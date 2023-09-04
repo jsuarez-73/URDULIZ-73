@@ -6,7 +6,7 @@
 #    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 11:36:09 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/09/04 18:45:04 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/09/04 21:10:35 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ OBJS = $(SRCS:%.c=%.o)
 
 $(NAME):
 	cc $(CFLAGS) -c $(SRCS)
+# cc -o $(NAME) $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
 all: $(NAME)
@@ -56,15 +57,9 @@ re: fclean all
 # 	bash -c ./$(NAME)
 
 # debug:
-# 	cc -g $(CFLAGS) -o $(NAME_GDB) $(SRCS)
+# 	gcc -g $(CFLAGS) -o $(NAME_GDB) $(SRCS)
 
 # xgdb: debug
 # 	gdb $(NAME_GDB)
-
-# mklib:
-# 	cc $(CFLAGS) -c $(SRCS)
-# 	ar -rc $(NAME_LIB) $(OBJS)
-
-# lib: mklib fclean clean
 .PHONY: all clean fclean re
-# .PHONY: all clean fclean fcleang re exec debug xgdb mklib lib
+# .PHONY: all clean fclean fcleang re exec debug xgdb
