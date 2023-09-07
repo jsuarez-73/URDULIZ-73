@@ -6,16 +6,17 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 11:23:46 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/04 21:08:26 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/07 21:38:28 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-/*Se deben realizar las respectivas verificaciones para las funciones *_exp*/
+
 int	ft_printf(const char *fstr, ...)
 {
 	t_fstr	root;
 	va_list	list;
+	int		len;
 
 	root.nxt = NULL;
 	root.q_nd = 0;
@@ -23,14 +24,13 @@ int	ft_printf(const char *fstr, ...)
 		return (0);
 	va_start(list, fstr);
 	if (ft_tree_drv((char *)fstr, &root) == 0)
-		return (0);
+		return (ft_freemch(&root));
 	ft_nd_drv(&root);
 	if (ft_parser(&root) == 0)
-		return (0);
-	if (ft_exp_arg(list, &root) == 0)
-		return (0);
+		return (ft_freemch(&root));
+	ft_exp_arg(list, &root);
 	va_end(list);
-	ft_outmch(&root);
+	len = ft_outmch(&root);
 	ft_freemch(&root);
-	return (1);
+	return (len);
 }

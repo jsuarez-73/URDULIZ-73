@@ -6,12 +6,15 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 18:22:05 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 15:08:43 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/06 21:22:13 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
+/*Has been modified the return from the validations constraints because
+we are not getting this warnings as errors in the tester time, modify it's
+necessary.*/
 static int	ft_nd_cnst(t_map map, char *conv)
 {
 	unsigned int	*off_map;
@@ -20,7 +23,7 @@ static int	ft_nd_cnst(t_map map, char *conv)
 	off_map = &(map.plus);
 	end_map = &(map.ppoint);
 	if (ft_vldtn_cons(map, conv) == 0)
-		return (0);
+		return (1);
 	while (off_map <= end_map)
 	{
 		if (off_map != &(map.fnum) && off_map != &(map.pnum))
@@ -31,6 +34,12 @@ static int	ft_nd_cnst(t_map map, char *conv)
 	return (1);
 }
 
+/*The ft_nd_cnst function has been setted off because the
+constraints have not been considered for all the test well
+known so far, this could give us some warnings because we
+are compiling without the CFLAGS, having this on consideration
+it's important to check wether the molinette compile with or
+without CFLAGS.*/
 static int	ft_cnst(t_fstr *root)
 {
 	t_nd			*nd;
@@ -50,7 +59,7 @@ static int	ft_cnst(t_fstr *root)
 			if (nd->prcsn.off != NULL)
 				ft_get_maps(&(nd->map), nd->prcsn.off, nd->prcsn.end, PRCSN);
 			if (ft_nd_cnst(nd->map, root->lm.end) == 0)
-				return (0);
+				return (1);
 		}
 		root = root->nxt;
 	}

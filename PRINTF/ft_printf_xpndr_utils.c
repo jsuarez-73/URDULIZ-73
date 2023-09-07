@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 16:55:45 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/04 20:53:27 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/07 16:26:39 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ unsigned int	ft_strlen(char *str)
 	unsigned int	counter;
 
 	counter = 0;
+	if (str == NULL)
+		return (0);
 	while (*str++ != '\0')
 		counter++;
 	return (counter);
@@ -32,20 +34,21 @@ char	*ft_mem_asgn(char **tmp, char **dt, long num, t_uns *counter)
 		*(*tmp + *counter) = '\0';
 		**tmp = (char) num;
 		*dt = *tmp;
+		return (*dt);
 	}
-	else
+	*tmp = (char *) malloc(sizeof(char) * ++(*counter) + 1);
+	if (*tmp == NULL)
 	{
-		*tmp = (char *) malloc(sizeof(char) * ++(*counter) + 1);
-		if (*tmp == NULL)
-			return (NULL);
-		*(*tmp + *counter) = '\0';
-		*(*tmp)++ = (char) num;
-		while (**dt != '\0')
-			*(*tmp)++ = *(*dt)++;
-		*tmp -= *counter;
-		free(*dt - *counter + 1);
-		*dt = *tmp;
+		free(*dt);
+		return (NULL);
 	}
+	*(*tmp + *counter) = '\0';
+	*(*tmp)++ = (char) num;
+	while (**dt != '\0')
+		*(*tmp)++ = *(*dt)++;
+	*tmp -= *counter;
+	free(*dt - *counter + 1);
+	*dt = *tmp;
 	return (*dt);
 }
 
@@ -68,20 +71,20 @@ int	ft_mem_mng(t_wrtr *wr, t_uns (*m)(t_wrtr *))
 	return (1);
 }
 
-char	*ft_mkhex(long hex, t_caphex capital)
+char	*ft_mkhex(unsigned long hex, t_caphex capital)
 {
-	long	num;
-	char	*dt;
-	t_uns	counter;
-	char	*tmp;
+	unsigned long	num;
+	char			*dt;
+	t_uns			counter;
+	char			*tmp;
 
 	counter = 0;
+	dt = NULL;
 	if (hex == 0)
 	{
 		if (ft_mem_asgn(&tmp, &dt, '0', &counter) == NULL)
 			return (NULL);
-		else
-			return (dt);
+		return (dt);
 	}
 	while (hex > 0)
 	{

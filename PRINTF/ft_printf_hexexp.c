@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:53:39 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 15:13:51 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/07 17:54:00 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,15 +119,15 @@ int	ft_hex_exp(t_nd *nd, unsigned int hex)
 
 	ft_mhex = ft_mng_hex;
 	ft_hex = ft_wr_hex;
+	ft_init_wr(&wr);
 	wr.nd = nd;
 	wr.dt = ft_mkhex(hex, LOWER);
 	wr.d = &hex;
 	if (wr.dt == NULL)
 		return (0);
 	wr.sz = ft_strlen(wr.dt);
-	if (ft_mem_mng(&wr, ft_mhex) == 0)
-		return (0);
-	ft_wr_mch(&wr, ft_hex);
+	if (ft_mem_mng(&wr, ft_mhex) != 0)
+		ft_wr_mch(&wr, ft_hex);
 	free(wr.dt);
 	return (1);
 }

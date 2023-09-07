@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:43:05 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 15:13:51 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/07 17:55:44 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ static void	ft_wr_str(t_wrtr *wr, char *off)
 	{
 		if (off >= wr->off - wr->sz + 1)
 			*off = *(wr->end_dt)--;
-		else if (wr->nd->map.zero != 0)
-			*off = '0';
 		else
 			*off = ' ';
 	}
@@ -27,8 +25,6 @@ static void	ft_wr_str(t_wrtr *wr, char *off)
 	{
 		if (off <= wr->off + wr->sz - 1)
 			*off = *(wr->off_dt)++;
-		else if (wr->nd->map.zero != 0)
-			*off = '0';
 		else
 			*off = ' ';
 	}
@@ -41,20 +37,20 @@ static t_uns	ft_mng_str(t_wrtr *wr)
 	mp = wr->nd->map;
 	if (mp.fnum > mp.pnum)
 	{
-		if (mp.ppoint != 0)
+		if (mp.fnum > wr->sz)
 			return (mp.fnum);
 		else
-		{
-			if (mp.fnum > wr->sz)
-				return (mp.fnum);
-			else
-				return (wr->sz);
-		}
+			return (wr->sz);
 	}
 	else if (mp.pnum <= wr->sz && mp.ppoint != 0)
 		return (mp.pnum);
 	else
-		return (wr->sz);
+	{
+		if (mp.fnum > wr->sz)
+			return (mp.fnum);
+		else
+			return (wr->sz);
+	}
 }
 
 static char	*ft_mkstr(t_map mp, char *str, t_uns *dlen)
@@ -84,15 +80,22 @@ int	ft_str_exp(t_nd *nd, char *str)
 
 	ft_str = ft_wr_str;
 	ft_mstr = ft_mng_str;
+	ft_init_wr(&wr);
 	wr.nd = nd;
 	wr.sz = ft_strlen(str);
 	wr.d = str;
-	if (ft_mem_mng(&wr, ft_mstr) == 0)
-		return (0);
-	wr.dt = ft_mkstr(nd->map, str, &wr.sz);
+	if (str != NULL)
+		wr.dt = ft_mkstr(nd->map, str, &wr.sz);
+	else
+	{
+		wr.dt = "(null)";
+		wr.sz = 6;
+	}
 	if (wr.dt == NULL)
 		return (0);
-	ft_wr_mch(&wr, ft_str);
-	free(wr.dt);
+	if (ft_mem_mng(&wr, ft_mstr) != 0)
+		ft_wr_mch(&wr, ft_str);
+	if (str != NULL)
+		free(wr.dt);
 	return (1);
 }

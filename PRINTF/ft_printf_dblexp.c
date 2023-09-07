@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:45:46 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/04 21:03:49 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/07 19:37:07 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ static void	ft_dbl_sgnvld(t_wrtr *wr, char *off, char *end, char dflt)
 		*off = dflt;
 }
 
+/*Modified the validation for mp.zero flag to make sure that mp.point is zero
+check this out.*/
 static void	ft_wr_dbl(t_wrtr *wr, char *off)
 {
 	t_map	mp;
@@ -91,7 +93,7 @@ static void	ft_wr_dbl(t_wrtr *wr, char *off)
 	{
 		if (off >= wr->off - wr->sz + 1 && !exp)
 			*off = *wr->end_dt--;
-		else if (mp.zero != 0)
+		else if (mp.zero != 0 && mp.ppoint == 0)
 			ft_dbl_sgnvld(wr, off, wr->end, '0');
 		else if (mp.pnum > wr->sz && off >= wr->off - mp.pnum + 1)
 			*off = '0';
@@ -118,16 +120,19 @@ int	ft_dbl_exp(t_nd *nd, int dbl)
 	ft_mdbl = ft_mng_dbl;
 	ft_dbl = ft_wr_dbl;
 	if (dbl < 0)
+	{
 		nd->map.sgned = 1;
+		dbl *= -1;
+	}
+	ft_init_wr(&wr);
 	wr.nd = nd;
 	wr.d = &dbl;
 	wr.dt = ft_mkdbl(dbl);
 	if (wr.dt == NULL)
 		return (0);
 	wr.sz = ft_strlen(wr.dt);
-	if (ft_mem_mng(&wr, ft_mdbl) == 0)
-		return (0);
-	ft_wr_mch(&wr, ft_dbl);
+	if (ft_mem_mng(&wr, ft_mdbl) != 0)
+		ft_wr_mch(&wr, ft_dbl);
 	free(wr.dt);
 	return (1);
 }

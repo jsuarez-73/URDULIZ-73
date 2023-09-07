@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:56:29 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/04 20:55:15 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/06 16:51:07 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,13 @@ int				ft_usgn_exp(t_nd *nd, unsigned int usgn);;
 int				ft_chex_exp(t_nd *nd, unsigned int hx);
 int				ft_ptr_exp(t_nd *nd, void *ptr);
 int				ft_per_exp(t_nd *nd);
+void			ft_init_wr(t_wrtr *wr);
 
 /*Utils functions*/
 int				ft_mem_mng(t_wrtr *wr, t_uns (*m)(t_wrtr *));
 char			*ft_mem_asgn(char **tmp, char **dt, long num, t_uns *counter);
 unsigned int	ft_strlen(char *str);
-char			*ft_mkhex(long hex, t_caphex capital);
+char			*ft_mkhex(unsigned long hex, t_caphex capital);
 void			ft_hash_vldtn(t_map mp, char *off, t_wrtr *wr, t_caphex cp);
 void			ft_hex_vldtn(char *off, t_wrtr *wr, int f, t_caphex capital);
 t_uns			ft_mng_hex(t_wrtr *wr);

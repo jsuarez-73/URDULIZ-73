@@ -6,11 +6,24 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 09:53:44 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 15:09:37 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/06 18:34:57 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+
+void	ft_init_wr(t_wrtr *wr)
+{
+	wr->nd = NULL;
+	wr->dt = NULL;
+	wr->sz = 0;
+	wr->off = NULL;
+	wr->end = NULL;
+	wr->rg_lf = 0;
+	wr->off_dt = NULL;
+	wr->end_dt = NULL;
+	wr->d = NULL;
+}
 
 static void	ft_exp_vldtn(t_fstr *root, va_list list)
 {

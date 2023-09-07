@@ -6,13 +6,14 @@
 #    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 11:36:09 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/09/04 21:10:35 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/09/07 17:23:56 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CFLAGS = -Wall -Werror -Wextra
 NAME = libftprintf.a
-# NAME_GDB = ft_printf.gdb
+NAME_EXEC = ft_printf.jsb
+NAME_GDB = ft_printf.gdb
 SRCS = ft_printf.c\
 		ft_printf_nddrv.c\
 		ft_printf_treedrv.c\
@@ -34,11 +35,16 @@ SRCS = ft_printf.c\
 OBJS = $(SRCS:%.c=%.o)
 
 $(NAME):
-	cc $(CFLAGS) -c $(SRCS)
-# cc -o $(NAME) $(OBJS)
+	cc -c $(SRCS)
 	ar rcs $(NAME) $(OBJS)
 
 all: $(NAME)
+
+all_exec: $(NAME_EXEC)
+
+$(NAME_EXEC):
+	cc -c $(SRCS)
+	cc -o $(NAME_EXEC) $(OBJS)
 
 clean:
 	rm -rf $(OBJS)
@@ -46,20 +52,27 @@ clean:
 fclean:
 	rm -f $(NAME)
 
-# fcleang:
-# 	rm -f $(NAME_GDB)
+fcleang:
+	rm -f $(NAME_GDB)
+
+fcleanx:
+	rm -f $(NAME_EXEC)
 
 re: fclean all
 
-# re_e: fclean all exec
+re_e: fcleanx all_exec exec
 
-# exec: clean
-# 	bash -c ./$(NAME)
+exec: clean
+	bash -c ./$(NAME_EXEC)
 
-# debug:
-# 	gcc -g $(CFLAGS) -o $(NAME_GDB) $(SRCS)
+debug:
+	gcc -g -o $(NAME_GDB) $(SRCS)
 
-# xgdb: debug
-# 	gdb $(NAME_GDB)
-.PHONY: all clean fclean re
-# .PHONY: all clean fclean fcleang re exec debug xgdb
+xgdb: debug
+	gdb $(NAME_GDB)
+
+vgd:
+	valgrind ./$(NAME_EXEC)
+# .PHONY: all clean fclean re
+.PHONY: all clean fclean fcleang re \
+		exec debug xgdb all_exec vgd

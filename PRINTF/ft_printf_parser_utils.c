@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 18:05:12 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/03 15:07:39 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/06 20:25:42 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,29 +81,26 @@ void	ft_init_map(t_map *map)
 	map->sgned = 0;
 }
 
-int	ft_vldtn_cons(t_map map, char *conv)
+/*the constraints validations has been modified due to the way
+that the tests known so far take the format string without having
+in consideration the CFLAGS when we compile the program, giving us
+a program which could output answer ignoring warnings.*/
+int	ft_vldtn_cons(t_map m, char *c)
 {
-	if (map.plus > 0 && ((*conv != 'd' && *conv != 'i') || map.space > 0))
+	if (*c == '%')
+		return (1);
+	if (m.plus > 0 && ((*c != 'd' && *c != 'i') || m.space > 0))
 		return (0);
-	if (map.space > 0 && ((*conv != 'd' && *conv != 'i') || map.plus > 0))
+	if (m.space > 0 && ((*c != 'd' && *c != 'i' && *c != 's') || m.plus > 0))
 		return (0);
-	if (map.ppoint > 0 && (map.zero > 0 || *conv == 'p' || *conv == 'c'))
+	if (m.ppoint > 0 && (m.zero > 0 || *c == 'p' || *c == 'c'))
 		return (0);
-	if (map.hash > 0 && *conv != 'x' && *conv != 'X')
+	if (m.hash > 0 && *c != 'x' && *c != 'X')
 		return (0);
-	if (map.zero > 0)
-		if (map.minus > 0 || *conv == 's' || *conv == 'c' || *conv == 'p')
+	if (m.zero > 0)
+		if (m.minus > 0 || *c == 's' || *c == 'c' || *c == 'p')
 			return (0);
-	if (*conv == '%')
-	{
-		if (map.plus > 0 || map.hash > 0 || map.minus > 0 || map.zero > 0)
-			return (0);
-		if (map.space > 0 || map.fstar > 0 || map.fnum > 0 || map.pstar > 0)
-			return (0);
-		if (map.pnum > 0 || map.ppoint > 0)
-			return (0);
-	}
-	if ((map.fstar != 0 && map.fnum != 0) || (map.pstar != 0 && map.pnum != 0))
+	if ((m.fstar != 0 && m.fnum != 0) || (m.pstar != 0 && m.pnum != 0))
 		return (0);
 	return (1);
 }
