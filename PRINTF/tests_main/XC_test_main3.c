@@ -1,3 +1,5 @@
+#include <limits.h>
+
 int	main(void)
 {
 	printf("%.c", 0);

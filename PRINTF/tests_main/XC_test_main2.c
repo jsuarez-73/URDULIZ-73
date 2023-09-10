@@ -1,3 +1,6 @@
+#include <limits.h>
+#include <stddef.h>
+
 int	main(void)
 {
 	printf("hello, world!");

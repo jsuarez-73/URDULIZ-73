@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_usgnexp.c                                :+:      :+:    :+:   */
+/*   ft_printf_usgnexp_bonus.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:54:41 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/10 18:13:41 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/10 18:46:48 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 static t_uns	ft_mng_usgn(t_wrtr *wr)
 {

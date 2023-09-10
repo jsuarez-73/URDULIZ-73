@@ -6,7 +6,7 @@
 #    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 11:36:09 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/09/07 17:23:56 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/09/10 18:55:21 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,48 +31,73 @@ SRCS = ft_printf.c\
 		ft_printf_ptrexp.c\
 		ft_printf_perexp.c\
 		ft_printf_wrmch.c
+SRCS_BONUS = ft_printf_bonus.c\
+			ft_printf_nddrv_bonus.c\
+			ft_printf_treedrv_bonus.c\
+			ft_printf_parser_bonus.c\
+			ft_printf_parser_utils_bonus.c\
+			ft_printf_xpndr_bonus.c\
+			ft_printf_xpndr_utils_bonus.c\
+			ft_printf_outmch_bonus.c\
+			ft_printf_strexp_bonus.c\
+			ft_printf_dblexp_bonus.c\
+			ft_printf_chrexp_bonus.c\
+			ft_printf_hexexp_bonus.c\
+			ft_printf_chexexp_bonus.c\
+			ft_printf_usgnexp_bonus.c\
+			ft_printf_ptrexp_bonus.c\
+			ft_printf_perexp_bonus.c\
+			ft_printf_wrmch_bonus.c
 
 OBJS = $(SRCS:%.c=%.o)
+OBJS_BONUS = $(SRCS_BONUS:%.c=%.o)
+TEST_OBJ = $(TEST:%.c=%.o) 
 
 $(NAME):
-	cc -c $(SRCS)
-	ar rcs $(NAME) $(OBJS)
+	@cc $(CLFAGS) -c $(SRCS)
+	@ar -rcs $(NAME) $(OBJS)
 
 all: $(NAME)
 
-all_exec: $(NAME_EXEC)
-
-$(NAME_EXEC):
-	cc -c $(SRCS)
-	cc -o $(NAME_EXEC) $(OBJS)
+bonus:
+	@cc $(CFLAGS) -c $(SRCS_BONUS)
+	@ar -rcs $(NAME) $(OBJS_BONUS)
 
 clean:
-	rm -rf $(OBJS)
+	@rm -rf $(OBJS) $(OBJS_BONUS)
 
 fclean:
-	rm -f $(NAME)
-
-fcleang:
-	rm -f $(NAME_GDB)
-
-fcleanx:
-	rm -f $(NAME_EXEC)
+	@rm -f $(NAME)
 
 re: fclean all
+
+all_exec: $(NAME_EXEC)
+
+$(NAME_EXEC): $(NAME)
+	cc -c ./tests_main/$(TEST)
+	cc -o $(NAME_EXEC) $(TEST_OBJ) $(NAME)
+
+fcleang:
+	@rm -f $(NAME_GDB)
+
+fcleanx:
+	@rm -f $(NAME_EXEC)
+
 
 re_e: fcleanx all_exec exec
 
 exec: clean
-	bash -c ./$(NAME_EXEC)
+	@bash -c ./$(NAME_EXEC)
 
 debug:
-	gcc -g -o $(NAME_GDB) $(SRCS)
+	@cc -g -o $(NAME_GDB) $(SRCS) $(TEST_OBJ)
 
 xgdb: debug
-	gdb $(NAME_GDB)
+	@gdb $(NAME_GDB)
 
 vgd:
-	valgrind ./$(NAME_EXEC)
-# .PHONY: all clean fclean re
+	@valgrind ./$(NAME_EXEC)
+
 .PHONY: all clean fclean fcleang re \
-		exec debug xgdb all_exec vgd
+		exec debug xgdb all_exec vgd \
+		bonus

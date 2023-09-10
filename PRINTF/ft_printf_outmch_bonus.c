@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_outmch.c                                 :+:      :+:    :+:   */
+/*   ft_printf_outmch_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 09:59:03 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/10 12:39:17 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/10 18:45:55 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_printf_bonus.h"
 
 static void	ft_outwr_helper(t_fstr *root, int *len)
 {

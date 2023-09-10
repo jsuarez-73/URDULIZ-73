@@ -148,3 +148,63 @@ int	main(void)
 	return (0);
 }
 
+DEPRECATED FUNCTIONS DUE TO THE RESTRICTIONS ON CFLAGS. (VERY IMPORTANT!)
+
+/*Has been modified the return from the validations constraints because
+we are not getting this warnings as errors in the tester time, modify it's
+necessary.*/
+// static int	ft_nd_cnst(t_map map, char *conv)
+// {
+// 	unsigned int	*off_map;
+// 	unsigned int	*end_map;
+
+// 	off_map = &(map.plus);
+// 	end_map = &(map.ppoint);
+// 	// if (ft_vldtn_cons(map, conv) == 0)
+// 	// 	return (0);
+// 	while (off_map <= end_map)
+// 	{
+// 		if (off_map != &(map.fnum) && off_map != &(map.pnum))
+// 			if (*off_map > 1)
+// 				return (0);
+// 		off_map++;
+// 	}
+// 	return (1);
+// }
+
+/*The ft_nd_cnst function has been setted off because the
+constraints have not been considered for all the test well
+known so far, this could give us some warnings because we
+are compiling without the CFLAGS, having this on consideration
+it's important to check wether the molinette compile with or
+without CFLAGS.
+after: if (nd->prcsn.off != NULL)
+			ft_get_maps(..., PRCSN);
+		if (ft_nd_cnst(nd->map, root->lm.end) == 0)
+			return (0);
+We have cut the last validation off because of the constraints
+has not been considered to all the tests.*/
+
+/*the constraints validations has been modified due to the way
+that the tests known so far take the format string without having
+in consideration the CFLAGS when we compile the program, giving us
+a program which could output answer ignoring warnings.*/
+// int	ft_vldtn_cons(t_map m, char *c)
+// {
+// 	if (*c == '%')
+// 		return (1);
+// 	if (m.plus > 0 && ((*c != 'd' && *c != 'i') || m.space > 0))
+// 		return (0);
+// 	if (m.space > 0 && ((*c != 'd' && *c != 'i' && *c != 's') || m.plus > 0))
+// 		return (0);
+// 	if (m.ppoint > 0 && (m.zero > 0 || *c == 'p' || *c == 'c'))
+// 		return (0);
+// 	if (m.hash > 0 && *c != 'x' && *c != 'X')
+// 		return (0);
+// 	if (m.zero > 0)
+// 		if (m.minus > 0 || *c == 's' || *c == 'c' || *c == 'p')
+// 			return (0);
+// 	if ((m.fstar != 0 && m.fnum != 0) || (m.pstar != 0 && m.pnum != 0))
+// 		return (0);
+// 	return (1);
+// }

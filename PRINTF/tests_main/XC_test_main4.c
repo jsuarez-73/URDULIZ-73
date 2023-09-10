@@ -1,3 +1,5 @@
+#include <limits.h>
+
 int	main(void)
 {
 	printf("%.0p, %.p", 0, 0);

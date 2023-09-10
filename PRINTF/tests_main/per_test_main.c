@@ -1,3 +1,5 @@
+#include <limits.h>
+
 int	main()
 {
 	printf(" %% ");
