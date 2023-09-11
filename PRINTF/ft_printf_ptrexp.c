@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_ptrexp.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:56:22 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/10 18:06:36 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/11 13:06:29 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,9 @@ static t_uns	ft_mng_ptr(t_wrtr *wr)
 	int		hashed;
 
 	mp = wr->nd->map;
-	if (*(long *) wr->d == 0 && mp.fnum <= wr->sz)
-		return (wr->sz);
-	else if (*(long *) wr->d == 0)
-		return (mp.fnum);
-	if (mp.plus != 0 || mp.space != 0)
-		wr->nd->map.sgned = 1;
-	hashed = 2 + wr->nd->map.sgned;
+	if (mp.ppoint == 0 && mp.pnum == 0 && *(long *)wr->d == 0)
+		wr->sz = 1;
+	hashed = 2;
 	if (mp.fnum > mp.pnum + hashed)
 	{
 		if (mp.fnum > wr->sz + hashed)
@@ -40,18 +36,20 @@ static t_uns	ft_mng_ptr(t_wrtr *wr)
 
 static void	ft_ptr_vldrg(t_wrtr *wr, char *off, char *off_h, char dflt)
 {
-	int		exp;
 	t_map	mp;
+	int		exp;
 
 	mp = wr->nd->map;
-	exp = (*(long *) wr->d == 0);
-	if (mp.plus != 0 && off == off_h - 2 && !exp)
-		*off = '+';
-	else if (mp.space != 0 && off == off_h - 2 && !exp)
-		*off = ' ';
+	exp = (*(long *)wr->d == 0 && mp.ppoint == 0 && mp.pnum == 0);
+	if (off == off_h - 1 && exp)
+		*off = 'x';
+	else if (off == off_h - 2 && exp)
+		*off = '0';
 	else if (off == off_h && !exp)
 		*off = 'x';
 	else if (off == off_h - 1 && !exp)
+		*off = '0';
+	else if (off == off_h && exp)
 		*off = '0';
 	else
 		*off = dflt;
@@ -62,19 +60,17 @@ static void	ft_ptr_vldlf(t_map mp, char *off, t_wrtr *wr, char *off_s)
 	int	exp;
 
 	exp = (*(long *) wr->d == 0);
-	if (off == wr->off && mp.plus != 0 && !exp)
-		*off = '+';
-	else if (off == wr->off && mp.space != 0 && !exp)
-		*off = ' ';
-	else if (off == off_s && !exp)
+	if (off == off_s)
 		*off = '0';
-	else if (off == off_s + 1 && !exp)
+	else if (off == off_s + 1)
 		*off = 'x';
-	else if (mp.pnum > wr->sz && off <= off_s + mp.pnum - wr->sz + 1 && !exp)
+	else if (mp.ppoint == 0 && mp.pnum == 0 && exp && off == off_s + 2)
+		*off = '0';
+	else if (mp.pnum > wr->sz && off <= off_s + mp.pnum - wr->sz + 1)
 		*off = '0';
 	else if (mp.pnum > wr->sz && off <= off_s + mp.pnum + 1 && !exp)
 		*off = *wr->off_dt++;
-	else if (mp.pnum < wr->sz && off <= off_s + wr->sz + 1 && !exp)
+	else if (mp.pnum < wr->sz && off <= off_s + wr->sz + 1)
 		*off = *wr->off_dt++;
 	else if (mp.pnum < wr->sz && exp && off <= wr->off + wr->sz - 1)
 		*off = *wr->off_dt++;
@@ -85,23 +81,27 @@ static void	ft_ptr_vldlf(t_map mp, char *off, t_wrtr *wr, char *off_s)
 static void	ft_wr_ptr(t_wrtr *wr, char *off)
 {
 	t_map	mp;
+	int		exp;
 
 	mp = wr->nd->map;
+	exp = (*(long *)wr->d == 0);
 	if (wr->rg_lf == 1)
 	{
-		if (off >= wr->off - wr->sz + 1)
+		if (off >= wr->off - wr->sz + 1 && !exp)
 			*off = *wr->end_dt--;
-		else if (mp.zero != 0 && mp.ppoint == 0 && *(long *)wr->d != 0)
-			ft_ptr_vldrg(wr, off, wr->end + mp.sgned + 1, '0');
+		else if (mp.zero != 0 && mp.ppoint == 0)
+			ft_ptr_vldrg(wr, off, wr->end + 2, '0');
 		else if (mp.pnum > wr->sz && off >= wr->off - mp.pnum + 1)
 			*off = '0';
 		else if (mp.pnum > wr->sz)
 			ft_ptr_vldrg(wr, off, wr->off - mp.pnum, ' ');
-		else
+		else if (!exp)
 			ft_ptr_vldrg(wr, off, wr->off - wr->sz, ' ');
+		else
+			ft_ptr_vldrg(wr, off, wr->off, ' ');
 	}
 	else
-		ft_ptr_vldlf(mp, off, wr, wr->off + mp.sgned);
+		ft_ptr_vldlf(mp, off, wr, wr->off);
 }
 
 int	ft_ptr_exp(t_nd *nd, void *ptr)
@@ -119,7 +119,7 @@ int	ft_ptr_exp(t_nd *nd, void *ptr)
 	if (ptr_d != 0)
 		wr.dt = ft_mkhex(ptr_d, LOWER);
 	else
-		wr.dt = "(nil)";
+		wr.dt = "";
 	wr.d = &ptr_d;
 	if (wr.dt == NULL)
 		return (0);

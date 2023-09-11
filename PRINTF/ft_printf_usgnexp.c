@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_usgnexp.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:54:41 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/10 18:13:41 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/11 11:04:59 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	ft_usgn_vldtn(t_wrtr *wr, char *off)
 	t_map	mp;
 
 	mp = wr->nd->map;
-	if (mp.zero != 0 && off >= wr->end && mp.plus == 0 && mp.ppoint == 0)
+	if (mp.zero != 0 && off >= wr->end && mp.ppoint == 0)
 		*off = '0';
 	else if (mp.pnum > wr->sz && off >= wr->off - mp.pnum + 1)
 		*off = '0';

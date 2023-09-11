@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_chrexp.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:48:17 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/07 17:53:09 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/11 11:01:20 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,22 @@ static t_uns	ft_mng_chr(t_wrtr *wr)
 
 static void	ft_wr_chr(t_wrtr *wr, char *off)
 {
-	if (off == wr->off)
-		*off = *wr->dt;
+	if (wr->rg_lf == 1)
+	{
+		if (off == wr->off)
+			*off = *wr->dt;
+		else if (wr->nd->map.zero != 0)
+			*off = '0';
+		else
+			*off = ' ';
+	}
 	else
-		*off = ' ';
+	{
+		if (off == wr->off)
+			*off = *wr->dt;
+		else
+			*off = ' ';
+	}
 }
 
 static char	*ft_mkchr(char chr)

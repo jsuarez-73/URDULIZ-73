@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_strexp_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:43:05 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/10 18:46:37 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/11 13:19:27 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ static void	ft_wr_str(t_wrtr *wr, char *off)
 	{
 		if (off >= wr->off - wr->sz + 1)
 			*off = *(wr->end_dt)--;
+		else if (wr->nd->map.zero != 0)
+			*off = '0';
 		else
 			*off = ' ';
 	}
@@ -35,9 +37,7 @@ static t_uns	ft_mng_str(t_wrtr *wr)
 	t_map	mp;
 
 	mp = wr->nd->map;
-	if (wr->d == NULL && mp.pnum < 6 && mp.ppoint != 0 && mp.fnum == 0)
-		return (0);
-	else if (mp.fnum > mp.pnum)
+	if (mp.fnum > mp.pnum)
 	{
 		if (mp.fnum > wr->sz)
 			return (mp.fnum);
@@ -61,12 +61,12 @@ static char	*ft_mkstr(t_map mp, char *str, t_uns *dlen)
 	t_uns	size;
 
 	size = 0;
-	if (str == NULL && !(mp.pnum < 6 && mp.ppoint != 0))
+	if (str == NULL)
 	{
 		str = "(null)";
-		size = 6;
+		*dlen = 6;
 	}
-	else if (mp.pnum <= *dlen && mp.ppoint != 0)
+	if (mp.pnum <= *dlen && mp.ppoint != 0)
 		size = sizeof(char) * mp.pnum;
 	else
 		size = sizeof(char) * (*dlen);

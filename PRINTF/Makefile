@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
+#    By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 11:36:09 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/09/10 18:55:21 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/09/11 09:22:23 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,7 +74,7 @@ re: fclean all
 all_exec: $(NAME_EXEC)
 
 $(NAME_EXEC): $(NAME)
-	cc -c ./tests_main/$(TEST)
+	cc -c $(TPATH)$(TEST)
 	cc -o $(NAME_EXEC) $(TEST_OBJ) $(NAME)
 
 fcleang:
@@ -84,7 +84,7 @@ fcleanx:
 	@rm -f $(NAME_EXEC)
 
 
-re_e: fcleanx all_exec exec
+re_e: fclean fcleanx all_exec exec
 
 exec: clean
 	@bash -c ./$(NAME_EXEC)
