@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_outmch.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/03 09:59:03 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/10 12:39:17 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/12 10:41:08 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	ft_outwr_helper(t_fstr *root, int *len)
 		exp = root->lm.end - root->lm.off + 1;
 		if (root->lm.off != NULL && exp > 0)
 		{
-			write(0, root->lm.off, root->lm.end - root->lm.off + 1);
+			write(1, root->lm.off, root->lm.end - root->lm.off + 1);
 			*len += root->lm.end - root->lm.off + 1;
 		}
 	}
@@ -31,7 +31,7 @@ static void	ft_outwr_helper(t_fstr *root, int *len)
 		exp = root->nd.lf.end - root->nd.lf.off + 1;
 		if (root->nd.lf.off != NULL && exp > 0)
 		{
-			write(0, root->nd.lf.off, root->nd.lf.end - root->nd.lf.off + 1);
+			write(1, root->nd.lf.off, root->nd.lf.end - root->nd.lf.off + 1);
 			*len += root->nd.lf.end - root->nd.lf.off + 1;
 		}
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_dblexp_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:45:46 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/10 18:45:40 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/12 11:54:00 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ static void	ft_dbl_vldtns(t_map mp, char *off, t_wrtr *wr, int f)
 		*off = '+';
 	else if (off == wr->off && mp.space != 0)
 		*off = ' ';
-	else if (mp.pnum > wr->sz && off <= wr->off + mp.pnum - wr->sz - f)
+	else if (mp.pnum > wr->sz && off <= wr->off + mp.pnum - wr->sz - f && !exp)
 		*off = '0';
-	else if (mp.pnum > wr->sz && off <= wr->off + mp.pnum - f)
+	else if (mp.pnum >= wr->sz && off <= wr->off + mp.pnum - f && !exp)
 		*off = *wr->off_dt++;
-	else if (mp.pnum < wr->sz && off <= wr->off + wr->sz - f && !exp)
+	else if (mp.pnum <= wr->sz && off <= wr->off + wr->sz - f && !exp)
 		*off = *wr->off_dt++;
 	else
 		*off = ' ';

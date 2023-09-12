@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:56:29 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/11 07:48:09 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/12 12:45:34 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_PRINTF_BONUS_H
 # define FT_PRINTF_BONUS_H
-# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdarg.h>
