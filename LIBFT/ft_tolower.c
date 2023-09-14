@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*Verifying left*/
+#include "libft.h"
+
 int	ft_tolower(int c)
 {
 	int	dif_alpha;

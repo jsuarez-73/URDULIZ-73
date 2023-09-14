@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*Verifying left*/
-#include "types.h"
+#include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_j n)
+int	ft_strncmp(const char *s1, const char *s2, t_size n)
 {
 	while (*s1 != '\0' && *s2 != '\0')
 	{

@@ -10,14 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*Verifying Left*/
-#include	"types.h"
+#include	"libft.h"
 
 char	*ft_strrchr(const char *s, int c)
 {
 	char	*l_found;
-	size_j	counter;
-	size_j	index;
+	t_size	counter;
+	t_size	index;
 
 	counter = 0;
 	index = 0;
@@ -31,7 +30,6 @@ char	*ft_strrchr(const char *s, int c)
 		counter++;
 		s++;
 	}
-
 	if (index != 0)
 	{
 		return (l_found + index);

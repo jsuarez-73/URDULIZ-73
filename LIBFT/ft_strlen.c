@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
+#include "libft.h"
 
-size_j	ft_strlen(const char *s)
+t_size	ft_strlen(const char *s)
 {
 	int	counter;
 

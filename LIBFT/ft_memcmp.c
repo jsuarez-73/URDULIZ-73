@@ -10,12 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*Verifying left*/
-#include	"types.h"
+#include	"libft.h"
 
-int	ft_memcmp(const void *s1, const void *s2, size_j n)
+int	ft_memcmp(const void *s1, const void *s2, t_size n)
 {
-	size_j	counter;
+	t_size	counter;
 
 	counter = 0;
 	while (counter < n)

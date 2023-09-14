@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"types.h"
+#include	"libft.h"
 
-size_j	ft_strlcat(char *dest, const char *src, size_j n)
+t_size	ft_strlcat(char *dest, const char *src, t_size n)
 {
-	size_j	counter;
-	size_j	size_free;
-	size_j	size_dest;
+	t_size	counter;
+	t_size	size_free;
+	t_size	size_dest;
 
 	counter = 0;
 	size_dest = ft_strlen(dest);

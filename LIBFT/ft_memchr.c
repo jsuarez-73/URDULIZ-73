@@ -10,13 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*Verifying left, put on eye in (unsigned char) c*/
+#include	"libft.h"
 
-#include	"types.h"
-
-void	*ft_memchr(const void *s, int c, size_j n)
+void	*ft_memchr(const void *s, int c, t_size n)
 {
-	size_j	counter;
+	t_size	counter;
 	void	*ptr_null;
 
 	counter = 0;

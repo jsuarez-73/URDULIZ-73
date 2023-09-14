@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
+#include "libft.h"
 
-void	*ft_memset(void *s, int c, size_j n)
+void	*ft_memset(void *s, int c, t_size n)
 {
-	size_j	counter;
+	t_size	counter;
 
 	counter = 0;
 	while (counter < n)

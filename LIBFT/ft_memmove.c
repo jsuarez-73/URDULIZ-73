@@ -10,12 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*Verifying Left*/
-#include "types.h"
+#include "libft.h"
 
 void	*ft_memmove(void *dest, const void *src, unsigned int n)
 {	
-	size_j	counter;
+	t_size	counter;
 
 	counter = 0;
 	if (dest > src)

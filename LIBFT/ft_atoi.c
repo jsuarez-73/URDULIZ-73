@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
-/*Verified*/
+#include "libft.h"
+
 int	ft_atoi(const char *s1)
 {	
-	size_j	counter;
+	t_size	counter;
 	char	*offset;
 	int		sign;
 
@@ -43,7 +43,7 @@ int	ft_atoi(const char *s1)
 
 static int	ft_makeint(const char *offset, const char *endup)
 {	
-	size_j	counter;
+	t_size	counter;
 	int		number;
 
 	counter = 1;

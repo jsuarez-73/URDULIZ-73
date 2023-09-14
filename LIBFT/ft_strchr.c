@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*Verifying left.*/
+#include "libft.h"
+
 char	*ft_strchr(const char *s, int c)
 {	
 	char	*f_found;

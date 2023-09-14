@@ -10,10 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*Revisar*/
-#include "types.h"
+#include "libft.h"
 
-void	ft_bzero(void *s, size_j n)
+void	ft_bzero(void *s, t_size n)
 {
 	int	counter;
 

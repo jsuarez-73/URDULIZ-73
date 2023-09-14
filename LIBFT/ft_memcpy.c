@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
+#include "libft.h"
 
-void	*ft_memcpy(void *restrict dest, const void *restrict src, size_j n)
+void	*ft_memcpy(void *restrict dest, const void *restrict src, t_size n)
 {
 	while (n--)
 	{

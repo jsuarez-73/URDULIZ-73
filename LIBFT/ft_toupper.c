@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*Verifiying left*/
+#include "libft.h"
+
 int	ft_toupper(int c)
 {	
 	int	dif_alpha;

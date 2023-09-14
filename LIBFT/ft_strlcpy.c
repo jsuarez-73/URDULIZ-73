@@ -10,12 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "types.h"
-/*The programmer must be aware that dest memory area
-should be more than n bytes intended to copy*/
-size_j	ft_strlcpy(char *dest, const char *src, size_j n)
+#include "libft.h"
+
+t_size	ft_strlcpy(char *dest, const char *src, t_size n)
 {
-	size_j	counter;
+	t_size	counter;
 
 	counter = 0;
 	while (counter < n && *src != '\0')
