@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 20:15:12 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/06/30 14:06:55 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/12 19:53:02 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	ft_free_mng(t_gnl *lst, t_gnl *gl, int buf_sz)
 
 int	ft_guard(char **ln, t_gnl **gl, t_gnl *ls, int fd)
 {
-	(*gl)->b_rd = read(fd, (*gl)->buf, BUFFERSIZE);
+	(*gl)->b_rd = read(fd, (*gl)->buf, BUFFER_SIZE);
 	if ((*gl)->b_rd > 0)
 	{
 		(*gl)->s_buf = (*gl)->buf;
@@ -51,14 +51,14 @@ int	ft_guard(char **ln, t_gnl **gl, t_gnl *ls, int fd)
 	}
 	else if ((*gl)->b_rd == 0)
 	{
-		ft_free_mng(ls, *gl, BUFFERSIZE);
+		ft_free_mng(ls, *gl, BUFFER_SIZE);
 		if (*ln != NULL)
 			return (2);
 		return (0);
 	}
 	else
 	{
-		ft_free_mng(ls, *gl, BUFFERSIZE);
+		ft_free_mng(ls, *gl, BUFFER_SIZE);
 		return (0);
 	}
 	return (1);
@@ -71,9 +71,9 @@ static int	ft_cp_mng(char **ln, t_gnl **gl, unsigned int *b_ln)
 
 	counter = 0;
 	tmp = (char *)malloc(((*gl)->e_bf - (*gl)->s_buf) + *b_ln + 1);
-	*(tmp + ((*gl)->e_bf - (*gl)->s_buf) + *b_ln) = '\0';
 	if (tmp == NULL)
 		return (0);
+	*(tmp + ((*gl)->e_bf - (*gl)->s_buf) + *b_ln) = '\0';
 	while (counter < *b_ln)
 	{
 		*(tmp + counter) = *(*ln + counter);
