@@ -14,14 +14,14 @@
 
 t_size	ft_strlcpy(char *dest, const char *src, t_size n)
 {
-	t_size	counter;
+	t_size	src_len;
 
-	counter = 0;
-	while (counter < n && *src != '\0')
+	src_len = ft_strlen(src);
+	if (n-- != 0)
 	{
-		*dest = *src;
-		dest++;
-		src++;
+		while (*src != '\0' && n--)
+			*dest++ = *src++;
+		*dest = '\0';
 	}
-	return (counter);
+	return (src_len);
 }

@@ -14,13 +14,6 @@
 
 void	ft_bzero(void *s, t_size n)
 {
-	int	counter;
-
-	counter = 0;
-	while (counter < n)
-	{
-		*(int *)s = '\0';
-		counter++;
-		s++;
-	}
+	while (n--)
+		*(char *)s++ = '\0';
 }

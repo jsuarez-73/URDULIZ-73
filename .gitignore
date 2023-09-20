@@ -1,0 +1,6 @@
+#Just Ignoring You
+.vscode/**
+*.gdb
+*.jsb
+*.a
+

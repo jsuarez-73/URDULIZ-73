@@ -14,55 +14,21 @@
 
 int	ft_atoi(const char *s1)
 {	
-	t_size	counter;
-	char	*offset;
-	int		sign;
+	int		num;
+	short	sgn;
 
-	sign = 0;
-	counter = 0;
-	if (*s1 == '+' || *s1 == '-')
-		sign = 1;
-	while (*s1 != '\0')
+	num = 0;
+	sgn = 1;
+	while (*s1 == ' ' || *s1 == '\n' || *s1 == '\f' || *s1 == '\t'
+		|| *s1 == '\v' || *s1 == '\r')
+		s1++;
+	if (*s1 == '-' || *s1 == '+')
 	{
-		if (ft_isdigit(*s1) == 0 && sign == 0)
-		{
-			if (counter == 0)
-				return (0);
-			return (ft_makeint(offset, s1 - 1));
-		}
-		else
-		{
-			if (counter == 0)
-				offset = (char *) s1;
-				sign = 0;
-			counter++;
-		}
+		if (*s1 == '-')
+			sgn = -1;
 		s1++;
 	}
-}
-
-static int	ft_makeint(const char *offset, const char *endup)
-{	
-	t_size	counter;
-	int		number;
-
-	counter = 1;
-	number = 0;
-	while (endup >= offset)
-	{
-		if (*endup != '+')
-		{
-			if (*endup == '-')
-			{
-				number = ~number + 1;
-			}
-			else
-			{
-				number += counter * (*endup - '0');
-				counter *= 10;
-			}
-		}
-		endup--;
-	}
-	return (number);
+	while (ft_isdigit((int) *s1))
+		num = (num * 10) + (*s1++ - '0');
+	return (num * sgn);
 }

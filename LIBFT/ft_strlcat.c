@@ -14,21 +14,17 @@
 
 t_size	ft_strlcat(char *dest, const char *src, t_size n)
 {
-	t_size	counter;
-	t_size	size_free;
 	t_size	size_dest;
+	char	*tmp;
 
-	counter = 0;
 	size_dest = ft_strlen(dest);
-	size_free = n - size_dest;
+	if (n <= size_dest)
+		return (n + ft_strlen(src));
+	tmp = dest;
 	dest += size_dest;
-	while (counter < size_free)
-	{
-		*dest = *src;
-		dest++;
-		src++;
-		counter++;
-	}
+	n--;
+	while (*src != '\0' && n-- > size_dest)
+		*dest++ = *src++;
 	*dest = '\0';
-	return (counter);
+	return (ft_strlen(src) + ft_strlen(tmp));
 }

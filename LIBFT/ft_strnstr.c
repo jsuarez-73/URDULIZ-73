@@ -14,29 +14,26 @@
 
 char	*ft_strnstr(const char *s1, const char *s2, t_size n)
 {
-	t_size	c;
+	t_size	h;
+	t_size	j;
 
-	c = 1;
-	while (*s1 != '\0')
+	h = 0;
+	if (*s2 == '\0')
+		return ((char *)s1);
+	else if (ft_strlen(s1) < ft_strlen(s2))
+		return (NULL);
+	while (*(s1 + h) != '\0')
 	{
-		if (*s1 == *s2)
+		j = 0;
+		while (*(s1 + h + j) == *(s2 + j) && (h + j) < n)
 		{
-			while (c <= n)
-			{
-				if (*(s2 + c) != *(s1 + c) && c != n && *(s2 + c) != '\0')
-				{
-					c++;
-					break ;
-				}
-				else
-				{
-					if (c == n)
-						return (*s1);
-				}
-				c ++;
-			}
+			if (*(s1 + h + j) == '\0' && *(s1 + j) == '\0')
+				return ((char *)(s1 + h));
+			j++;
 		}
-		s1 += c;
-		c = 1;
+		if (*(s2 + j) == '\0' || *(s1 + h + j) == '\0')
+			return ((char *)(s1 + h));
+		h++;
 	}
+	return (NULL);
 }
