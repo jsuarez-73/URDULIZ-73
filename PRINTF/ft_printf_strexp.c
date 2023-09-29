@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_strexp.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:43:05 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/11 10:57:37 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:10:10 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,12 @@ int	ft_str_exp(t_nd *nd, char *str)
 	ft_mstr = ft_mng_str;
 	ft_init_wr(&wr);
 	wr.nd = nd;
-	wr.sz = ft_strlen(str);
+	wr.sz = ft_strlen_p(str);
 	wr.d = str;
 	wr.dt = ft_mkstr(nd->map, str, &wr.sz);
 	if (wr.dt == NULL)
 		return (0);
-	if (ft_mem_mng(&wr, ft_mstr) != 0)
+	if (ft_mem_mng_p(&wr, ft_mstr) != 0)
 		ft_wr_mch(&wr, ft_str);
 	if (wr.dt != NULL)
 		free(wr.dt);

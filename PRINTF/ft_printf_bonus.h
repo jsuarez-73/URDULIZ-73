@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 21:56:29 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/12 12:45:34 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:10:10 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,9 @@ int				ft_per_exp(t_nd *nd);
 void			ft_init_wr(t_wrtr *wr);
 
 /*Utils functions*/
-int				ft_mem_mng(t_wrtr *wr, t_uns (*m)(t_wrtr *));
+int				ft_mem_mng_p(t_wrtr *wr, t_uns (*m)(t_wrtr *));
 char			*ft_mem_asgn(char **tmp, char **dt, long num, t_uns *counter);
-unsigned int	ft_strlen(char *str);
+unsigned int	ft_strlen_p(char *str);
 char			*ft_mkhex(unsigned long hex, t_caphex capital);
 void			ft_hash_vldtn(t_map mp, char *off, t_wrtr *wr, t_caphex cp);
 void			ft_hex_vldtn(char *off, t_wrtr *wr, int f, t_caphex capital);

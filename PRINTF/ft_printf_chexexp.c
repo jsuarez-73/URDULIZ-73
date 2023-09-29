@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:55:40 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/10 18:11:21 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:10:10 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ int	ft_chex_exp(t_nd *nd, unsigned int hx)
 	wr.d = &hx;
 	if (wr.dt == NULL)
 		return (0);
-	wr.sz = ft_strlen(wr.dt);
-	if (ft_mem_mng(&wr, ft_mchex) != 0)
+	wr.sz = ft_strlen_p(wr.dt);
+	if (ft_mem_mng_p(&wr, ft_mchex) != 0)
 		ft_wr_mch(&wr, ft_chex);
 	free(wr.dt);
 	return (1);

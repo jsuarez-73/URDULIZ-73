@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_perexp.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:56:59 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/11 10:42:52 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:10:10 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_per_exp(t_nd *nd)
 	*wr.dt = '%';
 	wr.sz = 1;
 	wr.d = NULL;
-	if (ft_mem_mng(&wr, ft_mper) != 0)
+	if (ft_mem_mng_p(&wr, ft_mper) != 0)
 		ft_wr_mch(&wr, ft_per);
 	free(wr.dt);
 	return (1);

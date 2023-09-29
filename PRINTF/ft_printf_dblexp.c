@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_dblexp.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/02 20:45:46 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/12 11:53:49 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:10:10 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,8 @@ int	ft_dbl_exp(t_nd *nd, int dbl)
 	wr.dt = ft_mkdbl(dbl);
 	if (wr.dt == NULL)
 		return (0);
-	wr.sz = ft_strlen(wr.dt);
-	if (ft_mem_mng(&wr, ft_mdbl) != 0)
+	wr.sz = ft_strlen_p(wr.dt);
+	if (ft_mem_mng_p(&wr, ft_mdbl) != 0)
 		ft_wr_mch(&wr, ft_dbl);
 	free(wr.dt);
 	return (1);

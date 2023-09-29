@@ -6,13 +6,13 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 16:55:45 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/11 07:48:09 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/09/21 20:10:10 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf_bonus.h"
 
-unsigned int	ft_strlen(char *str)
+unsigned int	ft_strlen_p(char *str)
 {
 	unsigned int	counter;
 
@@ -52,7 +52,7 @@ char	*ft_mem_asgn(char **tmp, char **dt, long num, t_uns *counter)
 	return (*dt);
 }
 
-int	ft_mem_mng(t_wrtr *wr, t_uns (*m)(t_wrtr *))
+int	ft_mem_mng_p(t_wrtr *wr, t_uns (*m)(t_wrtr *))
 {
 	t_uns	size;
 	char	*m_mng;
