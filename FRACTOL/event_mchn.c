@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:48:50 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/29 16:58:49 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/01 17:05:56 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ static int	ft_btn_down(int	btn, int x, int y, t_xsrv *sf)
 static int ft_key_down(int key, t_xsrv *sf)
 {
 	if (key == ESC)
+	{
+		if (sf->colors)
+			free(sf->colors);
 		mlx_loop_end(sf->mlx);
+	}
 	else if (key == ARR_UP)
 		sf->ty += 0.1 * sf->my;
 	else if (key == ARR_DW)
@@ -54,7 +58,8 @@ static int ft_key_down(int key, t_xsrv *sf)
 
 static int ft_cross_down(t_xsrv *sf)
 {
-	//Debemos agregarle las respectivas restricciones
+	if (sf->colors)
+		free(sf->colors);
 	mlx_destroy_image(sf->mlx, sf->img);
 	mlx_destroy_window(sf->mlx, sf->win);
 	mlx_loop_end(sf->mlx);

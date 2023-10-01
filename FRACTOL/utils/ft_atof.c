@@ -5,43 +5,38 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/29 20:48:02 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/29 20:52:39 by jsuarez-         ###   ########.fr       */
+/*   Created: 2023/10/01 15:01:44 by jsuarez-          #+#    #+#             */
+/*   Updated: 2023/10/01 15:20:55 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
-static double	ft_atof(char *str)
+double	ft_atof(char *s)
 {
-	short	pnt;
-	double	num;
-	int		pow;
+	short   pnt;
+	double  num;
+	t_size  pow;
+	short   sgn;
 
-	if (str == NULL || *str == '\0' || !ft_isdigit(*str))
+	if (s == NULL || *s == '\0' || !(*s == '-' || ft_isdigit(*s) || *s == '.'))
 		return (0);
 	num = 0;
 	pnt = 0;
 	pow = 10;
-	while (*str != '\0' && pnt <= 1)
+	sgn = 1 - 2 * (*s == '-' && s++);
+	while (*s != '\0' && pnt <= 1 && (ft_isdigit(*s) || *s == '.'))
 	{
-		if (ft_isdigit(*str) && pnt < 1)
-			num = 10 * num + (*str - '0');
-		else if (ft_isdigit(*str) && pnt == 1)
+		if (ft_isdigit(*s) && pnt < 1)
+			num = 10 * num + (*s - '0');
+		else if (ft_isdigit(*s) && pnt == 1)
 		{
-			num += (double)(*str - '0') / (double)pow;
+			num += (double)(*s - '0') / pow;
 			pow *= 10;
 		}
-		else if (*str == '.')
+		else if (*s == '.')
 			pnt++;
-		str++;
+		s++;
 	}
-	return (num);
-}
-//Primera prueba superada
-int	main(void)
-{
-	printf("D:\t2345.3443: %f\n", ft_atof("a2345.3443"));
-	return (0);
+	return (num * sgn);
 }

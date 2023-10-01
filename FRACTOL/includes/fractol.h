@@ -6,13 +6,14 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:54:09 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/29 19:23:04 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/01 16:42:12 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FRACTOL_H
 # define FRACTOL_H
 # include "libft.h"
+# include "limits.h"
 # include <fcntl.h>
 	//int open(const char *pathname, int flags, mode_t mode)
 # include <stdio.h>
@@ -51,7 +52,7 @@ typedef struct s_srv
 		int		bpp; // bits requeridos para representar un pixel
 		int		ln_len; //longitud de la linea de una imagen
 		int		endian; //big-endian o little-endian
-		t_uns	iter;//Almacena la cantidad de iteraciones que se desean
+		int		iter;//Almacena la cantidad de iteraciones que se desean
 		int		*colors;//ALmacena la paleta de colores a utilziar.
 		int		w;//Ancho inicial de la imagen
 		int		h;//Altura inicial de la imagen.
@@ -106,33 +107,17 @@ typedef enum  e_kmap
 	SCROLL_DW = 5
 }	t_kmap;
 
-// typedef enum e_color
-// {
-// 	RED = 0xC0392B,
-// 	RED_L = 0xE74C3C,
-// 	PURPLE = 0x7D3C98,
-// 	PURPLE_L = 0x9B59B6,
-// 	BLUE = 0x2980B9,
-// 	BLUE_L = 0x3498DB,
-// 	GREEN_DL = 0x1ABC9C,
-// 	GREEN_UL = 0x16A085,
-// 	GREEN = 0X27AE60,
-// 	GREEN_L = 0x2ECC71,
-// 	YELLOW = 0xF1C40F,
-// 	YELLOW_L = 0xF39C12,
-// 	ORANGE_L = 0xE67E22,
-// 	ORANGE = 0xD35400,
-// 	WHITE = 0xECF0F1,
-// 	GREY = 0x7F8C8D,
-// 	BLACK = 0x17202A
-// }	t_color;
-void	ft_get_color_scheme(t_xsrv *sf);
+int		ft_get_color_scheme(t_xsrv *sf);
 void	ft_hook_init(t_xsrv *sf);
 void	ft_render(t_xsrv *sf);
-void	ft_init(t_xsrv *sf);
+int		ft_init(t_xsrv *sf);
 int		ft_mondelbrot(t_xsrv *sf, double xp, double yp);
 int		ft_julia(t_xsrv *sf, double xp, double yp);
 void	ft_attr_mngr(t_xsrv *sf, int argc, char **argv);
 int		ft_cubic(t_xsrv *sf, double xp, double yp);
+
+//Utils
+double	ft_atof(char *s);
+int		ft_help_msg(void);
 
 #endif

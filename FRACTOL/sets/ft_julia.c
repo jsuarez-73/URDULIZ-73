@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 16:55:09 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/29 16:59:57 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/01 13:03:30 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_julia(t_xsrv *sf, double xp, double yp)
 {
-	t_uns	cntr;
+	int		cntr;
 	double	zx;
 	double	zy;
 	double	zx_a;
@@ -29,5 +29,9 @@ int	ft_julia(t_xsrv *sf, double xp, double yp)
 		zx = zx * zx - zy * zy + sf->cx;
 		zy = 2 * zx_a * zy + sf->cy;
 	}
-	return (cntr * sf->crange / sf->iter);
+	cntr = cntr * sf->crange / (sf->iter + 1);
+	if (cntr > sf->crange)
+		return (sf->crange);
+	else
+		return (cntr);
 }
