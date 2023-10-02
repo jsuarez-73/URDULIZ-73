@@ -113,8 +113,7 @@ int		ft_guard(char **ln, t_gnl **gl, t_gnl *ls, int fd);
 int		ft_mem_mng(char **ln, t_gnl **gl, unsigned int *b_ln);
 
 //PRINTF
-
-typedef unsigned int	t_uns;
+typedef unsigned int		t_uns;
 
 typedef enum e_caphex
 {
@@ -182,41 +181,41 @@ typedef struct s_fstr
 }	t_fstr;
 
 /*Worker functions*/
-int				ft_printf(const char *fstr, ...);
-int				ft_tree_drv(char *fstr, t_fstr *root);
-void			ft_nd_drv(t_fstr *root);
-int				ft_parser(t_fstr *root);
-void			ft_get_maps(t_map *map, char *off, char *end, t_ndtype type);
-void			ft_init_map(t_map *map);
-int				ft_exp_arg(va_list list, t_fstr *root);
-int				ft_outmch(t_fstr *root);
-int				ft_freemch(t_fstr *root);
-char			*ft_matcher(char *str, char *set);
+int		ft_printf(const char *fstr, ...);
+int		ft_tree_drv(char *fstr, t_fstr *root);
+void	ft_nd_drv(t_fstr *root);
+int		ft_parser(t_fstr *root);
+void	ft_get_maps(t_map *map, char *off, char *end, t_ndtype type);
+void	ft_init_map(t_map *map);
+int		ft_exp_arg(va_list list, t_fstr *root);
+int		ft_outmch(t_fstr *root);
+int		ft_freemch(t_fstr *root);
+char	*ft_matcher(char *str, char *set);
 
 /*Expander functions*/
-int				ft_dbl_exp(t_nd *nd, int dbl);
-int				ft_str_exp(t_nd *nd, char *str);
-int				ft_chr_exp(t_nd *nd, unsigned char chr);
-int				ft_hex_exp(t_nd *nd, unsigned int hex);
-int				ft_usgn_exp(t_nd *nd, unsigned int usgn);;
-int				ft_chex_exp(t_nd *nd, unsigned int hx);
-int				ft_ptr_exp(t_nd *nd, void *ptr);
-int				ft_per_exp(t_nd *nd);
-void			ft_init_wr(t_wrtr *wr);
+int		ft_dbl_exp(t_nd *nd, int dbl);
+int		ft_str_exp(t_nd *nd, char *str);
+int		ft_chr_exp(t_nd *nd, unsigned char chr);
+int		ft_hex_exp(t_nd *nd, unsigned int hex);
+int		ft_usgn_exp(t_nd *nd, unsigned int usgn);;
+int		ft_chex_exp(t_nd *nd, unsigned int hx);
+int		ft_ptr_exp(t_nd *nd, void *ptr);
+int		ft_per_exp(t_nd *nd);
+void	ft_init_wr(t_wrtr *wr);
 
 /*Utils functions*/
-int				ft_mem_mng_p(t_wrtr *wr, t_uns (*m)(t_wrtr *));
-char			*ft_mem_asgn(char **tmp, char **dt, long num, t_uns *counter);
-unsigned int	ft_strlen_p(char *str);
-char			*ft_mkhex(unsigned long hex, t_caphex capital);
-void			ft_hash_vldtn(t_map mp, char *off, t_wrtr *wr, t_caphex cp);
-void			ft_hex_vldtn(char *off, t_wrtr *wr, int f, t_caphex capital);
-t_uns			ft_mng_hex(t_wrtr *wr);
-char			*ft_mkdbl(t_uns n);
+int		ft_mem_mng_p(t_wrtr *wr, t_uns (*m)(t_wrtr *));
+char	*ft_mem_asgn(char **tmp, char **dt, long num, t_uns *counter);
+t_uns	ft_strlen_p(char *str);
+char	*ft_mkhex(unsigned long hex, t_caphex capital);
+void	ft_hash_vldtn(t_map mp, char *off, t_wrtr *wr, t_caphex cp);
+void	ft_hex_vldtn(char *off, t_wrtr *wr, int f, t_caphex capital);
+t_uns	ft_mng_hex(t_wrtr *wr);
+char	*ft_mkdbl(t_uns n);
 
 /*Writer Machine functions*/
-void			ft_wr_mch(t_wrtr *wr, void (*f)(t_wrtr *, char *));
-void			ft_rg_lf(t_wrtr *wr, void (*f)(t_wrtr *, char *));
-void			ft_lf_rg(t_wrtr *wr, void (*f)(t_wrtr *, char *));
+void	ft_wr_mch(t_wrtr *wr, void (*f)(t_wrtr *, char *));
+void	ft_rg_lf(t_wrtr *wr, void (*f)(t_wrtr *, char *));
+void	ft_lf_rg(t_wrtr *wr, void (*f)(t_wrtr *, char *));
 
 #endif

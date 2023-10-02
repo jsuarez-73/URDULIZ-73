@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_help_msg.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:03:22 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/01 16:26:54 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/02 08:12:03 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int	ft_help_msg(void)
 	ft_printf("%s\n\t%s", "NAME", "fractol - Generate your own Julia,");
 	ft_printf("Mandelbrot or cubic set\n\n");
 	ft_printf("%s\n\t%s\n", "SINOPSIS", "fractol <fractal> [-cr=int],");
-	ft_printf("\t%s\n\n","fractol Julia [-cr=int] [-cx=double] [-cy=double]");
-	ft_printf("%s\n\t%s", "DESCRIPTION", "Generate the three possibles"); 
+	ft_printf("\t%s\n\n", "fractol Julia [-cr=int] [-cx=double] [-cy=double]");
+	ft_printf("%s\n\t%s", "DESCRIPTION", "Generate the three possibles");
 	ft_printf(" fractal (Julia, Mandelbrot or Cubic)\n\n");
-	ft_printf("%s\n\t%s", "OPTIONS", "-cx, (axis-coord)\n\t\tAllow change"); 
+	ft_printf("%s\n\t%s", "OPTIONS", "-cx, (axis-coord)\n\t\tAllow change");
 	ft_printf(" the initial x-coordinate in Julia\n");
 	ft_printf("\t%s", "-cy, (ord-coord)\n\t\tAllow change the initial");
 	ft_printf(" y-coordinate in Julia\n");

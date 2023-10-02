@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_mchn.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:52:00 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/01 16:55:21 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/02 08:13:53 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	my_mlx_pixel_put(t_xsrv *sf, int x, int y, int color)
 	char	*dst;
 
 	dst = sf->off + (y * sf->ln_len + x * (sf->bpp / 8));
-	*(unsigned int*)dst = color;
+	*(unsigned int *)dst = color;
 }
 
 static int	ft_fractal_chosen(t_xsrv *sf, double xp, double yp)

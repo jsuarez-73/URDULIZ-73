@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atof.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:01:44 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/01 15:20:55 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/02 08:06:57 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 double	ft_atof(char *s)
 {
-	short   pnt;
-	double  num;
-	t_size  pow;
-	short   sgn;
+	short	pnt;
+	double	num;
+	t_size	pow;
+	short	sgn;
 
 	if (s == NULL || *s == '\0' || !(*s == '-' || ft_isdigit(*s) || *s == '.'))
 		return (0);

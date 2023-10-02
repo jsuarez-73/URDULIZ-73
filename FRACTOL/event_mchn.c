@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   event_mchn.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:48:50 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/01 17:05:56 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/02 08:12:45 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static int	ft_btn_down(int	btn, int x, int y, t_xsrv *sf)
+static int	ft_btn_down(int btn, int x, int y, t_xsrv *sf)
 {
 	if (btn == SCROLL_UP)
 	{
@@ -34,7 +34,7 @@ static int	ft_btn_down(int	btn, int x, int y, t_xsrv *sf)
 	return (1);
 }
 
-static int ft_key_down(int key, t_xsrv *sf)
+static int	ft_key_down(int key, t_xsrv *sf)
 {
 	if (key == ESC)
 	{
@@ -56,7 +56,7 @@ static int ft_key_down(int key, t_xsrv *sf)
 	return (1);
 }
 
-static int ft_cross_down(t_xsrv *sf)
+static int	ft_cross_down(t_xsrv *sf)
 {
 	if (sf->colors)
 		free(sf->colors);

@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
+#    By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/21 17:45:11 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/10/01 15:29:54 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/10/02 08:22:55 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CFLAGS = -Wall -Wextra -Werror
 CC = cc
-NAME = fractol.jsb
+NAME = fractol
 SRCS = fractol.c\
 		color_scheme.c\
 		event_mchn.c\
@@ -39,10 +39,16 @@ OBJ_UTILS = $(SRCS_UTILS:%.c=%.o)
 #with the libraries and header files.
 #The other way it was needed the object files created in compilation time so
 #it was easier creating the libraries and just attaching them.
+# LINUX COMPILATION
+# $(NAME):
+# 	$(CC) -g -c $(CFLAGS) -Iincludes -Imlx_linux $(SRCS) $(PATH_UTILS) $(PATH_SETS)
+# 	$(CC) $(OBJ) $(OBJ_SETS) $(OBJ_UTILS) $(LIBS)libmlx_Linux.a $(LIBS)libmlx.a \
+# 		$(LIBS)libft.a -lXext -lX11 -lm -lz -o $(NAME)
+# MAC COMPILATION
 $(NAME):
-	$(CC) -g -c $(CFLAGS) -Iincludes -Imlx_linux $(SRCS) $(PATH_UTILS) $(PATH_SETS)
-	$(CC) $(OBJ) $(OBJ_SETS) $(OBJ_UTILS) $(LIBS)libmlx_Linux.a $(LIBS)libmlx.a \
-		$(LIBS)libft.a -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) -g -c $(CFLAGS) -Iincludes -Imlx_mac $(SRCS) $(PATH_SRCS)
+	$(CC) $(OBJ) $(OBJ_SETS) $(LIBS)libmlx_mac.a $(LIBS)libft_mac.a \
+		-framework OpenGL -framework AppKit -o $(NAME)
 
 all: $(NAME)
 

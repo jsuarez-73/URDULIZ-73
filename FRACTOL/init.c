@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 13:37:49 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/01 17:24:18 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/02 08:13:13 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,5 @@ int	ft_init(t_xsrv *sf)
 	sf->ty = 0;
 	sf->colors = NULL;
 	ft_set_attr(sf);
-	// sf->cx = 0.285;
-	// sf->cy = -0.01;
-	return  (1);
+	return (1);
 }
