@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 17:54:09 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/02 08:01:14 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/02 17:13:02 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,40 @@
 # include "mlx.h"
 # define DEF_WIDTH 900
 # define DEF_HEIGHT 900
+# ifdef MAC
+
+typedef enum e_kmap
+{
+	ESC = 53,
+	ARR_UP = 126,
+	ARR_DW = 125,
+	ARR_LF = 123,
+	ARR_RG = 124,
+	CLICK_LF = 1,
+	CLICK_RG = 2,
+	CLICK_MD = 3,
+	SCROLL_UP = 5,
+	SCROLL_DW = 4
+}	t_kmap;
+
+# endif
+# ifdef LINUX
+
+typedef enum  e_kmap
+{
+	ESC = 65307,
+	ARR_UP = 65362,
+	ARR_DW = 65364,
+	ARR_LF = 65361,
+	ARR_RG = 65363,
+	CLICK_LF = 1,
+	CLICK_RG = 2,
+	CLICK_MD = 3,
+	SCROLL_UP = 4,
+	SCROLL_DW = 5
+}	t_kmap;
+
+# endif
 
 typedef struct s_srv
 {
@@ -71,36 +105,6 @@ typedef enum e_msk
 	BT5_MSK = (1L << 12),
 	EXP_MSK = (1L << 15)
 }	t_msk;
-
-//MAC
-typedef enum e_kmap
-{
-	ESC = 53,
-	ARR_UP = 126,
-	ARR_DW = 125,
-	ARR_LF = 123,
-	ARR_RG = 124,
-	CLICK_LF = 1,
-	CLICK_RG = 2,
-	CLICK_MD = 3,
-	SCROLL_UP = 5,
-	SCROLL_DW = 4
-}	t_kmap;
-
-//LINUX
-// typedef enum  e_kmap
-// {
-// 	ESC = 65307,
-// 	ARR_UP = 65362,
-// 	ARR_DW = 65364,
-// 	ARR_LF = 65361,
-// 	ARR_RG = 65363,
-// 	CLICK_LF = 1,
-// 	CLICK_RG = 2,
-// 	CLICK_MD = 3,
-// 	SCROLL_UP = 4,
-// 	SCROLL_DW = 5
-// }	t_kmap;
 
 int		ft_get_color_scheme(t_xsrv *sf);
 void	ft_hook_init(t_xsrv *sf);
