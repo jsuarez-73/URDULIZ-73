@@ -1,9 +1,8 @@
-
 CFLAGS = -Wall -Werror -Wextra
 NAME = libft.a
 NAME_GDB = libft.gdb
-SRCS = ft_atoi.c\
-		ft_bzero.c\
+SRCS = ft_bzero.c\
+		ft_atoi.c\
 		ft_isalnum.c\
 		ft_isalpha.c\
 		ft_isascii.c\
@@ -46,17 +45,40 @@ SRCS_BONUS = ft_lstnew.c\
 				ft_lstclear.c\
 				ft_lstiter.c
 
-OBJS = $(SRCS:%.c=%.o)
+SRCS_PRINTF = ft_printf.c\
+				ft_printf_nddrv.c\
+				ft_printf_treedrv.c\
+				ft_printf_parser.c\
+				ft_printf_parser_utils.c\
+				ft_printf_xpndr.c\
+				ft_printf_xpndr_utils.c\
+				ft_printf_outmch.c\
+				ft_printf_strexp.c\
+				ft_printf_dblexp.c\
+				ft_printf_chrexp.c\
+				ft_printf_hexexp.c\
+				ft_printf_chexexp.c\
+				ft_printf_usgnexp.c\
+				ft_printf_ptrexp.c\
+				ft_printf_perexp.c\
+				ft_printf_wrmch.c
+
+SRCS_GNL = get_next_line.c\
+			get_next_line_utils.c
+PATH_PRINTF = $(foreach SRCS_PRINTF, $(SRCS_PRINTF), $(wildcard ../PRINTF/$(SRCS_PRINTF)));
+PATH_GNL = ../GNL/get_next_line_utils.c ../GNL/get_next_line.c
+OBJS = $(SRCS:%.c=%.o) $(SRCS_PRINTF:%.c=%.o) $(SRCS_GNL:%.c=%.o)
 OBJS_BONUS = $(SRCS_BONUS:%.c=%.o)
 
 all : $(NAME)
 
 $(NAME):
-	cc $(CFLAGS) -c $(SRCS)
-	ar rcs $(NAME) $(OBJS)
+	cc $(CFLAGS) -c -I../PRINTF -I../GNL $(SRCS) $(SRCS_BONUS) $(PATH_GNL) \
+		$(PATH_PRINTF)
+	ar -rcs $(NAME) $(OBJS) $(OBJS_BONUS)
 
 clean:
-	rm -rf $(OBJS)
+	rm -rf $(OBJS) $(OBJS_BONUS)
 
 fclean:
 	rm -rf $(NAME)
