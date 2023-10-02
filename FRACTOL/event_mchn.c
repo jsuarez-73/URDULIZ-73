@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/25 19:48:50 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/02 08:12:45 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/02 09:47:12 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static int	ft_key_down(int key, t_xsrv *sf)
 	{
 		if (sf->colors)
 			free(sf->colors);
-		mlx_loop_end(sf->mlx);
+		mlx_destroy_window(sf->mlx, sf->win);
+		exit(0);
 	}
 	else if (key == ARR_UP)
 		sf->ty += 0.1 * sf->my;
@@ -62,8 +63,7 @@ static int	ft_cross_down(t_xsrv *sf)
 		free(sf->colors);
 	mlx_destroy_image(sf->mlx, sf->img);
 	mlx_destroy_window(sf->mlx, sf->win);
-	mlx_loop_end(sf->mlx);
-	return (1);
+	exit(0);
 }
 
 void	ft_hook_init(t_xsrv *sf)

@@ -6,11 +6,11 @@
 /*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 15:03:22 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/02 08:12:03 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/02 09:13:57 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "libft.h"
 
 int	ft_help_msg(void)
 {

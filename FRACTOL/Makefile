@@ -6,7 +6,7 @@
 #    By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/21 17:45:11 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/10/02 08:22:55 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/10/02 09:14:48 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,12 +42,12 @@ OBJ_UTILS = $(SRCS_UTILS:%.c=%.o)
 # LINUX COMPILATION
 # $(NAME):
 # 	$(CC) -g -c $(CFLAGS) -Iincludes -Imlx_linux $(SRCS) $(PATH_UTILS) $(PATH_SETS)
-# 	$(CC) $(OBJ) $(OBJ_SETS) $(OBJ_UTILS) $(LIBS)libmlx_Linux.a $(LIBS)libmlx.a \
+# 	$(CC) $(OBJ) $(OBJ_SETS) $(OBJ_UTILS) $(LIBS)libmlx_Linux.a $(LIBS)libmlx.a
 # 		$(LIBS)libft.a -lXext -lX11 -lm -lz -o $(NAME)
 # MAC COMPILATION
 $(NAME):
-	$(CC) -g -c $(CFLAGS) -Iincludes -Imlx_mac $(SRCS) $(PATH_SRCS)
-	$(CC) $(OBJ) $(OBJ_SETS) $(LIBS)libmlx_mac.a $(LIBS)libft_mac.a \
+	$(CC) -g -c $(CFLAGS) -Iincludes -Imlx_mac $(SRCS) $(PATH_UTILS) $(PATH_SETS)
+	$(CC) $(OBJ) $(OBJ_SETS) $(OBJ_UTILS) $(LIBS)libmlx_mac.a $(LIBS)libft_mac.a \
 		-framework OpenGL -framework AppKit -o $(NAME)
 
 all: $(NAME)

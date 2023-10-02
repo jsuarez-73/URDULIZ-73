@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 13:37:49 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/02 08:13:13 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/02 10:01:35 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,17 @@ static void	ft_set_attr(t_xsrv *sf)
 
 void	ft_attr_mngr(t_xsrv *sf, int argc, char **argv)
 {
+	t_size	len;
+
+	len = 0;
 	if (argc >= 2)
 	{
-		if (ft_strncmp(*(argv + 1), "Mandelbrot", 10) == 0)
+		len = ft_strlen(*(argv + 1));
+		if (ft_strncmp(*(argv + 1), "Mandelbrot", 10) == 0 && len == 10)
 			sf->chosen = 'M';
-		else if (ft_strncmp(*(argv + 1), "Julia", 5) == 0)
+		else if (ft_strncmp(*(argv + 1), "Julia", 5) == 0 && len == 5)
 			sf->chosen = 'J';
-		else if (ft_strncmp(*(argv + 1), "Cubic", 5) == 0)
+		else if (ft_strncmp(*(argv + 1), "Cubic", 5) == 0 && len == 5)
 			sf->chosen = 'C';
 		else
 			ft_help_msg();
