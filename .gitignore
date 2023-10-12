@@ -3,4 +3,7 @@
 *.gdb
 *.jsb
 *.a
-
+**/TEST/
+TESTS/
+NOTES/
+ETC/
