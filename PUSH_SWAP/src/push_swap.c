@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:17:15 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/16 20:55:44 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/17 10:13:24 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ft_init_push(int argc, char **argv, t_push *push)
 			exit(-1);
 		while (argc--)
 			*(push->stack_a + cntr++) = ft_atoi(*(++argv));
+		push->elem_a = push->elem;
 	}
 	else
 		exit (0);
@@ -36,6 +37,7 @@ void	ft_init_push(int argc, char **argv, t_push *push)
 int	main(int argc, char **argv)
 {
 	t_push	push;
+
 	ft_init_push(argc, argv, &push);
-	
+	return (0);
 }
