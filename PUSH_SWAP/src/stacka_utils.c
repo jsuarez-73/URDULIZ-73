@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 09:46:31 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/28 20:54:02 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/29 13:00:39 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_swap_a(t_push *p)
 		tmp = *(p->s_a + p->id_a);
 		*(p->s_a + p->id_a) = *(p->s_a + p->id_a + 1);
 		*(p->s_a + p->id_a + 1) = tmp;
-		ft_printf("#%d\tsa\n", p->mov_n++);
+		ft_printf("sa\n", p->mov_n++);
 		// ft_show_stacks(p);
 		return (1);
 	}
@@ -39,14 +39,14 @@ int	ft_push_a(t_push *p)
 		p->n_a++;
 		p->id_b++;
 		p->n_b--;
-		ft_printf("#%d\tpa\n", p->mov_n++);
+		ft_printf("pa\n", p->mov_n++);
 		// ft_show_stacks(p);
 		return (1);
 	}
 	return (0);
 }
 
-int	ft_rot_a(t_push *p)
+int	ft_rot_a(t_push *p, int vrbose)
 {
 	int		first;
 	t_uns	i_a;
@@ -65,14 +65,15 @@ int	ft_rot_a(t_push *p)
 			cn++;
 		}
 		*(p->s_a + p->n - 1) = first;
-		ft_printf("#%d\tra\n", p->mov_n++);
+		if (vrbose)
+			ft_printf("ra\n", p->mov_n++);
 		// ft_show_stacks(p);
 		return (1);
 	}
 	return (0);
 }
 
-int	ft_revrot_a(t_push *p)
+int	ft_revrot_a(t_push *p, int vrbose)
 {
 	int		last;
 	t_uns	i_a;
@@ -91,7 +92,8 @@ int	ft_revrot_a(t_push *p)
 			cn++;
 		}
 		*(p->s_a + i_a) = last;
-		ft_printf("#%d\trra\n", p->mov_n++);
+		if (vrbose)
+			ft_printf("rra\n", p->mov_n++);
 		// ft_show_stacks(p);
 		return (1);
 	}

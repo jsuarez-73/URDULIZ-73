@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 18:41:48 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/28 16:21:36 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/29 13:00:20 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,46 +21,46 @@ int	ft_2swap(t_push *p)
 	sw_b = ft_swap_b(p);
 	if (sw_a && sw_b)
 	{
-		ft_printf("#%d\tss\n", p->mov_n++);
+		ft_printf("ss\n", p->mov_n++);
 		return (1);
 	}
 	return (0);
 }
 
-int	ft_2rot(t_push *p)
+int	ft_2rot(t_push *p, int vrbose)
 {
 	short	rt_a;
 	short	rt_b;
 
-	rt_a = ft_rot_a(p);
-	rt_b = ft_rot_b(p);
+	rt_a = ft_rot_a(p, vrbose);
+	rt_b = ft_rot_b(p, vrbose);
 	if (rt_a && rt_b)
 	{
-		ft_printf("#%d\trr\n", p->mov_n++);
+		ft_printf("rr\n", p->mov_n++);
 		return (1);
 	}
 	return (0);
 }
 
-int	ft_2revrot(t_push *p)
+int	ft_2revrot(t_push *p, int vrbose)
 {
 	short	rrt_a;
 	short	rrt_b;
 
-	rrt_a = ft_revrot_a(p);
-	rrt_b = ft_revrot_b(p);
+	rrt_a = ft_revrot_a(p, vrbose);
+	rrt_b = ft_revrot_b(p, vrbose);
 	if (rrt_a && rrt_b)
 	{
-		ft_printf("#%d\trrr\n", p->mov_n++);
+		ft_printf("rrr\n", p->mov_n++);
 		return (1);
 	}
 	return (0);
 }
 
-int	ft_min_rot(t_push *p, t_uns nmv, int (*f)(t_push *))
+int	ft_min_rot(t_push *p, t_uns nmv, int (*f)(t_push *, int), int vrbose)
 {
 	while (nmv--)
-		f(p);
+		f(p, vrbose);
 	return (1);
 }
 

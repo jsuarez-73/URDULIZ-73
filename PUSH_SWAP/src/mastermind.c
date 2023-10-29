@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 11:08:59 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/29 08:36:58 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/29 12:44:33 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	ft_sort(t_push *p)
 
 	big = ft_id_big(p->s_a, p->id_a, p->n - 1);
 	if (big == 0)
-		ft_rot_a(p);
+		ft_rot_a(p, NO_QUIET);
 	else if (big == 1)
-		ft_revrot_a(p);
+		ft_revrot_a(p, NO_QUIET);
 	if (*(p->s_a + p->id_a) > *(p->s_a +p->id_a + 1))
 		ft_swap_a(p);
 }
@@ -190,23 +190,55 @@ void	ft_calc_min(t_push *p, int t_st, t_idtm *idtm)
 		}
 	}
 }
+void	ft_2min_rot(t_push *p, t_idtm *idtm, int lmda)
+{
+	if (lmda)
+	{
+		if (idtm->id_a >= idtm->id_b)
+		{
+			ft_min_rot(p, p->n - idtm->id_a, ft_2revrot, QUIET);
+			ft_min_rot(p, idtm->id_a - idtm->id_b, ft_revrot_b, NO_QUIET);
+		}
+		else
+		{
+			ft_min_rot(p, p->n - idtm->id_b, ft_2revrot, QUIET);
+			ft_min_rot(p, idtm->id_b - idtm->id_a, ft_revrot_a, NO_QUIET);			
+		}
+	}
+	else
+	{
+		if ((idtm->id_a - p->id_a) >= (idtm->id_b - p->id_b))
+		{
+			ft_min_rot(p, idtm->id_b - p->id_b, ft_2rot, QUIET);
+			ft_min_rot(p, idtm->id_a - p->id_a - (idtm->id_b - p->id_b), ft_rot_a, NO_QUIET);
+		}
+		else
+		{
+			ft_min_rot(p, idtm->id_a - p->id_a, ft_2rot, QUIET);
+			ft_min_rot(p, idtm->id_b - p->id_b - (idtm->id_a - p->id_a), ft_rot_b, NO_QUIET);
+		}
+	}
+}
 
 void	ft_rot_stacks(t_push *p, t_idtm *idtm)
 {
 	int	lmda;
 	int	eps;
-	int	diff;
 
 	lmda = (idtm->id_a - p->id_a) > (p->n - idtm->id_a);
 	eps = (idtm->id_b - p->id_b) > (p->n - idtm->id_b);
-	if (lmda)
-		ft_min_rot(p, p->n - idtm->id_a, ft_revrot_a);
-	else
-		ft_min_rot(p, idtm->id_a - p->id_a, ft_rot_a);
-	if (eps)
-		ft_min_rot(p, p->n - idtm->id_b, ft_revrot_b);
-	else
-		ft_min_rot(p, idtm->id_b - p->id_b, ft_rot_b);
+	if (lmda == eps)
+		ft_2min_rot(p, idtm, lmda);
+	else if (lmda && !eps)
+	{
+		ft_min_rot(p, p->n - idtm->id_a, ft_revrot_a, NO_QUIET);
+		ft_min_rot(p, idtm->id_b - p->id_b, ft_rot_b, NO_QUIET);
+	}
+	else if (!lmda && eps)
+	{
+		ft_min_rot(p, idtm->id_a - p->id_a, ft_rot_a, NO_QUIET);
+		ft_min_rot(p, p->n - idtm->id_b, ft_revrot_b, NO_QUIET);
+	}	
 }
 
 void	ft_min_pushb(t_push *p)
@@ -251,9 +283,9 @@ void	ft_last_sort(t_push *p)
 	if (min)
 	{
 		if ((min - p->id_a) > (p->n - min))
-			ft_min_rot(p, p->n - min, ft_revrot_a);
+			ft_min_rot(p, p->n - min, ft_revrot_a, NO_QUIET);
 		else
-			ft_min_rot(p, min - p->id_a, ft_rot_a);
+			ft_min_rot(p, min - p->id_a, ft_rot_a, NO_QUIET);
 	}
 }
 /*500 caracteres funcionando, presenta errores cuando se duplican los valores en la lista.

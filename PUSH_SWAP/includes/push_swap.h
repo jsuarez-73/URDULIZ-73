@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:18:22 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/28 16:03:56 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/29 09:58:14 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ enum e_psh
 {
 	NN = 0x7FFFFFFF,
 	STACK_A = 0,
-	STACK_B = 1
+	STACK_B = 1,
+	QUIET = 0,
+	NO_QUIET =1
 } ;
 
 typedef struct s_idtm
@@ -43,19 +45,19 @@ typedef struct s_idtm
 
 int		ft_swap_a(t_push *p);
 int		ft_push_a(t_push *p);
-int		ft_rot_a(t_push *p);
-int		ft_revrot_a(t_push *p);
+int		ft_rot_a(t_push *p, int vrbose);
+int		ft_revrot_a(t_push *p, int vrbose);
 int		ft_swap_b(t_push *p);
 int		ft_push_b(t_push *p);
-int		ft_rot_b(t_push *p);
-int		ft_revrot_b(t_push *p);
+int		ft_rot_b(t_push *p, int vrbose);
+int		ft_revrot_b(t_push *p, int vrbose);
 int		ft_2swap(t_push *p);
-int		ft_2rot(t_push *p);
-int		ft_2revrot(t_push *p);
+int		ft_2rot(t_push *p, int vrbose);
+int		ft_2revrot(t_push *p, int vrbose);
 void	ft_clean_push(t_push *p);
 void	ft_think(t_push *p);
 int		ft_is_ordered(t_push *p);
 void	ft_show_stacks(t_push *p);
-int		ft_min_rot(t_push *p, t_uns nmv, int (*f)(t_push *));
+int		ft_min_rot(t_push *p, t_uns nmv, int (*f)(t_push *, int), int vrbose);
 
 #endif

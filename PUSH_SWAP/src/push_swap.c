@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:17:15 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/28 20:54:21 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/29 14:15:16 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	main(int argc, char **argv)
 	t_push	p;
 
 	ft_check_args(argc, argv, &p);
-	ft_show_stacks(&p);
+	// ft_show_stacks(&p);
 	if (p.n == 2)
 		if (*p.s_a > *(p.s_a + 1))
 			ft_swap_a(&p);
@@ -98,7 +98,7 @@ int	main(int argc, char **argv)
 	{
 		ft_think(&p);
 	}
-	ft_show_stacks(&p);
+	// ft_show_stacks(&p);
 	ft_clean_push(&p);
 	exit(0);
 }
