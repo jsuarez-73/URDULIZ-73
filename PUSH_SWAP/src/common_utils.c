@@ -6,19 +6,19 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 18:41:48 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/29 13:00:20 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/10/30 21:21:57 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	ft_2swap(t_push *p)
+int	ft_2swap(t_push *p, int vrbose)
 {
 	short	sw_a;
 	short	sw_b;
 
-	sw_a = ft_swap_a(p);
-	sw_b = ft_swap_b(p);
+	sw_a = ft_swap_a(p, vrbose);
+	sw_b = ft_swap_b(p, vrbose);
 	if (sw_a && sw_b)
 	{
 		ft_printf("ss\n", p->mov_n++);
@@ -71,4 +71,3 @@ void	ft_clean_push(t_push *p)
 	if (p->s_b)
 		free(p->s_b);
 }
-

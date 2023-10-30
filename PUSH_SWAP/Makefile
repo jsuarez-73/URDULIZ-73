@@ -6,11 +6,11 @@
 #    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 20:09:14 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/10/22 11:12:42 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/10/30 18:51:24 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS= -Wall -Wextra -Werror
+# CFLAGS= -Wall -Wextra -Werror
 NAME= push_swap
 CC= gcc
 MACHINE=$(shell uname)
@@ -24,6 +24,9 @@ SRCS = push_swap.c\
 		stacka_utils.c\
 		stackb_utils.c\
 		common_utils.c\
+		desicion_utils.c\
+		init_utils.c\
+		math_utils.c\
 		mastermind.c
 OBJS = $(SRCS:%.c=%.o)
 
