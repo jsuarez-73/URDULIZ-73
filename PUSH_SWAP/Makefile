@@ -6,7 +6,7 @@
 #    By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 20:09:14 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/11/03 09:10:10 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/11/03 16:57:06 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRCS = push_swap.c\
 		desicion_utils.c\
 		init_utils.c\
 		math_utils.c\
-		mastermind.c
+		mastermind.c\
+		init_helper.c
 BONUS = checker.c\
 		checker_init_utils.c\
 		checker_exec_utils.c
@@ -36,7 +37,8 @@ COMMON = init_utils.c\
 			common_utils.c\
 			stacka_utils.c\
 			stackb_utils.c\
-			math_utils.c
+			math_utils.c\
+			init_helper.c
 OBJS = $(SRCS:%.c=%.o)
 BONUS_OBJS = $(BONUS:%.c=%.o)
 CMN_OBJS = $(COMMON:%.c=%.o)

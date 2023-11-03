@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:49:04 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/03 00:07:47 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/03 17:34:21 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static short	ft_valid_format(char *str)
 	return (1);
 }
 
-static short	ft_guard_service(int argc, char **av)
+short	ft_guard_service(int argc, char **av)
 {
 	int	cn;
 	int	nx;
@@ -90,27 +90,23 @@ static short	ft_guard_service(int argc, char **av)
 	}
 	return (1);
 }
-
+//Corregir y solapar splitted con no splitted
 void	ft_check_args(int argc, char **argv, t_push *p)
 {
-	if (argc-- > 1)
+	char	**splitted;
+
+	if (argc == 2)
 	{
-		if (ft_guard_service(argc, argv))
+		splitted = ft_split(*(argv + 1), ' ');
+		if (splitted)
 		{
-			p->s_a = (int *) malloc(sizeof(int) * argc);
-			if (!p->s_a)
-				exit(-1);
-			p->s_b = (int *) malloc(sizeof(int) * argc);
-			if (!p->s_b)
-				exit(-1);
-			ft_init_push(argc, argv, p);
-		}
-		else
-		{
-			write(STD_ERR, "Error\n", 6);
-			exit(-1);
+			argc = ft_arr_len(splitted);
+			ft_init_argv(argc - 1, splitted, p);
+			ft_free_argv(splitted);
 		}
 	}
+	else if (argc-- > 2)
+		ft_init_argv(argc, argv, p);
 	else
 		exit (0);
 }

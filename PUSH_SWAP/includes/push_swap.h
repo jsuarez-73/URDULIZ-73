@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:18:22 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/02 17:50:37 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/03 16:53:11 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,10 @@ int		ft_max(int *st, t_uns m, t_uns f_id);
 t_uns	ft_next_down(int *st, int num, t_uns n, t_uns f_id);
 int		ft_min(int *st, t_uns m, t_uns f_id);
 t_uns	ft_next_up(int *st, int num, t_uns n, t_uns f_id);
+/*Helper Arguments*/
+void	ft_init_argv(int argc, char **argv, t_push *p);
+int		ft_arr_len(char **av);
+void	ft_free_argv(char **av);
+short	ft_guard_service(int argc, char **av);
 
 #endif
