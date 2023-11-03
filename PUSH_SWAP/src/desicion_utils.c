@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:37:02 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/30 21:21:03 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/02 23:59:15 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,22 +74,22 @@ void	ft_2min_rot(t_push *p, t_idtm *idtm, int lmda)
 	diff_ba = idtm->id_b - p->id_b - (idtm->id_a - p->id_a);
 	if (idtm->id_a >= idtm->id_b && lmda)
 	{
-		ft_min_rot(p, p->n - idtm->id_a, ft_2revrot, QUIET);
+		ft_min_rot(p, p->n - idtm->id_a, ft_2revrot, NO_QUIET);
 		ft_min_rot(p, idtm->id_a - idtm->id_b, ft_revrot_b, NO_QUIET);
 	}
 	else if (lmda)
 	{
-		ft_min_rot(p, p->n - idtm->id_b, ft_2revrot, QUIET);
+		ft_min_rot(p, p->n - idtm->id_b, ft_2revrot, NO_QUIET);
 		ft_min_rot(p, idtm->id_b - idtm->id_a, ft_revrot_a, NO_QUIET);
 	}
 	if ((idtm->id_a - p->id_a) >= (idtm->id_b - p->id_b) && !lmda)
 	{
-		ft_min_rot(p, idtm->id_b - p->id_b, ft_2rot, QUIET);
+		ft_min_rot(p, idtm->id_b - p->id_b, ft_2rot, NO_QUIET);
 		ft_min_rot(p, diff_ab, ft_rot_a, NO_QUIET);
 	}
 	else if (!lmda)
 	{
-		ft_min_rot(p, idtm->id_a - p->id_a, ft_2rot, QUIET);
+		ft_min_rot(p, idtm->id_a - p->id_a, ft_2rot, NO_QUIET);
 		ft_min_rot(p, diff_ba, ft_rot_b, NO_QUIET);
 	}
 }

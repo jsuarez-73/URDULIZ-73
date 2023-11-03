@@ -13,7 +13,16 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
+#  define BUFFER_SIZE 10
+# endif
+# ifndef STD_IN
+#  define STD_IN 0
+# endif
+# ifndef STD_ERR
+#  define STD_ERR 2
+# endif
+# ifndef STD_OUT
+#  define STD_OUT 1
 # endif
 # include <stddef.h>
 # include <stdlib.h>

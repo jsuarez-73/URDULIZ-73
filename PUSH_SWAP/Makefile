@@ -6,12 +6,13 @@
 #    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 20:09:14 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/10/30 18:51:24 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/11/03 00:08:37 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# CFLAGS= -Wall -Wextra -Werror
+CFLAGS= -Wall -Wextra -Werror
 NAME= push_swap
+BONUS_NAME = checker
 CC= gcc
 MACHINE=$(shell uname)
 ifeq ($(MACHINE), Linux)
@@ -28,7 +29,16 @@ SRCS = push_swap.c\
 		init_utils.c\
 		math_utils.c\
 		mastermind.c
+BONUS = checker.c\
+		checker_utils.c
+COMMON = init_utils.c\
+			common_utils.c\
+			stacka_utils.c\
+			stackb_utils.c\
+			math_utils.c
 OBJS = $(SRCS:%.c=%.o)
+BONUS_OBJS = $(BONUS:%.c=%.o)
+CMN_OBJS = $(COMMON:%.c=%.o)
 
 all : $(NAME)
 
@@ -44,11 +54,17 @@ libs:
 	make -C libft/LIBFT clean
 
 clean:
-	rm -rf $(OBJS)
+	rm -rf $(OBJS) $(BONUS_OBJS) $(CMN_OBJS)
 
 fclean:
 	rm -rf $(NAME)
 
+bonus: | libs
+	$(CC) -c -g $(CFLAGS) -D $(MACHINE) -Iincludes $(addprefix bonus/, $(BONUS)) \
+	$(addprefix src/, $(COMMON))
+	$(CC) -o $(BONUS_NAME) $(BONUS_OBJS) $(CMN_OBJS) libs/libft.a
+	rm -rf $(BONUS_OBJS) $(CMN_OBJS)
+
 re: fclean all
 
-.PHONY: all clean re fclean
+.PHONY: all clean re fclean bonus

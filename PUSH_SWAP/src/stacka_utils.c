@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 09:46:31 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/30 21:21:48 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/02 23:56:57 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_swap_a(t_push *p, int vrbose)
 		return (0);
 }
 
-int	ft_push_a(t_push *p)
+int	ft_push_a(t_push *p, int vrbose)
 {
 	if (p->id_b < p->n)
 	{
@@ -39,7 +39,8 @@ int	ft_push_a(t_push *p)
 		p->n_a++;
 		p->id_b++;
 		p->n_b--;
-		ft_printf("pa\n", p->mov_n++);
+		if (vrbose)
+			ft_printf("pa\n", p->mov_n++);
 		return (1);
 	}
 	return (0);
@@ -92,6 +93,22 @@ int	ft_revrot_a(t_push *p, int vrbose)
 		*(p->s_a + i_a) = last;
 		if (vrbose)
 			ft_printf("rra\n", p->mov_n++);
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_2revrot(t_push *p, int vrbose)
+{
+	short	rrt_a;
+	short	rrt_b;
+
+	rrt_a = ft_revrot_a(p, QUIET);
+	rrt_b = ft_revrot_b(p, QUIET);
+	if (rrt_a && rrt_b)
+	{
+		if (vrbose)
+			ft_printf("rrr\n", p->mov_n++);
 		return (1);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 #    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/07 20:45:10 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/06/24 17:50:36 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/11/02 23:04:45 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS = get_next_line.c\
 OBJS = $(SRCS:%.c=%.o)
 
 $(NAME):
-	cc $(CFLAGS) -c $(SRCS)
+	cc -g $(CFLAGS) -c $(SRCS)
 	cc -o $(NAME) $(OBJS)
 
 all: $(NAME)

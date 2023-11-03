@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 11:08:59 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/30 19:24:13 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/01 20:23:49 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ static void	ft_min_pushb(t_push *p)
 
 	idtm.m_cst = NN;
 	if (p->n_b < 2)
-		ft_push_b(p);
+		ft_push_b(p, NO_QUIET);
 	else
 	{
 		ft_calc_min(p, STACK_A, &idtm);
 		if (idtm.m_cst != NN)
 		{
 			ft_rot_stacks(p, &idtm);
-			ft_push_b(p);
+			ft_push_b(p, NO_QUIET);
 		}
 	}
 }
@@ -68,7 +68,7 @@ static void	ft_min_pusha(t_push *p)
 		if (idtm.m_cst != NN)
 		{
 			ft_rot_stacks(p, &idtm);
-			ft_push_a(p);
+			ft_push_a(p, NO_QUIET);
 		}
 	}
 }

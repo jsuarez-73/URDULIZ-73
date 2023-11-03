@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 20:18:22 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/30 21:17:59 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:50:37 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ enum e_psh
 	STACK_A = 0,
 	STACK_B = 1,
 	QUIET = 0,
-	NO_QUIET =1
+	NO_QUIET =1,
 } ;
 
 typedef struct s_idtm
@@ -45,11 +45,11 @@ typedef struct s_idtm
 
 /*Movements allowed in stacks*/
 int		ft_swap_a(t_push *p, int vrbose);
-int		ft_push_a(t_push *p);
+int		ft_push_a(t_push *p, int vrbose);
 int		ft_rot_a(t_push *p, int vrbose);
 int		ft_revrot_a(t_push *p, int vrbose);
 int		ft_swap_b(t_push *p, int vrbose);
-int		ft_push_b(t_push *p);
+int		ft_push_b(t_push *p, int vrbose);
 int		ft_rot_b(t_push *p, int vrbose);
 int		ft_revrot_b(t_push *p, int vrbose);
 int		ft_2swap(t_push *p, int vrbose);

@@ -1,36 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/16 20:17:15 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/01 13:24:28 by jsuarez-         ###   ########.fr       */
+/*   Created: 2023/11/01 13:09:26 by jsuarez-          #+#    #+#             */
+/*   Updated: 2023/11/02 23:31:54 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-
+#include "checker.h"
+/*Corregir la funcion check_in para unificar ft_clean_lst con ft_clean_psh*/
 int	main(int argc, char **argv)
 {
 	t_push	p;
+	char	buf[BUFFER_SIZE + 1];
+	char	*line;
+	t_list	lst;
+	short	flg;
 
 	ft_check_args(argc, argv, &p);
-	if (p.n == 2)
+	*(buf + BUFFER_SIZE) = '\0';
+	lst.content = NULL;
+	lst.next = NULL;
+	flg = 1;
+	while (flg)
 	{
-		if (*p.s_a > *(p.s_a + 1))
-			ft_swap_a(&p, NO_QUIET);
-	}
-	else if (p.n_a == 3)
-		ft_sort(&p);
-	else
-	{
-		while (!ft_is_ordered(&p) || p.id_b < p.n)
+		line = get_next_line(STD_IN);
+		if (line)
 		{
-			ft_think(&p);
+			if (ft_check_in(line, ft_strlen(line), &p, &lst))
+				ft_push_lst(&lst, line, ft_strlen(line));
+			free(line);
 		}
+		else
+			flg = 0;
 	}
-	ft_clean_push(&p);
-	exit(0);
+	ft_exec_lst(&lst, &p);
 }

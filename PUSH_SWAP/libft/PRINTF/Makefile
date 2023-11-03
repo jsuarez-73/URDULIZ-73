@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+         #
+#    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 11:36:09 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/09/11 09:22:23 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/11/02 23:05:22 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,7 +54,7 @@ OBJS_BONUS = $(SRCS_BONUS:%.c=%.o)
 TEST_OBJ = $(TEST:%.c=%.o) 
 
 $(NAME):
-	@cc $(CLFAGS) -c $(SRCS)
+	@cc -g $(CLFAGS) -c $(SRCS)
 	@ar -rcs $(NAME) $(OBJS)
 
 all: $(NAME)

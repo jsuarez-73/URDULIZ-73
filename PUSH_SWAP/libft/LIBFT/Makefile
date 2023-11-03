@@ -73,7 +73,7 @@ OBJS_BONUS = $(SRCS_BONUS:%.c=%.o)
 all : $(NAME)
 
 $(NAME):
-	cc $(CFLAGS) -c -I../PRINTF -I../GNL $(SRCS) $(SRCS_BONUS) $(PATH_GNL) \
+	cc -g $(CFLAGS) -c -I../PRINTF -I../GNL $(SRCS) $(SRCS_BONUS) $(PATH_GNL) \
 		$(PATH_PRINTF)
 	ar -rcs $(NAME) $(OBJS) $(OBJS_BONUS)
 

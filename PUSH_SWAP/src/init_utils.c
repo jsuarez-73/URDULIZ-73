@@ -6,38 +6,11 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:49:04 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/10/30 21:22:46 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/03 00:07:47 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-void	ft_show_stacks(t_push *p)
-{
-	t_uns	elem_n;
-	t_uns	idx_a;
-	t_uns	idx_b;
-	t_uns	c;
-
-	elem_n = p->n;
-	idx_b = p->n_a;
-	idx_a = p->n - p->n_a;
-	c = 0;
-	ft_printf("STACKS\nidx\tstack A\tstackB\n");
-	while (elem_n--)
-	{
-		if (c >= idx_b && c >= idx_a)
-			ft_printf("%u\t%d\t%d\n", c, *(p->s_a + c), *(p->s_b + c));
-		else if (c >= idx_b && c < idx_a)
-			ft_printf("%u\tX\t%d\n", c, *(p->s_b + c));
-		else if (c < idx_b && c >= idx_a)
-			ft_printf("%u\t%d\tX\n", c, *(p->s_a + c));
-		else
-			ft_printf("%u\tX\tX\n", c);
-		c++;
-	}
-	ft_printf("\n");
-}
 
 int	ft_is_ordered(t_push *p)
 {
@@ -55,7 +28,7 @@ void	ft_init_push(int argc, char **argv, t_push *p)
 	int	cntr;
 
 	cntr = 0;
-	p->n = --argc;
+	p->n = argc;
 	p->n_a = p->n;
 	p->id_a = 0;
 	p->id_b = p->n;
@@ -69,31 +42,75 @@ void	ft_init_push(int argc, char **argv, t_push *p)
 	}
 }
 
+static short	ft_valid_format(char *str)
+{
+	char	*tmp;
+	int		sgn;
+
+	if (!str || *str == '\0')
+		return (0);
+	sgn = (*str == '+' || *str == '-');
+	if (sgn)
+		str++;
+	while (*(str + 1) != '\0' && *str == '0')
+		str++;
+	tmp = str;
+	while (*str != '\0')
+		if (!ft_isdigit(*str++))
+			return (0);
+	if (ft_strlen(tmp) == 10)
+	{
+		if (sgn && ft_strncmp(tmp, "2147483648", 10) > 0)
+			return (0);
+		else if (!sgn && ft_strncmp(tmp, "2147483647", 10) > 0)
+			return (0);
+	}
+	else if (ft_strlen(tmp) > 10)
+		return (0);
+	return (1);
+}
+
+static short	ft_guard_service(int argc, char **av)
+{
+	int	cn;
+	int	nx;
+
+	cn = 1;
+	while (cn <= argc)
+		if (!ft_valid_format(*(av + cn++)))
+			return (0);
+	cn = 1;
+	while (cn < argc)
+	{
+		nx = cn + 1;
+		while (nx <= argc)
+			if (ft_atoi(*(av + cn)) == ft_atoi(*(av + nx++)))
+				return (0);
+		cn++;
+	}
+	return (1);
+}
+
 void	ft_check_args(int argc, char **argv, t_push *p)
 {
-	if (argc > 1)
+	if (argc-- > 1)
 	{
-		p->s_a = (int *) malloc(sizeof(int) * argc);
-		if (!p->s_a)
+		if (ft_guard_service(argc, argv))
+		{
+			p->s_a = (int *) malloc(sizeof(int) * argc);
+			if (!p->s_a)
+				exit(-1);
+			p->s_b = (int *) malloc(sizeof(int) * argc);
+			if (!p->s_b)
+				exit(-1);
+			ft_init_push(argc, argv, p);
+		}
+		else
+		{
+			write(STD_ERR, "Error\n", 6);
 			exit(-1);
-		p->s_b = (int *) malloc(sizeof(int) * argc);
-		if (!p->s_b)
-			exit(-1);
-		ft_init_push(argc, argv, p);
+		}
 	}
 	else
 		exit (0);
-}
-
-void	ft_sort(t_push *p)
-{
-	t_uns	big;
-
-	big = ft_id_big(p->s_a, p->id_a, p->n - 1);
-	if (big == p->n - 3)
-		ft_rot_a(p, NO_QUIET);
-	else if (big == p->n - 2)
-		ft_revrot_a(p, NO_QUIET);
-	if (*(p->s_a + p->id_a) > *(p->s_a + p->id_a + 1))
-		ft_swap_a(p, NO_QUIET);
 }
