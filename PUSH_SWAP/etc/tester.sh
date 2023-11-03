@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ROOT=~/Documents/Urduliz42/PUSH_SWAP
+ROOT=$(pwd);
 exec 4<$ROOT/etc/num_lists.txt;
 exec 5<$ROOT/etc/error_lists.txt;
 BLUE="1;34m";
@@ -17,7 +17,7 @@ then
 		echo -n -e "\e[$BLUE list length:\e[0m ${#BUFFER[@]} \t";
 		lines=$($PUSH_SWAP ${BUFFER[@]} | wc -l);
 		echo -n -e "\e[$MAGENTA Instructions length: $lines \e[0m \e[$BLUE\tResponse: \e[0m";
-		response=$($PUSH_SWAP ${BUFFER[@]} | $ROOT/etc/checker_linux ${BUFFER[@]});
+		response=$($PUSH_SWAP ${BUFFER[@]} | $ROOT/checker ${BUFFER[@]});
 		if [[ $response = "OK" ]];
 		then
 			echo -e "\e[$GREEN OK\e[0m";

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
+#    By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 20:09:14 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/11/03 00:08:37 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/11/03 09:10:10 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,8 @@ SRCS = push_swap.c\
 		math_utils.c\
 		mastermind.c
 BONUS = checker.c\
-		checker_utils.c
+		checker_init_utils.c\
+		checker_exec_utils.c
 COMMON = init_utils.c\
 			common_utils.c\
 			stacka_utils.c\
@@ -45,7 +46,6 @@ all : $(NAME)
 $(NAME): | libs
 	$(CC) -c -g $(CFLAGS) -D $(MACHINE) -Iincludes $(addprefix src/, $(SRCS))
 	$(CC) -o $(NAME) $(OBJS) libs/libft.a
-	rm -rf $(OBJS)
 
 libs:
 	make -C libft/LIBFT
@@ -63,7 +63,6 @@ bonus: | libs
 	$(CC) -c -g $(CFLAGS) -D $(MACHINE) -Iincludes $(addprefix bonus/, $(BONUS)) \
 	$(addprefix src/, $(COMMON))
 	$(CC) -o $(BONUS_NAME) $(BONUS_OBJS) $(CMN_OBJS) libs/libft.a
-	rm -rf $(BONUS_OBJS) $(CMN_OBJS)
 
 re: fclean all
 

@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checker_utils.c                                    :+:      :+:    :+:   */
+/*   checker_init_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:24:52 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/03 00:12:23 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/03 09:51:01 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker.h"
-/*MOdificar esta fucnion para que envie la limpieza a clean_lst*/
+
+static void	ft_check_out(char *b, t_list *lst, t_push *p)
+{
+	write(STD_ERR, "Error\n", 6);
+	if (b)
+		free(b);
+	ft_clean_mng(lst, p);
+	exit(-1);
+}
+
 short	ft_check_in(char *b, int l, t_push *p, t_list *lst)
 {
-	int (*cmp)(const char *, const char *, t_size);
+	int	(*cmp)(const char *, const char *, t_size);
 
 	cmp = ft_strncmp;
 	if (l == 4 && cmp(b, "rra", 3) == 0)
@@ -34,14 +43,7 @@ short	ft_check_in(char *b, int l, t_push *p, t_list *lst)
 	else if (l == 0)
 		return (1);
 	else
-	{
-		write(STD_ERR, "Error\n", 6);
-		ft_clean_lst(lst);
-		if (b)
-			free(b);
-		ft_clean_push(p);
-		exit(-1);
-	}
+		ft_check_out(b, lst, p);
 	return (0);
 }
 
@@ -70,63 +72,4 @@ void	*ft_assign_mov(char *b, int l)
 	else if (ft_strncmp(b, "pb", 2) == 0)
 		return ((void *)ft_push_b);
 	return (NULL);
-}
-
-void	ft_push_lst(t_list *lst, char *buf, int l_rd)
-{
-	t_list	*nd;
-
-	if (lst->content == NULL)
-		lst->content = ft_assign_mov(buf, l_rd);
-	else
-	{
-		nd = (t_list *)malloc(sizeof(t_list));
-		if (!nd)
-		{
-			ft_clean_lst(lst);
-			exit(-1);
-		}
-		nd->content = ft_assign_mov(buf, l_rd);
-		nd->next = NULL;
-		ft_lstadd_back(&lst, nd);
-	}
-}
-/*Cambiar esta funcion par alimpiar toda la memoria.*/
-void	ft_clean_lst(t_list *lst)
-{
-	t_list	*tmp;
-
-	lst = lst->next;
-	while (lst)
-	{
-		tmp = lst;
-		lst = lst->next;
-		free(tmp);
-	}
-}
-
-void	ft_exec_lst(t_list *lst, t_push *p)
-{
-	t_list	*tmp;
-
-	tmp = lst;
-	if (tmp->content)
-	{
-		if (!tmp->next && tmp->content)
-		{
-			((int (*)(t_push *, int))tmp->content)(p, QUIET);
-			tmp = tmp->next;
-		}
-		while (tmp)
-		{
-			((int (*)(t_push *, int))tmp->content)(p, QUIET);
-			tmp = tmp->next;
-		}
-	}
-	ft_clean_lst(lst);
-	if (ft_is_ordered(p) && p->n_b == 0)
-		ft_printf("OK\n");
-	else
-		ft_printf("KO\n");
-	ft_clean_push(p);
 }

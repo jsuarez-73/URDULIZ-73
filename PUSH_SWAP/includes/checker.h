@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 13:10:00 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/02 23:32:35 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/03 07:51:30 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 short	ft_check_in(char *b, int l, t_push *, t_list *);
 void	*ft_assign_mov(char *b, int l);
-void	ft_push_lst(t_list *lst, char *buf, int l_rd);
-void	ft_clean_lst(t_list *lst);
+void	ft_push_lst(t_list *lst, char *buf, int l_rd, t_push *);
+void	ft_clean_mng(t_list *lst, t_push *p);
 void	ft_exec_lst(t_list *lst, t_push *p);
 
 #endif
