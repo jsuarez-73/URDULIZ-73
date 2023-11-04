@@ -6,13 +6,14 @@
 #    By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/16 20:09:14 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/11/03 16:57:06 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/11/04 09:51:21 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CFLAGS= -Wall -Wextra -Werror
 NAME= push_swap
 BONUS_NAME = checker
+BONUS_FLG = ./bonus/checker_flg
 CC= gcc
 MACHINE=$(shell uname)
 ifeq ($(MACHINE), Linux)
@@ -59,12 +60,15 @@ clean:
 	rm -rf $(OBJS) $(BONUS_OBJS) $(CMN_OBJS)
 
 fclean:
-	rm -rf $(NAME)
+	rm -rf $(NAME) $(BONUS_NAME) $(BONUS_FLG)
 
-bonus: | libs
+bonus: $(BONUS_FLG)
+
+$(BONUS_FLG): | libs
 	$(CC) -c -g $(CFLAGS) -D $(MACHINE) -Iincludes $(addprefix bonus/, $(BONUS)) \
 	$(addprefix src/, $(COMMON))
 	$(CC) -o $(BONUS_NAME) $(BONUS_OBJS) $(CMN_OBJS) libs/libft.a
+	touch $(BONUS_FLG);
 
 re: fclean all
 

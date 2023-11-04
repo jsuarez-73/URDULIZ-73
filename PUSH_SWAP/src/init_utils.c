@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 18:49:04 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/03 17:34:21 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/04 09:16:07 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ short	ft_guard_service(int argc, char **av)
 	}
 	return (1);
 }
-//Corregir y solapar splitted con no splitted
+
 void	ft_check_args(int argc, char **argv, t_push *p)
 {
 	char	**splitted;
@@ -101,7 +101,7 @@ void	ft_check_args(int argc, char **argv, t_push *p)
 		if (splitted)
 		{
 			argc = ft_arr_len(splitted);
-			ft_init_argv(argc - 1, splitted, p);
+			ft_init_argv(argc, splitted - 1, p);
 			ft_free_argv(splitted);
 		}
 	}

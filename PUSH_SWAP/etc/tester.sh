@@ -35,7 +35,7 @@ then
 		lines=$($PUSH_SWAP ${BUFFER_ERR[@]} | wc -l);
 		if [[ $response = "Error" && $lines == 0 ]]
 		then
-			echo -e "\e[$GREEN Error\e[0m";
+			echo -e "\e[$GREEN Error HERE\e[0m";
 		elif [[ $response != "Error" && $lines > 1 ]]
 		then
 			echo -e "\e[$RED Not Error?\e[0m";
