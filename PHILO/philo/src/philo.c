@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:57:38 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/14 17:36:15 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:32:32 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,23 @@ suseconds_t	ft_date_update(void)
 	return (0);
 }
 
+char	*ft_set_emoji(t_state state)
+{
+	if (state == DIED)
+		return (HEADSTONE);
+	else if (state == EATING)
+		return (SPAGHETTI);
+	else if (state == THINKING)
+		return (BULB);
+	else if (state == SLEEPING)
+		return (NAPPING);
+	else if (state == FORKING_TWO)
+		return (FORK_AND_PLATE);
+	else if (state == FORKING_ONE)
+		return (FORK);
+	return (NULL);
+}
+
 void	ft_push_log(t_philo *phs, char *log, t_state state)
 {
 	suseconds_t	now;
@@ -32,36 +49,22 @@ void	ft_push_log(t_philo *phs, char *log, t_state state)
 	{
 		phs->state = state;
 		if (state == DIED)
-		{
-			emoji = HEADSTONE;
 			*phs->signal = SIGDIED;
-		}
-		else if (state == EATING)
-			emoji = SPAGHETTI;
-		else if (state == THINKING)
-			emoji = BULB;
-		else if (state == SLEEPING)
-			emoji = NAPPING;
-		else if (state == FORKING_TWO)
-			emoji = FORK_AND_PLATE;
-		else if (state == FORKING_ONE)
-			emoji = FORK;
+		emoji = ft_set_emoji(state);
 		printf("%lu %u %s %s\n", now, phs->id, log, emoji);
 	}
 	pthread_mutex_unlock(phs->l_log);
 }
-/*EL thread al parecer no esta durmiendo con la setencia usleep
-Response: SI duerme, solo que algun hilo despierto imprime el estado de todos.
-*/
+
 void	ft_eat(t_philo *phs)
 {
 	pthread_mutex_lock(&phs->fork);
 	ft_push_log(phs, "has taken a fork", FORKING_TWO);
 	phs->free = BUSY;
 	pthread_mutex_unlock(phs->l_start);
+	phs->timer.l_eat = ft_date_update();
 	ft_push_log(phs, "is eating", EATING);
 	usleep(phs->timer.t_eat);
-	phs->timer.l_eat = ft_date_update();
 	phs->ntme++; 
 	phs->back->free = FREE;
 	pthread_mutex_unlock(&phs->back->fork);
@@ -72,8 +75,7 @@ void	ft_eat(t_philo *phs)
 	ft_push_log(phs, "is thinking", THINKING);
 	usleep(phs->timer.t_think);
 }
-/*	if (phs->back->free) //Esta operacion parece corresponder a una operacion atomica
-	{ //movq	%rdi, -8(%rbp)*/
+
 void	ft_live(t_philo *phs)
 {
 	pthread_mutex_lock(phs->l_start);
@@ -98,69 +100,108 @@ void	ft_live(t_philo *phs)
 	}
 }
 
-/*Quizas agregar tantos bucles para determinar si todos han comido puede
-ser contra producente y consumir muchos recursos, esta operacion se
-ejecuta tantas veces como hilos hayan, con lo cual es bastante costosa
-y agregarle carga hace que sea insuficiente a la hora de detemrinar si todos
-han comido.*/
-int	ft_all_lifes(t_gdata *gdt)
+short	ft_everyone_has_eaten(t_gdata *gdt, t_philo *phs)
 {
-	t_philo		*phs;
+	if (phs->ntme == *(gdt->params + N_EPME) && !phs->ticked)
+	{
+		phs->ticked = 1;
+		gdt->tphe++;
+		// printf("Thread#:%u\tntme:%d\ttphe:%d\n", phs->id, phs->ntme, gdt->tphe);
+		gdt->signal = SIGNTME;
+	}
+	if (gdt->tphe == *(gdt->params + N_PHILO))
+		return (1);
+	return (0);
+}
+
+short	ft_someone_has_death(t_philo *phs, suseconds_t delta_time)
+{
+	if (*phs->signal != SIGCONT)
+		return (1);
+	if (delta_time >= phs->timer.t_die)
+	{
+		ft_push_log(phs, "died", DIED);
+		return (1);
+	}
+	return (0);
+}
+short	ft_all_lifes(t_gdata *gdt, t_philo *phs)
+{
 	suseconds_t	now;
 	suseconds_t	delta_time;
 
 	pthread_mutex_lock(&gdt->l_check);
-	phs = gdt->phs;
 	now = ft_date_update();
-	while (phs < (gdt->phs + *(gdt->params + N_PHILO)))
+	delta_time = (now - phs->timer.l_eat) * MILI_TO_MICRO;
+	// printf("Thread#:%u\tdelta_time: %lu\tl_eat:%lu\tnow:%lu\n", phs->id, delta_time, phs->timer.l_eat, now);
+	if (ft_someone_has_death(phs, delta_time))
 	{
-		delta_time = (now - phs->timer.l_eat) * MILI_TO_MICRO;
-		// printf("Thread#:%u\tdelta_time: %lu\tl_eat:%lu\tnow:%lu\n", phs->id, delta_time, phs->timer.l_eat, now);
-		if (delta_time >= phs->timer.t_die)
+		pthread_mutex_unlock(&gdt->l_check);
+		return (0);
+	}
+	if (*(gdt->params + N_EPME))
+	{
+		if (ft_everyone_has_eaten(gdt, phs))
 		{
-			ft_push_log(phs, "died", DIED);
 			pthread_mutex_unlock(&gdt->l_check);
 			return (0);
 		}
-		// if (phs->ntme == *(gdt->params + N_EPME))
-		// 	gdt->tphe++;
-		phs++;
 	}
-	// if (gdt->tphe == *(gdt->params + N_PHILO))
-	// {
-	// 	pthread_mutex_unlock(&gdt->l_check);
-	// 	return (0);
-	// }
-	// gdt->tphe = 0;
 	pthread_mutex_unlock(&gdt->l_check);
 	return (1);
+}
+
+void	ft_set_philo(t_gdata **gdt, t_philo **phs)
+{
+	pthread_mutex_lock(&(*gdt)->l_start);
+	*phs = (*gdt)->phs + --(*gdt)->markers;
+	(*phs)->id = (*gdt)->markers + 1;
+	(*phs)->free = FREE;
+	(*phs)->ntme = 0;
+	(*phs)->ticked = 0;
+	(*phs)->timer.t_die = *((*gdt)->params + T_DIE) * MILI_TO_MICRO;
+	(*phs)->timer.t_eat = *((*gdt)->params + T_EAT) * MILI_TO_MICRO;
+	(*phs)->timer.t_slp = *((*gdt)->params + T_SLP) * MILI_TO_MICRO;
+	(*phs)->timer.t_think = (*phs)->timer.t_die / MILI_TO_MICRO;
+	(*phs)->state = STARTING;
+	(*phs)->signal = &(*gdt)->signal;
+	(*phs)->l_start = &(*gdt)->l_start;
+	(*phs)->l_log = &(*gdt)->l_log;
+	pthread_mutex_init(&(*phs)->fork, NULL);
+	pthread_mutex_unlock(&(*gdt)->l_start);
 }
 
 void	*ft_life_philo(void *arg)
 {
 	t_gdata			*gdt;
 	t_philo			*phs;
+	short			wait;
 
 	gdt = (t_gdata *)arg;
-	pthread_mutex_lock(&gdt->l_start);
-	phs = gdt->phs + --gdt->markers;
-	phs->id = gdt->markers + 1;
-	phs->free = FREE;
-	phs->ntme = 0;
-	phs->timer.t_die = *(gdt->params + T_DIE) * MILI_TO_MICRO;
-	phs->timer.t_eat = *(gdt->params + T_EAT) * MILI_TO_MICRO;
-	phs->timer.t_slp = *(gdt->params + T_SLP) * MILI_TO_MICRO;
-	phs->timer.t_think = phs->timer.t_die / MILI_TO_MICRO;
-	phs->state = STARTING;
-	phs->signal = &gdt->signal;
-	phs->l_start = &gdt->l_start;
-	phs->l_log = &gdt->l_log;
-	pthread_mutex_init(&phs->fork, NULL);
-	pthread_mutex_unlock(&gdt->l_start);
-	while(gdt->start) ;
-	while(ft_all_lifes(gdt))
+	wait = 1;
+	ft_set_philo(&gdt, &phs);
+	while (wait)
+	{
+		pthread_mutex_lock(&gdt->l_start);
+		if (!gdt->start)
+			wait = 0;
+		pthread_mutex_unlock(&gdt->l_start);
+	}
+	while(ft_all_lifes(gdt, phs))
 		ft_live(phs);
+	pthread_mutex_destroy(&phs->fork);
 	return (NULL);
+}
+
+void	ft_memory_flush(t_gdata *gdt)
+{
+	if (gdt->id)
+		free(gdt->id);
+	if (gdt->phs)
+		free(gdt->phs);
+	pthread_mutex_destroy(&gdt->l_start);
+	pthread_mutex_destroy(&gdt->l_check);
+	pthread_mutex_destroy(&gdt->l_log);
 }
 
 void	ft_init_gdata(t_gdata *gdt, int n_f)
@@ -180,33 +221,45 @@ void	ft_init_gdata(t_gdata *gdt, int n_f)
 	gdt->phs->back = gdt->phs + n_f - 1; //The first one points to the last one
 }
 
-void	ft_set_lifetime(t_philo *off_phs, t_philo *last_phs)
+void	ft_set_lifetime(t_gdata *gdt, t_philo *last_phs)
 {
+	t_philo	*off_phs;
+
+	off_phs = gdt->phs;
+	pthread_mutex_lock(&gdt->l_check);
 	while (off_phs < last_phs)
 	{
 		off_phs->timer.l_eat = ft_date_update();
 		off_phs++;
 	}
+	pthread_mutex_unlock(&gdt->l_check);
 }
 
-short	ft_wait_all_init(t_philo *phs, int n_f)
+short	ft_wait_all_init(t_gdata *gdt, int n_f)
 {
-	t_philo	*last_phs;
-	t_philo	*off_phs;
+	t_philo			*last_phs;
+	t_philo			*phs;
 
-	last_phs = phs + n_f;
-	off_phs = phs;
+	last_phs = gdt->phs + n_f;
+	phs = gdt->phs;
+	pthread_mutex_lock(&gdt->l_start);
 	while (phs < last_phs)
 	{
 		if (!phs->signal)
+		{
+			pthread_mutex_unlock(&gdt->l_start);
 			return (1);
+		}
 		else if (phs + 1 == last_phs && phs->signal)
 		{
-			ft_set_lifetime(off_phs, last_phs);
+			ft_set_lifetime(gdt, last_phs);
+			gdt->start = 0; //set the signal to start the race.
+			pthread_mutex_unlock(&gdt->l_start);
 			return (0);
 		}
 		phs++;
 	}
+	pthread_mutex_unlock(&gdt->l_start);
 	return (1);
 }
 
@@ -221,7 +274,7 @@ void	ft_create_threads(t_gdata *gdt, int n_f)
 		if (n_f >= 1)
 			(gdt->phs + n_f)->back = (gdt->phs + n_f - 1);
 	}
-	while (ft_wait_all_init(gdt->phs, all)) ;
+	while (ft_wait_all_init(gdt, all)) ;
 }
 
 void	ft_join_threads(t_gdata *gdt, int n_f)
@@ -229,7 +282,8 @@ void	ft_join_threads(t_gdata *gdt, int n_f)
 	while (n_f--)
 		pthread_join(*(gdt->id + n_f), NULL);
 }
-
+/*USAR HELGRIN MANANA PARA DETECTAR LOS ERRORES ENCONTRADOS POR ESTA TOOL,
+AL PARECER OCURREN LOCK ABOUT ALREADY LOCKED.*/
 int	main(int argc, char **argv)
 {
 	t_gdata	gdt;
@@ -239,8 +293,8 @@ int	main(int argc, char **argv)
 	n_f = *(gdt.params + N_PHILO);
 	ft_init_gdata(&gdt, n_f);
 	ft_create_threads(&gdt, n_f);
-	gdt.start = 0; //Set the signal to start the race.
 	ft_join_threads(&gdt, n_f);
 	/*Cuando todos retornen, flush the memory.*/
+	ft_memory_flush(&gdt);
 	return (0);
 }

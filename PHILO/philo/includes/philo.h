@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:57:50 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/14 17:27:05 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/15 17:32:24 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct	s_philo
 	t_timers		timer;
 	unsigned int	id;
 	int				ntme;
+	short			ticked;
 	t_lock			free;
 	t_state			state;
 	t_signal		*signal;
