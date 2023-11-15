@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:57:50 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/15 17:32:24 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/15 19:43:55 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,15 @@ typedef struct	s_gdata
 }	t_gdata;
 
 void	ft_init_args(int argc, char **argv, int *params);
+void	ft_init_gdata(t_gdata *gdt, int n_f);
+void	ft_set_philo(t_gdata **gdt, t_philo **phs);
+short	ft_wait_all_init(t_gdata *gdt, int n_f);
+void	*ft_life_philo(void *arg);
+void	ft_set_locks(t_philo *phs, pthread_mutex_t **f, pthread_mutex_t **s);
+void	ft_push_log(t_philo *phs, char *log, t_state state);
+suseconds_t	ft_date_update(void);
+void	ft_memory_flush(t_gdata *gdt);
+void	ft_create_threads(t_gdata *gdt, int n_f);
+void	ft_join_threads(t_gdata *gdt, int n_f);
 
 #endif
