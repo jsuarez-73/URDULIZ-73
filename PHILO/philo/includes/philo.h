@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:57:50 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/16 11:57:10 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:08:04 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ typedef struct s_gdata
 	t_signal			signal;
 	t_philo				*phs;
 	pthread_t			*id;
+	pthread_t			super;
 	pthread_mutex_t		l_start;
 	pthread_mutex_t		l_check;
 	pthread_mutex_t		l_log;
@@ -112,5 +113,6 @@ suseconds_t	ft_date_update(void);
 void		ft_memory_flush(t_gdata *gdt);
 void		ft_create_threads(t_gdata *gdt, int n_f);
 void		ft_join_threads(t_gdata *gdt, int n_f);
+short		ft_all_lifes(t_gdata *gdt, t_philo *phs);
 
 #endif

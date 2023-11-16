@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:28:26 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/16 12:00:24 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/16 13:10:47 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@ static void	ft_init_phs_signals(t_philo *phs, t_philo *last_phs)
 
 void	ft_init_gdata(t_gdata *gdt, int n_f)
 {
-	gdt->id = (pthread_t *)malloc(sizeof(pthread_t) * (n_f + 1));
+	gdt->id = (pthread_t *)malloc(sizeof(pthread_t) * (n_f));
 	gdt->phs = (t_philo *)malloc(sizeof(t_philo) * n_f);
 	ft_init_phs_signals(gdt->phs, gdt->phs + n_f);
 	if (!gdt->id || !gdt->phs)
 		exit(-1);
-	*(gdt->id + n_f) = 0;
 	pthread_mutex_init(&gdt->l_start, NULL);
 	pthread_mutex_init(&gdt->l_check, NULL);
 	pthread_mutex_init(&gdt->l_log, NULL);

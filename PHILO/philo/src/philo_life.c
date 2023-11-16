@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:31:11 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/16 12:07:07 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/16 15:58:05 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,19 @@
 
 static short	ft_everyone_has_eaten(t_gdata *gdt, t_philo *phs)
 {
+	pthread_mutex_lock(&gdt->l_log);
 	if (phs->ntme == *(gdt->params + N_EPME) && !phs->ticked)
 	{
 		phs->ticked = 1;
 		gdt->tphe++;
-		pthread_mutex_lock(&gdt->l_log);
 		gdt->signal = SIGNTME;
-		pthread_mutex_unlock(&gdt->l_log);
 	}
 	if (gdt->tphe == *(gdt->params + N_PHILO))
+	{
+		pthread_mutex_unlock(&gdt->l_log);
 		return (1);
+	}
+	pthread_mutex_unlock(&gdt->l_log);
 	return (0);
 }
 
@@ -37,15 +40,9 @@ static short	ft_someone_has_death(t_philo *phs, t_philo *last_phs)
 		now = ft_date_update();
 		pthread_mutex_lock(phs->l_log);
 		delta_time = (now - phs->timer.l_eat) * MILI_TO_MICRO;
-		if (*phs->signal != SIGCONT)
+		if (*phs->signal == SIGDIED || delta_time >= phs->timer.t_die)
 		{
 			pthread_mutex_unlock(phs->l_log);
-			return (1);
-		}
-		if (delta_time >= phs->timer.t_die)
-		{
-			pthread_mutex_unlock(phs->l_log);
-			ft_push_log(phs, "died", DIED);
 			return (1);
 		}
 		pthread_mutex_unlock(phs->l_log);
@@ -54,11 +51,12 @@ static short	ft_someone_has_death(t_philo *phs, t_philo *last_phs)
 	return (0);
 }
 
-static short	ft_all_lifes(t_gdata *gdt, t_philo *phs)
+short	ft_all_lifes(t_gdata *gdt, t_philo *phs)
 {
 	pthread_mutex_lock(&gdt->l_check);
 	if (ft_someone_has_death(phs, gdt->phs + *(gdt->params + N_PHILO)))
 	{
+		ft_push_log(phs, "died", DIED);
 		pthread_mutex_unlock(&gdt->l_check);
 		return (0);
 	}
@@ -74,24 +72,24 @@ static short	ft_all_lifes(t_gdata *gdt, t_philo *phs)
 	return (1);
 }
 
-static void	ft_live(t_gdata *gdt, t_philo *phs, int n_f)
+static void	ft_live(t_philo *phs, int n_f)
 {
 	pthread_mutex_t	*l_first;
 	pthread_mutex_t	*l_second;
 
 	ft_set_locks(phs, &l_first, &l_second);
 	pthread_mutex_lock(l_first);
-	if (n_f > 1 && ft_all_lifes(gdt, phs))
+	if (n_f > 1)
 	{
 		ft_push_log(phs, "has taken a fork", FORKING_ONE);
 		pthread_mutex_lock(l_second);
 		ft_push_log(phs, "has taken a fork", FORKING_TWO);
 		pthread_mutex_lock(phs->l_log);
 		phs->timer.l_eat = ft_date_update();
+		phs->ntme++;
 		pthread_mutex_unlock(phs->l_log);
 		ft_push_log(phs, "is eating", EATING);
 		usleep(phs->timer.t_eat);
-		phs->ntme++;
 		pthread_mutex_unlock(l_first);
 		pthread_mutex_unlock(l_second);
 		ft_push_log(phs, "is sleeping", SLEEPING);
@@ -120,6 +118,6 @@ void	*ft_life_philo(void *arg)
 		pthread_mutex_unlock(&gdt->l_start);
 	}
 	while (ft_all_lifes(gdt, phs))
-		ft_live(gdt, phs, *(gdt->params + N_PHILO));
+		ft_live(phs, *(gdt->params + N_PHILO));
 	return (NULL);
 }

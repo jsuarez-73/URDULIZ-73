@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:34:56 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/16 11:58:29 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/16 19:07:34 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,16 @@ void	ft_memory_flush(t_gdata *gdt)
 	pthread_mutex_destroy(&gdt->l_log);
 }
 
+void	*ft_time_god(void *arg)
+{
+	t_gdata	*gdt;
+
+	gdt = (t_gdata *)arg;
+	while (ft_all_lifes(gdt, gdt->phs))
+		usleep(500);
+	return (NULL);
+}
+
 void	ft_create_threads(t_gdata *gdt, int n_f)
 {
 	int	all;
@@ -44,10 +54,12 @@ void	ft_create_threads(t_gdata *gdt, int n_f)
 	}
 	while (ft_wait_all_init(gdt, all))
 		;
+	pthread_create(&gdt->super, NULL, ft_time_god, gdt);
 }
 
 void	ft_join_threads(t_gdata *gdt, int n_f)
 {
 	while (n_f--)
 		pthread_join(*(gdt->id + n_f), NULL);
+	pthread_join(gdt->super, NULL);
 }
