@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:32:54 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/15 19:38:50 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/16 11:59:47 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_push_log(t_philo *phs, char *log, t_state state)
 {
 	suseconds_t	now;
 	char		*emoji;
-	
+
 	pthread_mutex_lock(phs->l_log);
 	now = ft_date_update();
 	if (phs->state != state && *phs->signal == SIGCONT)

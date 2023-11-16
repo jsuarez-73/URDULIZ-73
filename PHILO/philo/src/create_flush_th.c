@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:34:56 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/15 19:37:32 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/16 11:58:29 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	ft_create_threads(t_gdata *gdt, int n_f)
 		if (n_f >= 1)
 			(gdt->phs + n_f)->back = (gdt->phs + n_f - 1);
 	}
-	while (ft_wait_all_init(gdt, all)) ;
+	while (ft_wait_all_init(gdt, all))
+		;
 }
 
 void	ft_join_threads(t_gdata *gdt, int n_f)

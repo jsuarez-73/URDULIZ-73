@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:57:50 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/15 19:43:55 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/16 11:57:10 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <sys/time.h> //gettimeofday
 # define MILI_TO_MICRO 1000 //convert milisecs to microsecs
 # ifndef EMOJIS
-# define EMOJIS
+#  define EMOJIS
 #  define FORK "\U0001F374"
 #  define SPAGHETTI "\U0001F35D"
 #  define BULB "\U0001F4A1"
@@ -29,6 +29,7 @@
 #  define NAPPING "\U0001F4A4"
 #  define FORK_AND_PLATE "\U0001F37D \U0000FE0F"
 # endif
+
 enum	e_param
 {
 	N_PHILO,
@@ -38,20 +39,20 @@ enum	e_param
 	N_EPME
 } ;
 
-typedef enum	e_lock
+typedef enum e_lock
 {
 	BUSY,
 	FREE
 }	t_lock;
 
-typedef enum	e_signal
+typedef enum e_signal
 {
 	SIGCONT,
 	SIGDIED,
 	SIGNTME
 }	t_signal;
 
-typedef enum	e_state
+typedef enum e_state
 {
 	STARTING,
 	FORKING_ONE,
@@ -62,7 +63,7 @@ typedef enum	e_state
 	DIED
 }	t_state;
 
-typedef struct	s_timers
+typedef struct s_timers
 {
 	int				t_die;
 	int				t_eat;
@@ -71,7 +72,7 @@ typedef struct	s_timers
 	suseconds_t		l_eat;
 }	t_timers;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	t_timers		timer;
 	unsigned int	id;
@@ -86,7 +87,7 @@ typedef struct	s_philo
 	struct s_philo	*back;
 }	t_philo;
 
-typedef struct	s_gdata
+typedef struct s_gdata
 {
 	short				start;
 	int					params[ARGS];
@@ -100,16 +101,16 @@ typedef struct	s_gdata
 	pthread_mutex_t		l_log;
 }	t_gdata;
 
-void	ft_init_args(int argc, char **argv, int *params);
-void	ft_init_gdata(t_gdata *gdt, int n_f);
-void	ft_set_philo(t_gdata **gdt, t_philo **phs);
-short	ft_wait_all_init(t_gdata *gdt, int n_f);
-void	*ft_life_philo(void *arg);
-void	ft_set_locks(t_philo *phs, pthread_mutex_t **f, pthread_mutex_t **s);
-void	ft_push_log(t_philo *phs, char *log, t_state state);
+void		ft_init_args(int argc, char **argv, int *params);
+void		ft_init_gdata(t_gdata *gdt, int n_f);
+void		ft_set_philo(t_gdata **gdt, t_philo **phs);
+short		ft_wait_all_init(t_gdata *gdt, int n_f);
+void		*ft_life_philo(void *arg);
+void		ft_set_locks(t_philo *p, pthread_mutex_t **f, pthread_mutex_t **s);
+void		ft_push_log(t_philo *phs, char *log, t_state state);
 suseconds_t	ft_date_update(void);
-void	ft_memory_flush(t_gdata *gdt);
-void	ft_create_threads(t_gdata *gdt, int n_f);
-void	ft_join_threads(t_gdata *gdt, int n_f);
+void		ft_memory_flush(t_gdata *gdt);
+void		ft_create_threads(t_gdata *gdt, int n_f);
+void		ft_join_threads(t_gdata *gdt, int n_f);
 
 #endif

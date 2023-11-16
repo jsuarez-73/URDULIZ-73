@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 18:13:55 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/08 19:40:40 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/16 12:01:28 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static int	ft_isdigit(int c)
 		return (1);
 	return (0);
 }
-
 
 static int	ft_atoi(const char *s1)
 {	
@@ -43,7 +42,6 @@ static int	ft_atoi(const char *s1)
 
 static int	ft_valid_format(char *str)
 {
-	
 	if (!str || *str == '\0')
 		return (0);
 	if (*str == '+')
@@ -75,6 +73,11 @@ void	ft_init_args(int argc, char **argv, int *params)
 				*(params + argc - 1) = 0;
 			while (argc-- > 1)
 				*(params + argc - 1) = ft_atoi(*(argv + argc));
+			if (*(params + argc) == 0)
+			{
+				printf("Who are gonna eat all that food mate, uh?\n");
+				exit(-1);
+			}
 		}
 		else
 		{
