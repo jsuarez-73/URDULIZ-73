@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:31:11 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/16 15:58:05 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/21 19:05:55 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static short	ft_someone_has_death(t_philo *phs, t_philo *last_phs)
 
 	while (phs < last_phs)
 	{
-		now = ft_date_update();
 		pthread_mutex_lock(phs->l_log);
+		now = ft_date_update();
 		delta_time = (now - phs->timer.l_eat) * MILI_TO_MICRO;
 		if (*phs->signal == SIGDIED || delta_time >= phs->timer.t_die)
 		{
