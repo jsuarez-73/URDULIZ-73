@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 08:17:44 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/24 17:19:14 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/24 20:56:29 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,47 +52,94 @@ void	ft_set_name(char *spot, int ndig, int id)
 	}
 }
 
-void	ft_unlink_sdeaths(t_gdata *gdt, int n_f)
+void	ft_close_semaphores(t_gdata *gdt, int flush_mask)
+{
+	int	cn;
+
+	cn = *(gdt->params + N_PHILO);
+	if (flush_mask & F_FORK)
+		sem_close(gdt->s_fork);
+	if (flush_mask & F_DEATH)
+	{
+		while (cn--)
+			sem_close(*(gdt->s_death + cn));
+	}
+	if (flush_mask & F_STOP)
+		sem_close(gdt->s_stop);
+	if (flush_mask & F_TERM)
+		sem_close(gdt->s_term);
+	if (flush_mask & F_TABLE)
+		sem_close(gdt->s_table);
+}
+
+void	ft_unlink_semaphores(t_gdata *gdt, int flush_mask)
 {
 	int	cn;
 	int	res;
 
-	cn = -1;
+	cn = *(gdt->params + N_PHILO);
 	res = 0;
-	while (++cn < n_f && res == 0)
-		res = sem_unlink(*(gdt->s_names + cn));
+	if (flush_mask & F_FORK)
+		sem_unlink(SEM_FORK);
+	if (flush_mask & F_DEATH)
+		while (cn-- && res == 0)
+			res = sem_unlink(*(gdt->s_names + cn));
+	if (flush_mask & F_STOP)
+		sem_unlink(SEM_STOP);
+	if (flush_mask & F_TERM)
+		sem_unlink(SEM_TERM);
+	if (flush_mask & F_TABLE)
+		sem_unlink(SEM_TABLE);
+}
+
+void	ft_flush_semaphores(t_gdata *gdt, int cls_mask, int flush_mask)
+{
+	if (flush_mask & FE_NFLUSH)
+		return ;
+	if (cls_mask & CLOSE)
+		ft_close_semaphores(gdt, flush_mask);
+	if (cls_mask & UNLINK)
+		ft_unlink_semaphores(gdt, flush_mask);
+}
+
+short	ft_open_sdeaths(t_gdata *gdt)
+{
+	int		cn;
+	int		o_flgs;
+
+	cn = *(gdt->params + N_PHILO);
+	o_flgs = O_CREAT | O_EXCL;
+	while (cn--)
+	{
+		*(gdt->s_death + cn) = sem_open(*(gdt->s_names + cn), o_flgs, 0664, 1);
+		if (*(gdt->s_death + cn) == SEM_FAILED)
+		{
+			while (++cn < *(gdt->params + N_PHILO))
+			{
+				sem_close(*(gdt->s_death + cn));
+				sem_unlink(*(gdt->s_names + cn));
+			}
+			return (0);
+		}
+	}
+	return (1);
 }
 
 int	ft_open_semaphores(t_gdata *gdt)
 {
 	int	o_flags;
 	int	cn;
-	int n_f;
+	int	n_f;
 
 	cn = *(gdt->params + N_PHILO);
 	n_f = cn;
 	o_flags = O_CREAT | O_EXCL;
-	sem_unlink(SEM_FORK);
-	ft_unlink_sdeaths(gdt, n_f);
-	sem_unlink(SEM_STOP);
-	sem_unlink(SEM_TERM);
-	sem_unlink(SEM_TABLE);
-	gdt->s_fork =  sem_open(SEM_FORK, o_flags, 0664, n_f);
+	ft_unlink_semaphores(gdt, FLUSH_ALL);
+	gdt->s_fork = sem_open(SEM_FORK, o_flags, 0664, n_f);
 	if (gdt->s_fork == SEM_FAILED)
 		return (FE_NFLUSH);
-	while (cn--)
-	{
-		*(gdt->s_death + cn) =  sem_open(*(gdt->s_names + cn), o_flags, 0664, 1);
-		if (*(gdt->s_death + cn) == SEM_FAILED)
-		{
-			while (++cn < n_f)
-			{
-				sem_close(*(gdt->s_death + cn));
-				sem_unlink(*(gdt->s_names + cn));
-			}
-			return (F_FORK);
-		}
-	}
+	if (!ft_open_sdeaths(gdt))
+		return (F_FORK);
 	gdt->s_stop = sem_open(SEM_STOP, o_flags, 0664, 1);
 	if (gdt->s_stop == SEM_FAILED)
 		return (F_FORK | F_DEATH);
@@ -103,41 +150,6 @@ int	ft_open_semaphores(t_gdata *gdt)
 	if (gdt->s_table == SEM_FAILED)
 		return (F_FORK | F_DEATH | F_STOP | F_TERM);
 	return (NO_FLUSH);
-}
-
-void	ft_close_semaphores(t_gdata *gdt, int cls_mask, int flush_mask)
-{
-	int	cn;
-	int	xn;
-
-	cn = *(gdt->params + N_PHILO);
-	xn = cn;
-	if (flush_mask & FE_NFLUSH)
-		return ;
-	if ((flush_mask & F_FORK) && (cls_mask & CLOSE))
-		sem_close(gdt->s_fork);
-	if ((flush_mask & F_FORK) && (cls_mask & UNLINK))
-		sem_unlink(SEM_FORK);
-	if ((flush_mask & F_DEATH) && (cls_mask & CLOSE))
-	{
-		while (cn--)
-			sem_close(*(gdt->s_death + cn));
-	}
-	if ((flush_mask & F_DEATH) && (cls_mask & UNLINK))
-		while (xn--)
-			sem_unlink(*(gdt->s_names + xn));
-	if ((flush_mask & F_STOP) && (cls_mask & CLOSE))
-		sem_close(gdt->s_stop);
-	if ((flush_mask & F_STOP) && (cls_mask & UNLINK))
-		sem_unlink(SEM_STOP);
-	if ((flush_mask & F_TERM) && (cls_mask & CLOSE))
-		sem_close(gdt->s_term);
-	if ((flush_mask & F_TERM) && (cls_mask & UNLINK))	
-		sem_unlink(SEM_TERM);
-	if ((flush_mask & F_TABLE) && (cls_mask & CLOSE))
-		sem_close(gdt->s_table);
-	if ((flush_mask & F_TABLE) && (cls_mask & UNLINK))	
-		sem_unlink(SEM_TABLE);
 }
 
 char	**ft_set_semaphore_names(int n_f)
@@ -166,11 +178,8 @@ char	**ft_set_semaphore_names(int n_f)
 	return (names);
 }
 
-short	ft_init_gdata(t_gdata *gdt, int n_f)
+void	ft_init_gdata_helper(t_gdata *gdt)
 {
-	int	flush_mask;
-
-	flush_mask = NO_FLUSH;
 	gdt->tphe = 0;
 	gdt->death = 0;
 	gdt->philo.timer.t_die = *(gdt->params + T_DIE) * MILI_TO_MICRO;
@@ -181,6 +190,14 @@ short	ft_init_gdata(t_gdata *gdt, int n_f)
 	gdt->philo.ntme = 0;
 	gdt->philo.state = WAITING;
 	gdt->philo.id = 0;
+}
+
+short	ft_init_gdata(t_gdata *gdt, int n_f)
+{
+	int	flush_mask;
+
+	flush_mask = NO_FLUSH;
+	ft_init_gdata_helper(gdt);
 	gdt->id = (pid_t *)malloc(sizeof(pid_t) * n_f);
 	if (!gdt->id)
 		return (0);
@@ -193,7 +210,7 @@ short	ft_init_gdata(t_gdata *gdt, int n_f)
 	flush_mask = ft_open_semaphores(gdt);
 	if (flush_mask)
 	{
-		ft_close_semaphores(gdt, CLS_UNLINK, flush_mask);
+		ft_flush_semaphores(gdt, CLS_UNLINK, flush_mask);
 		free(gdt->id);
 		free(gdt->s_death);
 		free(gdt->s_names);
@@ -208,10 +225,10 @@ void	ft_exit(t_gdata *gdt, int status, int parent)
 
 	cn = *(gdt->params + N_PHILO);
 	if (parent)
-		ft_close_semaphores(gdt, CLS_UNLINK, FLUSH_ALL);
+		ft_flush_semaphores(gdt, CLS_UNLINK, FLUSH_ALL);
 	else
 	{
-		ft_close_semaphores(gdt, CLOSE, FLUSH_ALL);
+		ft_flush_semaphores(gdt, CLOSE, FLUSH_ALL);
 	}
 	if (gdt->id)
 		free(gdt->id);
@@ -278,32 +295,35 @@ void	ft_push_log(t_gdata *gdt, char *log, t_state state)
 		sem_post(*(gdt->s_death + gdt->philo.id - 1));
 }
 
+void	ft_set_supervisor_timer(t_gdata *gdt, t_suptimer *suptimer)
+{
+	suptimer->now = ft_date_update();
+	suptimer->dtime = (suptimer->now - gdt->philo.timer.l_eat) * MILI_TO_MICRO;
+	suptimer->phs_tdie = gdt->philo.timer.t_die;
+}
+
 void	*ft_supervisor(void *arg)
 {
 	t_gdata		*gdt;
-	suseconds_t	now;
-	suseconds_t	dtime;
 	int			n_epme;
-	int			phs_tdie;
+	t_suptimer	suptimer;
 
 	gdt = (t_gdata *)arg;
 	n_epme = *(gdt->params + N_EPME);
 	while (1)
 	{
 		sem_wait(*(gdt->s_death + gdt->philo.id - 1));
-		now = ft_date_update();
-		dtime = (now - gdt->philo.timer.l_eat) * MILI_TO_MICRO;
-		phs_tdie = gdt->philo.timer.t_die;
+		ft_set_supervisor_timer(gdt, &suptimer);
 		if (n_epme > 0 && gdt->philo.ntme == n_epme)
 		{
 			sem_post(*(gdt->s_death + gdt->philo.id - 1));
-			break;
+			break ;
 		}
 		sem_post(*(gdt->s_death + gdt->philo.id - 1));
-		if (dtime >= phs_tdie)
+		if (suptimer.dtime >= suptimer.phs_tdie)
 		{
 			ft_push_log(gdt, "has died", DIED);
-			break;
+			break ;
 		}
 		usleep(1);
 	}
@@ -335,6 +355,22 @@ static void	ft_live(t_gdata *gdt, int n_f)
 	}
 }
 
+short	ft_check_state(t_gdata *gdt, int *state, int n_epme)
+{
+	if (gdt->philo.state == DIED)
+	{
+		*state = gdt->philo.state;
+		return (0);
+	}
+	if (n_epme > 0 && gdt->philo.ntme == n_epme)
+	{
+		gdt->philo.state = FEED;
+		*state = FEED;
+		return (0);
+	}
+	return (1);
+}
+
 int	ft_born_philo(t_gdata *gdt, int id)
 {
 	pthread_t	tid;
@@ -351,16 +387,8 @@ int	ft_born_philo(t_gdata *gdt, int id)
 	while (1)
 	{
 		sem_wait(*(gdt->s_death + id - 1));
-		if (gdt->philo.state == DIED)
-		{
-			state = gdt->philo.state;
-			break;
-		}
-		if (n_epme > 0 && gdt->philo.ntme == n_epme)
-		{
-			gdt->philo.state = FEED;
-			break;
-		}
+		if (!ft_check_state(gdt, &state, n_epme))
+			break ;
 		sem_post(*(gdt->s_death + id - 1));
 		ft_live(gdt, n_f);
 	}
@@ -388,7 +416,7 @@ short	ft_create_childs(t_gdata *gdt, int n_f)
 		else if (ppid == -1)
 			return (0);
 		else
-			ft_exit(gdt, ft_born_philo(gdt, id), 0);
+			ft_exit(gdt, ft_born_philo(gdt, id), CHILD);
 	}
 	return (1);
 }
@@ -398,7 +426,7 @@ void	*ft_super_death(void *arg)
 	t_gdata	*gdt;
 	int		cn;
 
-	gdt = (t_gdata*)arg;
+	gdt = (t_gdata *)arg;
 	cn = -1;
 	while (1)
 	{
@@ -407,12 +435,12 @@ void	*ft_super_death(void *arg)
 		{
 			while (++cn < *(gdt->params + N_PHILO))
 				kill(*(gdt->id + cn), SIGKILL);
-			break;
+			break ;
 		}
 		else
 		{
 			if (gdt->tphe == *(gdt->params + N_PHILO))
-				break;
+				break ;
 		}
 		sem_post(gdt->s_stop);
 		usleep(1);
@@ -432,7 +460,7 @@ int	main(int argc, char **argv)
 	if (!ft_init_gdata(&gdt, n_f))
 		exit(-1);
 	if (!ft_create_childs(&gdt, n_f))
-		ft_exit(&gdt, -1, 1);
+		ft_exit(&gdt, -1, PARENT);
 	pthread_create(&gdt.id_death, NULL, ft_super_death, &gdt);
 	while (n_f--)
 	{
@@ -445,7 +473,6 @@ int	main(int argc, char **argv)
 		sem_post(gdt.s_stop);
 	}
 	pthread_join(gdt.id_death, NULL);
-	ft_exit(&gdt, 0, 1);
+	ft_exit(&gdt, 0, PARENT);
 	return (0);
 }
-

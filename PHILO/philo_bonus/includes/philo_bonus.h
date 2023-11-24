@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 19:49:45 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/24 14:01:34 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/24 20:57:40 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,13 @@ typedef enum e_state
 	THINKING
 }	t_state;
 
+typedef struct s_suptimer
+{
+	suseconds_t	now;
+	suseconds_t	dtime;
+	int			phs_tdie;
+}	t_suptimer;
+
 typedef struct s_timers
 {
 	int				t_die;
@@ -106,7 +113,6 @@ typedef struct s_philo
 	int				ntme;
 	int				id;
 	t_state			state;
-	
 }	t_philo;
 
 typedef struct s_gdata
