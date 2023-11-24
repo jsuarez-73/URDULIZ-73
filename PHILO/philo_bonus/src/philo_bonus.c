@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 08:17:44 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/24 16:50:26 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/24 17:19:14 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -348,7 +348,6 @@ int	ft_born_philo(t_gdata *gdt, int id)
 	n_epme = *(gdt->params + N_EPME);
 	n_f = *(gdt->params + N_PHILO);
 	pthread_create(&tid, NULL, ft_supervisor, gdt);
-	pthread_detach(tid);
 	while (1)
 	{
 		sem_wait(*(gdt->s_death + id - 1));
@@ -366,6 +365,7 @@ int	ft_born_philo(t_gdata *gdt, int id)
 		ft_live(gdt, n_f);
 	}
 	sem_post(*(gdt->s_death + id - 1));
+	pthread_join(tid, NULL);
 	return (state);
 }
 
