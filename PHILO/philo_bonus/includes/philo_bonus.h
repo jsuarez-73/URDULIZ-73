@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 19:49:45 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/24 20:57:40 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/24 21:21:19 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,22 @@ typedef struct s_gdata
 	t_philo		philo;
 }	t_gdata;
 
-void	ft_init_args(int argc, char **argv, int *params);
+void		ft_init_args(int argc, char **argv, int *params);
+int			ft_ndigits(int n);
+void		ft_set_name(char *spot, int ndig, int id);
+char		**ft_set_semaphore_names(int n_f);
+suseconds_t	ft_date_update(void);
+int			ft_born_philo(t_gdata *gdt, int id);
+void		ft_close_semaphores(t_gdata *gdt, int flush_mask);
+void		ft_unlink_semaphores(t_gdata *gdt, int flush_mask);
+void		ft_flush_semaphores(t_gdata *gdt, int cls_mask, int flush_mask);
+short		ft_open_sdeaths(t_gdata *gdt);
+int			ft_open_semaphores(t_gdata *gdt);
+short		ft_init_gdata(t_gdata *gdt, int n_f);
+void		ft_push_log(t_gdata *gdt, char *log, t_state state);
+void		ft_exit(t_gdata *gdt, int status, int parent);
+short		ft_create_childs(t_gdata *gdt, int n_f);
+void		*ft_super_death(void *arg);
+char		*ft_set_emoji(t_state state);
 
 #endif
