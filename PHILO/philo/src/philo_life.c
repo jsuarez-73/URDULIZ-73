@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_life.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:31:11 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/21 19:05:55 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/25 12:07:18 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ static short	ft_everyone_has_eaten(t_gdata *gdt, t_philo *phs)
 
 static short	ft_someone_has_death(t_philo *phs, t_philo *last_phs)
 {
-	suseconds_t	now;
-	suseconds_t	delta_time;
+	long	now;
+	long	delta_time;
 
 	while (phs < last_phs)
 	{

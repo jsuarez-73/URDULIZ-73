@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:57:50 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/16 15:08:04 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/25 11:16:47 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef enum e_lock
 
 typedef enum e_signal
 {
-	SIGCONT,
+	SGCONT,
 	SIGDIED,
 	SIGNTME
 }	t_signal;
@@ -65,11 +65,11 @@ typedef enum e_state
 
 typedef struct s_timers
 {
-	int				t_die;
-	int				t_eat;
-	int				t_slp;
-	int				t_think;
-	suseconds_t		l_eat;
+	long	t_die;
+	long	t_slp;
+	long	t_eat;
+	long	t_think;
+	long	l_eat;
 }	t_timers;
 
 typedef struct s_philo
@@ -109,7 +109,7 @@ short		ft_wait_all_init(t_gdata *gdt, int n_f);
 void		*ft_life_philo(void *arg);
 void		ft_set_locks(t_philo *p, pthread_mutex_t **f, pthread_mutex_t **s);
 void		ft_push_log(t_philo *phs, char *log, t_state state);
-suseconds_t	ft_date_update(void);
+long		ft_date_update(void);
 void		ft_memory_flush(t_gdata *gdt);
 void		ft_create_threads(t_gdata *gdt, int n_f);
 void		ft_join_threads(t_gdata *gdt, int n_f);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:28:26 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/17 14:22:38 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/25 12:02:55 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_init_gdata(t_gdata *gdt, int n_f)
 	pthread_mutex_init(&gdt->l_log, NULL);
 	gdt->start = 1;
 	gdt->tphe = 0;
-	gdt->signal = SIGCONT;
+	gdt->signal = SGCONT;
 	gdt->markers = n_f;
 	gdt->phs->back = gdt->phs + n_f - 1;
 }

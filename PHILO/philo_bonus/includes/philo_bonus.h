@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 19:49:45 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/24 21:21:19 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/25 12:24:08 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,18 +93,18 @@ typedef enum e_state
 
 typedef struct s_suptimer
 {
-	suseconds_t	now;
-	suseconds_t	dtime;
-	int			phs_tdie;
+	long	now;
+	long	dtime;
+	long	phs_tdie;
 }	t_suptimer;
 
 typedef struct s_timers
 {
-	int				t_die;
-	int				t_eat;
-	int				t_slp;
-	int				t_think;
-	suseconds_t		l_eat;
+	long	t_die;
+	long	t_eat;
+	long	t_slp;
+	long	t_think;
+	long	l_eat;
 }	t_timers;
 
 typedef struct s_philo
@@ -135,7 +135,7 @@ void		ft_init_args(int argc, char **argv, int *params);
 int			ft_ndigits(int n);
 void		ft_set_name(char *spot, int ndig, int id);
 char		**ft_set_semaphore_names(int n_f);
-suseconds_t	ft_date_update(void);
+long		ft_date_update(void);
 int			ft_born_philo(t_gdata *gdt, int id);
 void		ft_close_semaphores(t_gdata *gdt, int flush_mask);
 void		ft_unlink_semaphores(t_gdata *gdt, int flush_mask);

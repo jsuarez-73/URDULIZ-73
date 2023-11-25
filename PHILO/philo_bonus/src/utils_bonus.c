@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 21:01:44 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/24 21:21:14 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/25 12:21:10 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,17 @@ int	ft_ndigits(int n)
 
 void	ft_set_name(char *spot, int ndig, int id)
 {
-	int	cn;
-	int	dig;
+	int		cn;
+	int		dig;
+	char	*sem_death;
 
 	cn = (NCH_SD + ndig);
 	*(spot + (NCH_SD + ndig)) = '\0';
+	sem_death = SEM_DEATH;
 	while (cn--)
 	{
 		if (cn < NCH_SD)
-			*(spot + cn) = *(SEM_DEATH + cn);
+			*(spot + cn) = *(sem_death + cn);
 		else
 		{
 			if (id >= 10)
@@ -78,7 +80,7 @@ char	**ft_set_semaphore_names(int n_f)
 	return (names);
 }
 
-suseconds_t	ft_date_update(void)
+long	ft_date_update(void)
 {
 	struct timeval	tday;
 

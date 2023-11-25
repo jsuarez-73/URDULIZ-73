@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:32:54 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/16 11:59:47 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/25 11:13:50 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-suseconds_t	ft_date_update(void)
+long	ft_date_update(void)
 {
 	struct timeval	tday;
 
@@ -40,18 +40,18 @@ static char	*ft_set_emoji(t_state state)
 
 void	ft_push_log(t_philo *phs, char *log, t_state state)
 {
-	suseconds_t	now;
-	char		*emoji;
+	long	now;
+	char	*emoji;
 
 	pthread_mutex_lock(phs->l_log);
 	now = ft_date_update();
-	if (phs->state != state && *phs->signal == SIGCONT)
+	if (phs->state != state && *phs->signal == SGCONT)
 	{
 		phs->state = state;
 		if (state == DIED)
 			*phs->signal = SIGDIED;
 		emoji = ft_set_emoji(state);
-		printf("%lu %u %s %s\n", now, phs->id, log, emoji);
+		printf("%ld %u %s %s\n", now, phs->id, log, emoji);
 	}
 	pthread_mutex_unlock(phs->l_log);
 }

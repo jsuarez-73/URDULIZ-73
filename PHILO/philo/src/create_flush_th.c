@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_flush_th.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:34:56 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/16 19:07:34 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/25 10:46:26 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	ft_create_threads(t_gdata *gdt, int n_f)
 	all = n_f;
 	while (n_f--)
 	{
-		pthread_create(gdt->id + n_f, NULL, ft_life_philo, gdt);
 		if (n_f >= 1)
 			(gdt->phs + n_f)->back = (gdt->phs + n_f - 1);
+		pthread_create(gdt->id + n_f, NULL, ft_life_philo, gdt);
 	}
 	while (ft_wait_all_init(gdt, all))
 		;

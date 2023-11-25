@@ -8,3 +8,6 @@ TESTS/
 NOTES/
 ETC/
 **/.idea
+**/.DS_STORE
+**/*.dSYME
+**/*.dSYME/
