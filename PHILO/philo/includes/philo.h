@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:57:50 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/25 17:56:02 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/26 19:31:12 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,7 @@ typedef struct s_philo
 	t_state			state;
 	t_signal		*signal;
 	pthread_mutex_t	fork;
-	pthread_mutex_t	*l_start;
-	pthread_mutex_t	*l_log;
-	pthread_mutex_t	*l_avail;
+	pthread_mutex_t	*l_shared;
 	struct s_philo	*back;
 }	t_philo;
 
@@ -103,10 +101,7 @@ typedef struct s_gdata
 	t_philo				*phs;
 	pthread_t			*id;
 	pthread_t			super;
-	pthread_mutex_t		l_start;
-	pthread_mutex_t		l_check;
-	pthread_mutex_t		l_log;
-	pthread_mutex_t		l_avail;
+	pthread_mutex_t		l_shared;
 }	t_gdata;
 
 void		ft_init_args(int argc, char **argv, int *params);

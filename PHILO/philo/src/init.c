@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:28:26 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/25 18:06:18 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/26 19:16:26 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ void	ft_init_gdata(t_gdata *gdt, int n_f)
 		exit(-1);
 	}
 	ft_init_phs_signals(gdt->phs, gdt->phs + n_f);
-	pthread_mutex_init(&gdt->l_start, NULL);
-	pthread_mutex_init(&gdt->l_check, NULL);
-	pthread_mutex_init(&gdt->l_log, NULL);
-	pthread_mutex_init(&gdt->l_avail, NULL);
+	pthread_mutex_init(&gdt->l_shared, NULL);
 	gdt->start = 1;
 	gdt->tphe = 0;
 	gdt->signal = SGCONT;
@@ -45,10 +42,10 @@ void	ft_init_gdata(t_gdata *gdt, int n_f)
 	gdt->tables = n_f - 1;
 	gdt->phs_feed = 0;
 }
-/*LOS TIEMPOS DE FALLECIMIENTO NO COINCIDEN, ENTRAN CORRECTAMENTE A COMER!*/
+
 void	ft_set_philo(t_gdata **gdt, t_philo **phs)
 {
-	pthread_mutex_lock(&(*gdt)->l_start);
+	pthread_mutex_lock(&(*gdt)->l_shared);
 	*phs = (*gdt)->phs + --(*gdt)->markers;
 	(*phs)->id = (*gdt)->markers + 1;
 	(*phs)->free = FREE;
@@ -60,14 +57,12 @@ void	ft_set_philo(t_gdata **gdt, t_philo **phs)
 	(*phs)->timer.t_think = (*phs)->timer.t_die / MILI_TO_MICRO;
 	(*phs)->state = STARTING;
 	(*phs)->signal = &(*gdt)->signal;
-	(*phs)->l_start = &(*gdt)->l_start;
-	(*phs)->l_log = &(*gdt)->l_log;
+	(*phs)->l_shared = &(*gdt)->l_shared;
 	(*phs)->feed = 0;
 	(*phs)->round = 0;
 	(*phs)->tables = &(*gdt)->tables;
-	(*phs)->l_avail = &(*gdt)->l_avail;
 	pthread_mutex_init(&(*phs)->fork, NULL);
-	pthread_mutex_unlock(&(*gdt)->l_start);
+	pthread_mutex_unlock(&(*gdt)->l_shared);
 }
 
 static void	ft_set_lifetime(t_gdata *gdt, t_philo *last_phs)
@@ -75,13 +70,11 @@ static void	ft_set_lifetime(t_gdata *gdt, t_philo *last_phs)
 	t_philo	*off_phs;
 
 	off_phs = gdt->phs;
-	pthread_mutex_lock(&gdt->l_check);
 	while (off_phs < last_phs)
 	{
 		off_phs->timer.l_eat = ft_date_update();
 		off_phs++;
 	}
-	pthread_mutex_unlock(&gdt->l_check);
 }
 
 short	ft_wait_all_init(t_gdata *gdt, int n_f)
@@ -91,23 +84,23 @@ short	ft_wait_all_init(t_gdata *gdt, int n_f)
 
 	last_phs = gdt->phs + n_f;
 	phs = gdt->phs;
-	pthread_mutex_lock(&gdt->l_start);
+	pthread_mutex_lock(&gdt->l_shared);
 	while (phs < last_phs)
 	{
 		if (!phs->signal)
 		{
-			pthread_mutex_unlock(&gdt->l_start);
+			pthread_mutex_unlock(&gdt->l_shared);
 			return (1);
 		}
 		else if (phs + 1 == last_phs && phs->signal)
 		{
 			ft_set_lifetime(gdt, last_phs);
 			gdt->start = 0;
-			pthread_mutex_unlock(&gdt->l_start);
+			pthread_mutex_unlock(&gdt->l_shared);
 			return (0);
 		}
 		phs++;
 	}
-	pthread_mutex_unlock(&gdt->l_start);
+	pthread_mutex_unlock(&gdt->l_shared);
 	return (1);
 }

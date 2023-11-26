@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:34:56 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/25 19:23:12 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/26 19:43:40 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ void	ft_memory_flush(t_gdata *gdt)
 	}
 	if (gdt->phs)
 		free(gdt->phs);
-	pthread_mutex_destroy(&gdt->l_start);
-	pthread_mutex_destroy(&gdt->l_check);
-	pthread_mutex_destroy(&gdt->l_log);
-	pthread_mutex_destroy(&gdt->l_avail);
+	pthread_mutex_destroy(&gdt->l_shared);
 }
 
 void	*ft_time_god(void *arg)
