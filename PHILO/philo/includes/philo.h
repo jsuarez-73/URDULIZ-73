@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:57:50 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/25 11:16:47 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/25 17:56:02 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,16 @@ typedef struct s_philo
 	unsigned int	id;
 	int				ntme;
 	short			ticked;
+	int				round;
+	short			feed;
+	int				*tables;
 	t_lock			free;
 	t_state			state;
 	t_signal		*signal;
 	pthread_mutex_t	fork;
 	pthread_mutex_t	*l_start;
 	pthread_mutex_t	*l_log;
+	pthread_mutex_t	*l_avail;
 	struct s_philo	*back;
 }	t_philo;
 
@@ -93,6 +97,8 @@ typedef struct s_gdata
 	int					params[ARGS];
 	unsigned int		markers;
 	int					tphe;
+	int					tables;
+	int					phs_feed;
 	t_signal			signal;
 	t_philo				*phs;
 	pthread_t			*id;
@@ -100,6 +106,7 @@ typedef struct s_gdata
 	pthread_mutex_t		l_start;
 	pthread_mutex_t		l_check;
 	pthread_mutex_t		l_log;
+	pthread_mutex_t		l_avail;
 }	t_gdata;
 
 void		ft_init_args(int argc, char **argv, int *params);

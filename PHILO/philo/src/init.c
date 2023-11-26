@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:28:26 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/25 12:02:55 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/25 18:06:18 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,16 @@ void	ft_init_gdata(t_gdata *gdt, int n_f)
 	pthread_mutex_init(&gdt->l_start, NULL);
 	pthread_mutex_init(&gdt->l_check, NULL);
 	pthread_mutex_init(&gdt->l_log, NULL);
+	pthread_mutex_init(&gdt->l_avail, NULL);
 	gdt->start = 1;
 	gdt->tphe = 0;
 	gdt->signal = SGCONT;
 	gdt->markers = n_f;
 	gdt->phs->back = gdt->phs + n_f - 1;
+	gdt->tables = n_f - 1;
+	gdt->phs_feed = 0;
 }
-
+/*LOS TIEMPOS DE FALLECIMIENTO NO COINCIDEN, ENTRAN CORRECTAMENTE A COMER!*/
 void	ft_set_philo(t_gdata **gdt, t_philo **phs)
 {
 	pthread_mutex_lock(&(*gdt)->l_start);
@@ -59,6 +62,10 @@ void	ft_set_philo(t_gdata **gdt, t_philo **phs)
 	(*phs)->signal = &(*gdt)->signal;
 	(*phs)->l_start = &(*gdt)->l_start;
 	(*phs)->l_log = &(*gdt)->l_log;
+	(*phs)->feed = 0;
+	(*phs)->round = 0;
+	(*phs)->tables = &(*gdt)->tables;
+	(*phs)->l_avail = &(*gdt)->l_avail;
 	pthread_mutex_init(&(*phs)->fork, NULL);
 	pthread_mutex_unlock(&(*gdt)->l_start);
 }

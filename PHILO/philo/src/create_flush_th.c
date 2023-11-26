@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_flush_th.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:34:56 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/25 10:46:26 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/25 19:23:12 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_memory_flush(t_gdata *gdt)
 	pthread_mutex_destroy(&gdt->l_start);
 	pthread_mutex_destroy(&gdt->l_check);
 	pthread_mutex_destroy(&gdt->l_log);
+	pthread_mutex_destroy(&gdt->l_avail);
 }
 
 void	*ft_time_god(void *arg)
@@ -37,7 +38,7 @@ void	*ft_time_god(void *arg)
 
 	gdt = (t_gdata *)arg;
 	while (ft_all_lifes(gdt, gdt->phs))
-		usleep(500);
+		usleep(1);
 	return (NULL);
 }
 
