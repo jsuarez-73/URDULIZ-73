@@ -1,5 +1,6 @@
 #Just Ignoring You
 .vscode/**
+**/.vscode/
 *.gdb
 *.jsb
 *.a
@@ -9,5 +10,5 @@ NOTES/
 ETC/
 **/.idea
 **/.DS_STORE
-**/*.dSYME
-**/*.dSYME/
+*.dSYM/
+**/*.dSYM/

@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:31:11 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/28 10:16:07 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/28 11:14:06 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	ft_restart_availability(t_gdata *gdt)
 {
 	int		n_f;
 	t_philo	*last_feed;
-
+	
 	n_f = *(gdt->params + N_PHILO);
 	if (gdt->phs_feed >= n_f)
 	{
@@ -193,8 +193,13 @@ void	*ft_life_philo(void *arg)
 		usleep(10);
 	while (!wait)
 	{
+		pthread_mutex_lock(&gdt->l_shared);
 		if (!phs->feed)
+		{
+			pthread_mutex_unlock(&gdt->l_shared);
 			ft_live(gdt, phs, *(gdt->params + N_PHILO));
+		}
+		pthread_mutex_unlock(&gdt->l_shared);
 		pthread_mutex_lock(&gdt->l_shared);
 		if (gdt->signal == SIGDIED || gdt->signal == SIGNTME)
 			wait = 1;

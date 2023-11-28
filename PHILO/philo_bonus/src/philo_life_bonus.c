@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_life_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 21:06:28 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/24 21:08:13 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/28 12:36:50 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	*ft_supervisor(void *arg)
 	}
 	return (NULL);
 }
-
+/*POSIBILE RACE IN 61 WITH 18*/
 static void	ft_live(t_gdata *gdt, int n_f)
 {
 	if (n_f > 1)

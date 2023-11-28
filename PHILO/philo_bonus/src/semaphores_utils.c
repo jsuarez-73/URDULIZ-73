@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   semaphores_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 21:10:12 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/24 21:10:28 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/28 12:24:41 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ short	ft_open_sdeaths(t_gdata *gdt)
 	}
 	return (1);
 }
-
+/*MODIFICADO: O_EXCL exclusive flag desactivada en MAC,
+analizar unlink*/
 int	ft_open_semaphores(t_gdata *gdt)
 {
 	int	o_flags;
@@ -93,7 +94,7 @@ int	ft_open_semaphores(t_gdata *gdt)
 
 	cn = *(gdt->params + N_PHILO);
 	n_f = cn;
-	o_flags = O_CREAT | O_EXCL;
+	o_flags = O_CREAT;
 	ft_unlink_semaphores(gdt, FLUSH_ALL);
 	gdt->s_fork = sem_open(SEM_FORK, o_flags, 0664, n_f);
 	if (gdt->s_fork == SEM_FAILED)

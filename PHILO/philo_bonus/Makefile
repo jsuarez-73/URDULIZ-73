@@ -3,14 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
+#    By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 19:26:50 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/11/24 21:20:37 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/11/28 12:23:19 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CFLAGS = -Wall -Wextra -Werror
+FSANITIZE_ON = -fsanitize=thread
+FSANITIZE_OFF = 
 CC = gcc
 NAME = philo_bonus
 SRCS = philo_bonus.c\
@@ -27,10 +29,10 @@ OBJS = $(SRCS:%.c=%.o)
 all : $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) -o $(NAME) $(OBJS)
+	$(CC) -o $(NAME) $(FSANITIZE_ON) $(OBJS)
 
 $(OBJS): $(addprefix src/, $(SRCS))
-	$(CC) -c -g $(CFLAGS) -Iincludes $(addprefix src/, $(SRCS))
+	$(CC) -c -g $(CFLAGS) $(FSANITIZE_ON) -Iincludes $(addprefix src/, $(SRCS))
 
 clean:
 	rm -rf $(OBJS)
