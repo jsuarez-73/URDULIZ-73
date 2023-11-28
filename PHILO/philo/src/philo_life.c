@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:31:11 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/28 07:53:59 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/28 10:16:07 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ static void	ft_live(t_gdata *gdt, t_philo *phs, int n_f)
 
 	ft_set_locks(phs, &l_first, &l_second);
 	pthread_mutex_lock(l_first);
-	if (n_f >= 1)
+	if (n_f > 1)
 	{
 		ft_push_log(phs, "has taken a fork", FORKING_ONE);
 		pthread_mutex_lock(l_second);
