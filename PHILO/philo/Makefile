@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+         #
+#    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/08 17:24:18 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/11/28 12:23:22 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/11/28 16:22:11 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRCS = philo.c\
 		utils.c\
 		philo_life.c\
 		init.c\
-		create_flush_th.c
+		create_flush_th.c\
+		supervisor.c
 OBJS = $(SRCS:%.c=%.o)
 
 all : $(NAME)

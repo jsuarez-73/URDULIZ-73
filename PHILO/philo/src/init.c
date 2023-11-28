@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:28:26 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/26 19:16:26 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:02:39 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	ft_set_philo(t_gdata **gdt, t_philo **phs)
 	(*phs)->timer.t_die = *((*gdt)->params + T_DIE) * MILI_TO_MICRO;
 	(*phs)->timer.t_eat = *((*gdt)->params + T_EAT) * MILI_TO_MICRO;
 	(*phs)->timer.t_slp = *((*gdt)->params + T_SLP) * MILI_TO_MICRO;
-	(*phs)->timer.t_think = (*phs)->timer.t_die / MILI_TO_MICRO;
 	(*phs)->state = STARTING;
 	(*phs)->signal = &(*gdt)->signal;
 	(*phs)->l_shared = &(*gdt)->l_shared;

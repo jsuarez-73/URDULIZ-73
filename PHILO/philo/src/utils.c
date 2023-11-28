@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:32:54 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/26 20:48:16 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:11:08 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,22 @@ void	ft_set_locks(t_philo *phs, pthread_mutex_t **f, pthread_mutex_t **s)
 	{
 		*f = &phs->fork;
 		*s = &phs->back->fork;
+	}
+}
+
+void	ft_usleep(long ms)
+{
+	struct timeval	tday;
+	long			start;
+	long			now;
+
+	gettimeofday(&tday, NULL);
+	start = tday.tv_sec * 1000 + tday.tv_usec / 1000;
+	now = start;
+	while ((now - start) <= (ms / 1000))
+	{
+		usleep(500);
+		gettimeofday(&tday, NULL);
+		now = tday.tv_sec * 1000 + tday.tv_usec / 1000;
 	}
 }

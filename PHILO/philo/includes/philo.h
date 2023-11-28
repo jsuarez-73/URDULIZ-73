@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 17:57:50 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/26 19:31:12 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:11:16 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ typedef struct s_timers
 	long	t_die;
 	long	t_slp;
 	long	t_eat;
-	long	t_think;
 	long	l_eat;
 }	t_timers;
 
@@ -116,5 +115,6 @@ void		ft_memory_flush(t_gdata *gdt);
 void		ft_create_threads(t_gdata *gdt, int n_f);
 void		ft_join_threads(t_gdata *gdt, int n_f);
 short		ft_all_lifes(t_gdata *gdt, t_philo *phs);
+void		ft_usleep(long ms);
 
 #endif
