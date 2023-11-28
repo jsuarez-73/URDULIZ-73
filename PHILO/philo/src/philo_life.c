@@ -3,14 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   philo_life.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:31:11 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/26 20:50:51 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/28 07:53:59 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	ft_usleep(long ms)
+{
+	struct timeval	tday;
+	long			start;
+	long			now;
+
+	gettimeofday(&tday, NULL);
+	start = tday.tv_sec * 1000 + tday.tv_usec / 1000;
+	now = start;
+	while ((now - start) <= (ms / 1000))
+	{
+		usleep(500);
+		gettimeofday(&tday, NULL);
+		now = tday.tv_sec * 1000 + tday.tv_usec / 1000;
+	}
+}
 
 static short	ft_everyone_has_eaten(t_gdata *gdt, int n_f)
 {
@@ -76,18 +93,18 @@ short	ft_all_lifes(t_gdata *gdt, t_philo *phs)
 	return (1);
 }
 
-static int	ft_check_availability(t_gdata *gdt, t_philo *phs)
-{
-	pthread_mutex_lock(&gdt->l_shared);
-	if (gdt->tables > 0 && !phs->feed)
-	{
-		gdt->tables--;
-		pthread_mutex_unlock(&gdt->l_shared);
-		return (1);
-	}
-	pthread_mutex_unlock(&gdt->l_shared);
-	return (0);
-}
+// static int	ft_check_availability(t_gdata *gdt, t_philo *phs)
+// {
+// 	pthread_mutex_lock(&gdt->l_shared);
+// 	if (gdt->tables > 0 && !phs->feed)
+// 	{
+// 		gdt->tables--;
+// 		pthread_mutex_unlock(&gdt->l_shared);
+// 		return (1);
+// 	}
+// 	pthread_mutex_unlock(&gdt->l_shared);
+// 	return (0);
+// }
 
 t_philo	*ft_last_feed(t_gdata *gdt)
 {
@@ -144,13 +161,13 @@ static void	ft_live(t_gdata *gdt, t_philo *phs, int n_f)
 		phs->feed = 1;
 		ft_update_philo_resources(gdt, phs);
 		ft_push_log(phs, "is eating", EATING);
-		usleep(phs->timer.t_eat);
+		ft_usleep(phs->timer.t_eat);
 		pthread_mutex_unlock(l_first);
 		pthread_mutex_unlock(l_second);
 		ft_push_log(phs, "is sleeping", SLEEPING);
-		usleep(phs->timer.t_slp);
+		ft_usleep(phs->timer.t_slp);
 		ft_push_log(phs, "is thinking", THINKING);
-		usleep(phs->timer.t_think);
+		// usleep(phs->timer.t_think);
 	}
 	else
 		pthread_mutex_unlock(l_first);
@@ -172,9 +189,11 @@ void	*ft_life_philo(void *arg)
 			wait = 0;
 		pthread_mutex_unlock(&gdt->l_shared);
 	}
+	if (phs->id % 2 == 0)
+		usleep(10);
 	while (!wait)
 	{
-		if (ft_check_availability(gdt, phs))
+		if (!phs->feed)
 			ft_live(gdt, phs, *(gdt->params + N_PHILO));
 		pthread_mutex_lock(&gdt->l_shared);
 		if (gdt->signal == SIGDIED || gdt->signal == SIGNTME)

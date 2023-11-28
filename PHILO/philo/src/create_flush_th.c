@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_flush_th.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:34:56 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/26 19:43:40 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/28 07:18:14 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	*ft_time_god(void *arg)
 
 	gdt = (t_gdata *)arg;
 	while (ft_all_lifes(gdt, gdt->phs))
-		usleep(1);
+		usleep(500);
 	return (NULL);
 }
 
