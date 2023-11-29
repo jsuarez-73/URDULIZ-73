@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 21:13:37 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/24 21:14:19 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/29 19:29:42 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static void	ft_init_gdata_helper(t_gdata *gdt)
 	gdt->philo.timer.t_die = *(gdt->params + T_DIE) * MILI_TO_MICRO;
 	gdt->philo.timer.t_slp = *(gdt->params + T_SLP) * MILI_TO_MICRO;
 	gdt->philo.timer.t_eat = *(gdt->params + T_EAT) * MILI_TO_MICRO;
-	gdt->philo.timer.t_think = gdt->philo.timer.t_die / MILI_TO_MICRO;
 	gdt->philo.timer.l_eat = 0;
 	gdt->philo.ntme = 0;
 	gdt->philo.state = WAITING;

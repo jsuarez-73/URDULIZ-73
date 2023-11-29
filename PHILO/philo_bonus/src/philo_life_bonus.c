@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_life_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 21:06:28 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/28 12:36:50 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/29 19:59:01 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ static void	*ft_supervisor(void *arg)
 			ft_push_log(gdt, "has died", DIED);
 			break ;
 		}
-		usleep(1);
+		usleep(500);
 	}
 	return (NULL);
 }
-/*POSIBILE RACE IN 61 WITH 18*/
+
 static void	ft_live(t_gdata *gdt, int n_f)
 {
 	if (n_f > 1)
@@ -62,13 +62,13 @@ static void	ft_live(t_gdata *gdt, int n_f)
 		gdt->philo.ntme++;
 		sem_post(*(gdt->s_death + gdt->philo.id - 1));
 		sem_post(gdt->s_table);
-		usleep(gdt->philo.timer.t_eat);
+		ft_usleep(gdt->philo.timer.t_eat);
 		sem_post(gdt->s_fork);
 		sem_post(gdt->s_fork);
 		ft_push_log(gdt, "is sleeping", SLEEPING);
-		usleep(gdt->philo.timer.t_slp);
+		ft_usleep(gdt->philo.timer.t_slp);
 		ft_push_log(gdt, "is thinking", THINKING);
-		usleep(gdt->philo.timer.t_think);
+		usleep(500);
 	}
 }
 

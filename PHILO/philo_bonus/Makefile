@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+         #
+#    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 19:26:50 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/11/28 12:23:19 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/11/29 20:29:00 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,16 +23,17 @@ SRCS = philo_bonus.c\
 		philo_life_bonus.c\
 		push_log.c\
 		semaphores_utils.c\
-		utils_bonus.c
+		utils_bonus.c\
+		ft_usleep.c
 OBJS = $(SRCS:%.c=%.o)
 
 all : $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) -o $(NAME) $(FSANITIZE_ON) $(OBJS)
+	$(CC) -o $(NAME) $(FSANITIZE_OFF) $(OBJS)
 
 $(OBJS): $(addprefix src/, $(SRCS))
-	$(CC) -c -g $(CFLAGS) $(FSANITIZE_ON) -Iincludes $(addprefix src/, $(SRCS))
+	$(CC) -c -g $(CFLAGS) $(FSANITIZE_OFF) -Iincludes $(addprefix src/, $(SRCS))
 
 clean:
 	rm -rf $(OBJS)

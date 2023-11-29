@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 21:17:15 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/24 21:17:32 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/29 19:31:49 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	*ft_super_death(void *arg)
 				break ;
 		}
 		sem_post(gdt->s_stop);
-		usleep(1);
+		usleep(10);
 	}
 	sem_post(gdt->s_stop);
 	return (NULL);
