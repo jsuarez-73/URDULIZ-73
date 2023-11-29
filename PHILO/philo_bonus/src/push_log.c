@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_log.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsuarez- <jsuarez-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 21:17:33 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/25 12:09:40 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/29 21:16:51 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	ft_push_log(t_gdata *gdt, char *log, t_state state)
 {
 	long	now;
-	char	*emoji;
 
 	sem_wait(*(gdt->s_death + gdt->philo.id - 1));
 	if (gdt->philo.state == DIED)
@@ -27,10 +26,9 @@ void	ft_push_log(t_gdata *gdt, char *log, t_state state)
 	if (gdt->philo.state != state && gdt->philo.state != FEED)
 	{
 		gdt->philo.state = state;
-		emoji = ft_set_emoji(state);
 		sem_wait(gdt->s_term);
 		sem_post(*(gdt->s_death + gdt->philo.id - 1));
-		printf("%ld %u %s %s\n", now, gdt->philo.id, log, emoji);
+		printf("%ld %u %s\n", now, gdt->philo.id, log);
 		if (state != DIED)
 			sem_post(gdt->s_term);
 	}

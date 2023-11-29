@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 19:32:54 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/28 16:11:08 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/29 21:18:55 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,35 +21,33 @@ long	ft_date_update(void)
 	return (0);
 }
 
-static char	*ft_set_emoji(t_state state)
-{
-	if (state == DIED)
-		return (HEADSTONE);
-	else if (state == EATING)
-		return (SPAGHETTI);
-	else if (state == THINKING)
-		return (BULB);
-	else if (state == SLEEPING)
-		return (NAPPING);
-	else if (state == FORKING_TWO)
-		return (FORK_AND_PLATE);
-	else if (state == FORKING_ONE)
-		return (FORK);
-	return (NULL);
-}
+// static char	*ft_set_emoji(t_state state)
+// {
+// 	if (state == DIED)
+// 		return (HEADSTONE);
+// 	else if (state == EATING)
+// 		return (SPAGHETTI);
+// 	else if (state == THINKING)
+// 		return (BULB);
+// 	else if (state == SLEEPING)
+// 		return (NAPPING);
+// 	else if (state == FORKING_TWO)
+// 		return (FORK_AND_PLATE);
+// 	else if (state == FORKING_ONE)
+// 		return (FORK);
+// 	return (NULL);
+// }
 
 void	ft_push_log(t_philo *phs, char *log, t_state state)
 {
 	long		now;
-	char		*emoji;
 
 	pthread_mutex_lock(phs->l_shared);
 	now = ft_date_update();
 	if (phs->state != state && *phs->signal == SGCONT)
 	{
 		phs->state = state;
-		emoji = ft_set_emoji(state);
-		printf("%ld %u %s %s\n", now, phs->id, log, emoji);
+		printf("%ld %u %s\n", now, phs->id, log);
 	}
 	pthread_mutex_unlock(phs->l_shared);
 }
