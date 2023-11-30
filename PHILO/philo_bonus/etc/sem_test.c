@@ -26,6 +26,19 @@ void	ft_child_execution(t_gdt *gdt)
 	cn = 1000;
 	while (cn--)
 	{
+	/*El deathLock era ocasionado debido a las interrupciones ocasionadas
+  	al programa de tal modo que los semaforos abiertos durante su ejecion
+    	dejaban el recurso con valor probablemente negativo, con lo cual al iniciar
+      	nuevamente el proceso se generaban dichos errores, dando la sensacion de que
+	los hilos al llegar todos 'inmediatamente' decrementaban generando tal
+  comportamiento, sin embargo, se debe tener muy claro que la funcion no decrementa dicho
+  contador siempre y cuando NO sea mayor que cero y por lo tanto no retorna, con lo cual
+  todos los demas procesos deberian quedar esperando a que se incrementa el semaforo por el
+  proceso inicial, haciendo que se haga mayor que cero y de este modo el siguiente proceso
+  que tenga el control de la CPU podra decrementar y retornar para continuar con su ejecucion.
+  
+  CONCLUSION: Error de concepto -> Mala implementacion, no son necesarios tantos SEMAFOROS.
+  Independientemente del Sistema Operativo.*/
 		sem_wait(gdt->sem);
 		printf("Llega: %d\n", getpid());
 		sem_post(gdt->sem);
