@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/16 19:49:45 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/29 19:29:16 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/11/30 18:17:55 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,11 @@ typedef struct s_gdata
 	pid_t		*id;
 	int			tphe;
 	short		death;
-	char		**s_names;
+	// char		**s_names;
 	pthread_t	id_death;
 	sem_t		*s_fork;
-	sem_t		**s_death;
+	// sem_t		**s_death;
+	sem_t		*s_death;
 	sem_t		*s_stop;
 	sem_t		*s_term;
 	sem_t		*s_table;
@@ -137,7 +138,7 @@ char	**ft_set_semaphore_names(int n_f);
 long	ft_date_update(void);
 int		ft_born_philo(t_gdata *gdt, int id);
 void	ft_close_semaphores(t_gdata *gdt, int flush_mask);
-void	ft_unlink_semaphores(t_gdata *gdt, int flush_mask);
+void	ft_unlink_semaphores(int flush_mask);
 void	ft_flush_semaphores(t_gdata *gdt, int cls_mask, int flush_mask);
 short	ft_open_sdeaths(t_gdata *gdt);
 int		ft_open_semaphores(t_gdata *gdt);

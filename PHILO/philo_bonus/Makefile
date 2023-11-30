@@ -6,7 +6,7 @@
 #    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 19:26:50 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/11/29 20:29:00 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/11/30 19:00:22 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,8 +39,11 @@ clean:
 	rm -rf $(OBJS)
 
 fclean: clean
-	rm -rf $(NAME)
+	rm -rf $(NAME) sem_test
 
 re: fclean all
 
-.PHONY: all fclean clean re
+etc:
+	$(CC) -o sem_test -g -Iincludes etc/sem_test.c
+
+.PHONY: all fclean clean re etc
