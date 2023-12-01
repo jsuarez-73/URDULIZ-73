@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 21:10:12 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/29 19:30:29 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:37:55 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,10 @@
 
 void	ft_close_semaphores(t_gdata *gdt, int flush_mask)
 {
-	int	cn;
-
-	cn = *(gdt->params + N_PHILO);
 	if (flush_mask & F_FORK)
 		sem_close(gdt->s_fork);
 	if (flush_mask & F_DEATH)
-	{
-		while (cn--)
-			sem_close(*(gdt->s_death + cn));
-	}
+		sem_close(gdt->s_death);
 	if (flush_mask & F_STOP)
 		sem_close(gdt->s_stop);
 	if (flush_mask & F_TERM)
@@ -32,18 +26,12 @@ void	ft_close_semaphores(t_gdata *gdt, int flush_mask)
 		sem_close(gdt->s_table);
 }
 
-void	ft_unlink_semaphores(t_gdata *gdt, int flush_mask)
+void	ft_unlink_semaphores(int flush_mask)
 {
-	int	cn;
-	int	res;
-
-	cn = *(gdt->params + N_PHILO);
-	res = 0;
 	if (flush_mask & F_FORK)
 		sem_unlink(SEM_FORK);
 	if (flush_mask & F_DEATH)
-		while (cn-- && res == 0)
-			res = sem_unlink(*(gdt->s_names + cn));
+		sem_unlink(SEM_DEATH);
 	if (flush_mask & F_STOP)
 		sem_unlink(SEM_STOP);
 	if (flush_mask & F_TERM)
@@ -59,46 +47,22 @@ void	ft_flush_semaphores(t_gdata *gdt, int cls_mask, int flush_mask)
 	if (cls_mask & CLOSE)
 		ft_close_semaphores(gdt, flush_mask);
 	if (cls_mask & UNLINK)
-		ft_unlink_semaphores(gdt, flush_mask);
-}
-
-short	ft_open_sdeaths(t_gdata *gdt)
-{
-	int		cn;
-	int		o_flgs;
-
-	cn = *(gdt->params + N_PHILO);
-	o_flgs = O_CREAT | O_EXCL;
-	while (cn--)
-	{
-		*(gdt->s_death + cn) = sem_open(*(gdt->s_names + cn), o_flgs, 0664, 1);
-		if (*(gdt->s_death + cn) == SEM_FAILED)
-		{
-			while (++cn < *(gdt->params + N_PHILO))
-			{
-				sem_close(*(gdt->s_death + cn));
-				sem_unlink(*(gdt->s_names + cn));
-			}
-			return (0);
-		}
-	}
-	return (1);
+		ft_unlink_semaphores(flush_mask);
 }
 
 int	ft_open_semaphores(t_gdata *gdt)
 {
 	int	o_flags;
-	int	cn;
 	int	n_f;
 
-	cn = *(gdt->params + N_PHILO);
-	n_f = cn;
 	o_flags = O_CREAT | O_EXCL;
-	ft_unlink_semaphores(gdt, FLUSH_ALL);
+	n_f = *(gdt->params + N_PHILO);
+	ft_unlink_semaphores(FLUSH_ALL);
 	gdt->s_fork = sem_open(SEM_FORK, o_flags, 0664, n_f);
 	if (gdt->s_fork == SEM_FAILED)
 		return (FE_NFLUSH);
-	if (!ft_open_sdeaths(gdt))
+	gdt->s_death = sem_open(SEM_DEATH, o_flags, 0664, 1);
+	if (gdt->s_death == SEM_FAILED)
 		return (F_FORK);
 	gdt->s_stop = sem_open(SEM_STOP, o_flags, 0664, 1);
 	if (gdt->s_stop == SEM_FAILED)

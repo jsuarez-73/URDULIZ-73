@@ -6,7 +6,7 @@
 #    By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/16 19:26:50 by jsuarez-          #+#    #+#              #
-#    Updated: 2023/11/29 20:29:00 by jsuarez-         ###   ########.fr        #
+#    Updated: 2023/12/01 15:49:42 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,10 +30,10 @@ OBJS = $(SRCS:%.c=%.o)
 all : $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) -o $(NAME) $(FSANITIZE_OFF) $(OBJS)
+	$(CC) -o $(NAME) $(FSANITIZE_ON) $(OBJS)
 
 $(OBJS): $(addprefix src/, $(SRCS))
-	$(CC) -c -g $(CFLAGS) $(FSANITIZE_OFF) -Iincludes $(addprefix src/, $(SRCS))
+	$(CC) -c -g $(CFLAGS) $(FSANITIZE_ON) -Iincludes $(addprefix src/, $(SRCS))
 
 clean:
 	rm -rf $(OBJS)

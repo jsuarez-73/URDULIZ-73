@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/24 21:06:28 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/11/29 19:59:01 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2023/12/01 15:40:44 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ static void	*ft_supervisor(void *arg)
 	n_epme = *(gdt->params + N_EPME);
 	while (1)
 	{
-		sem_wait(*(gdt->s_death + gdt->philo.id - 1));
+		sem_wait(gdt->s_death);
 		ft_set_supervisor_timer(gdt, &suptimer);
 		if (n_epme > 0 && gdt->philo.ntme == n_epme)
 		{
-			sem_post(*(gdt->s_death + gdt->philo.id - 1));
+			sem_post(gdt->s_death);
 			break ;
 		}
-		sem_post(*(gdt->s_death + gdt->philo.id - 1));
+		sem_post(gdt->s_death);
 		if (suptimer.dtime >= suptimer.phs_tdie)
 		{
 			ft_push_log(gdt, "has died", DIED);
@@ -57,10 +57,10 @@ static void	ft_live(t_gdata *gdt, int n_f)
 		ft_push_log(gdt, "has taken a fork", FORKING_ONE);
 		ft_push_log(gdt, "has taken a fork", FORKING_TWO);
 		ft_push_log(gdt, "is eating", EATING);
-		sem_wait(*(gdt->s_death + gdt->philo.id - 1));
+		sem_wait(gdt->s_death);
 		gdt->philo.timer.l_eat = ft_date_update();
 		gdt->philo.ntme++;
-		sem_post(*(gdt->s_death + gdt->philo.id - 1));
+		sem_post(gdt->s_death);
 		sem_post(gdt->s_table);
 		ft_usleep(gdt->philo.timer.t_eat);
 		sem_post(gdt->s_fork);
@@ -103,13 +103,13 @@ int	ft_born_philo(t_gdata *gdt, int id)
 	pthread_create(&tid, NULL, ft_supervisor, gdt);
 	while (1)
 	{
-		sem_wait(*(gdt->s_death + id - 1));
+		sem_wait(gdt->s_death);
 		if (!ft_check_state(gdt, &state, n_epme))
 			break ;
-		sem_post(*(gdt->s_death + id - 1));
+		sem_post(gdt->s_death);
 		ft_live(gdt, n_f);
 	}
-	sem_post(*(gdt->s_death + id - 1));
+	sem_post(gdt->s_death);
 	pthread_join(tid, NULL);
 	return (state);
 }
