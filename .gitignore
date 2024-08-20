@@ -12,3 +12,4 @@ ETC/
 **/.DS_STORE
 *.dSYM/
 **/*.dSYM/
+**/etc/*
