@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"libft.h"
+#include "libft.h"
 
 t_size	ft_strlcat(char *dest, const char *src, t_size n)
 {

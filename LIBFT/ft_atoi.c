@@ -13,8 +13,8 @@
 #include "libft.h"
 
 int	ft_atoi(const char *s1)
-{	
-	int		num;
+{
+	long	num;
 	short	sgn;
 
 	num = 0;

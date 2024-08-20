@@ -6,7 +6,7 @@
 /*   By: jsuarez- <jsuarez-@student.42urduliz.co    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/16 20:42:12 by jsuarez-          #+#    #+#             */
-/*   Updated: 2023/09/19 17:12:06 by jsuarez-         ###   ########.fr       */
+/*   Updated: 2024/03/05 10:48:00 by jsuarez-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static short	ft_loop(char ***ptr, char *clean, char *off, char ch)
 	end = clean + ft_strlen(clean);
 	while (clean <= end)
 	{
-		if (*clean != ch && *(clean - 1) == ch)
+		if (*clean != ch && clean - 1 > off && *(clean - 1) == ch)
 			off = clean;
 		if ((*clean == ch || *clean == '\0') && *(clean - 1) != ch)
 		{
@@ -60,7 +60,7 @@ static short	ft_loop(char ***ptr, char *clean, char *off, char ch)
 				return (0);
 			}
 			*(*ptr + q_nd - 1) = ft_substr(off, 0, clean - off);
-			if (*ptr + q_nd - 1 == NULL)
+			if (*(*ptr + q_nd - 1) == NULL)
 				return (0);
 		}
 		clean++;
@@ -73,11 +73,12 @@ char	**ft_split(char const *s, char c)
 	char		**ptr;
 	char		*clean;
 	char		*off;
-	char		ch;
+	char		ch[2];
 
-	ch = c;
+	*ch = c;
+	*(ch + 1) = 0;
 	ptr = NULL;
-	clean = ft_strtrim(s, &ch);
+	clean = ft_strtrim(s, ch);
 	if (!clean)
 		return (NULL);
 	else if (*clean == '\0')

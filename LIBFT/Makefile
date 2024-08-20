@@ -1,4 +1,4 @@
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 NAME = libft.a
 NAME_GDB = libft.gdb
 SRCS = ft_bzero.c\
@@ -72,27 +72,17 @@ OBJS_BONUS = $(SRCS_BONUS:%.c=%.o)
 
 all : $(NAME)
 
-$(NAME):
-	cc $(CFLAGS) -c -I../PRINTF -I../GNL $(SRCS) $(SRCS_BONUS) $(PATH_GNL) \
+$(NAME): $(SRCS) $(SRCS_BONUS)
+	@cc $(CFLAGS) -c -I../PRINTF -I../GNL $(SRCS) $(SRCS_BONUS) $(PATH_GNL) \
 		$(PATH_PRINTF)
-	ar -rcs $(NAME) $(OBJS) $(OBJS_BONUS)
+	@ar -rcs $(NAME) $(OBJS) $(OBJS_BONUS)
 
 clean:
-	rm -rf $(OBJS) $(OBJS_BONUS)
+	@rm -rf $(OBJS) $(OBJS_BONUS)
 
 fclean:
-	rm -rf $(NAME)
+	@rm -rf $(NAME) $(OBJS) $(OBJS_BONUS)
 
 re: fclean all
 
-bonus:
-	cc $(CFLAGS) -c $(SRCS) $(SRCS_BONUS)
-	ar rcs $(NAME) $(OBJS) $(OBJS_BONUS)
-
-debug:
-	cc -g -o $(NAME_GDB) $(SRCS)
-
-xgdb: debug
-	gdb ./$(NAME_GDB)
-
-.PHONY: all clean fclean re debug xgdb
+.PHONY: all clean fclean re
