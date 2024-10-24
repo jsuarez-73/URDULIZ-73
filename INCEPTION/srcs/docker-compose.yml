@@ -1,0 +1,32 @@
+name: Inception
+services:
+  nginx:
+    build: 
+      context: .
+      dockerfile: ${DIR_NGINX}/Dockerfile
+      args: 
+        PUBK_NAME: ${PUBK_NAME}
+        PUBK_NGINX: ${PUBK_NGINX}
+        NGINX_CONF: ${NGINX_CONF}
+        NGINX_CONF_NAME: ${NGINX_CONF_NAME}
+        DIRKEY: ${DIRKEY}
+        DIRCRT: ${DIRCRT}
+        CERT_NAME: ${CERT_NAME}
+        CERT_: ${CERT_}
+        NGINX_DIR_DFLT_CONF: ${NGINX_DIR_DFLT_CONF}
+        NGINX_DOMAIN_NAME: ${NGINX_DOMAIN_NAME}
+        NGINX_DIRKEY: ${DIRKEY}/${CERT_KEY_NAME}
+      no_cache: true
+      secrets:
+        - nginx_key
+    ports:
+      - 443:443
+    hostname: ${NGINX_HOST_NAME}
+    domainname: ${NGINX_DOMAIN_NAME}
+
+networks:
+  front-tier:
+
+secrets:
+  nginx_key:
+    file: ${CERT_KEY}
