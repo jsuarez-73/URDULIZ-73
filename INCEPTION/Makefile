@@ -6,7 +6,7 @@
 #    By: jsuarez- <jsuarez-@student.42urduliz.co>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 10:40:31 by jsuarez-          #+#    #+#              #
-#    Updated: 2024/10/24 16:07:49 by jsuarez-         ###   ########.fr        #
+#    Updated: 2024/10/24 18:03:06 by jsuarez-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,4 +28,6 @@ $(DEPENDENCY):
 		-subj "/C=ES/ST=Bizkaia/L=Galdakao/CN=localhost/"
 	chmod 755 $(MK_CTX)$(NGINX_CONF)
 
+fclean:
+	rm $(MK_CTX)$(CERT_KEY) $(MK_CTX)$(CERT_)
 .PHONY: all $(NGINX_)
