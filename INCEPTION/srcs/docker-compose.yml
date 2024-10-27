@@ -23,6 +23,29 @@ services:
       - 443:443
     hostname: ${NGINX_HOST_NAME}
     domainname: ${NGINX_DOMAIN_NAME}
+    profiles: [nginx, all]
+
+  mariadb:
+    build:
+      context: .
+      dockerfile: ${DIR_MARIADB}/Dockerfile
+      no_cache: true
+      args:
+        MDB_CNF: ${MDB_CNF}
+        MDB_SQL: ${MDB_SQL}
+        DIR_MDB_CNF: ${DIR_MDB_CNF}
+        DATADIR: ${DATADIR} 
+        TOOL_CNF: ${TOOL_CNF}
+        ADMN_USER: ${ADMN_USER}
+        WDPRSS_USER: ${WDPRSS_USER}
+      secrets:
+        - mariadb_admin_key
+        - mariadb_wdprss_key
+    ports:
+      - 3306:3306
+    profiles: [mariadb, all]
+    volumes:
+      - db:${DATADIR}
 
 networks:
   front-tier:
@@ -30,3 +53,10 @@ networks:
 secrets:
   nginx_key:
     file: ${CERT_KEY}
+  mariadb_admin_key:
+    environment: "ADMN_KEY"
+  mariadb_wdprss_key:
+    environment: "WDPRSS_KEY"
+
+volumes:
+  db:

@@ -15,7 +15,10 @@ include srcs/.env
 DEPENDENCY=$(addprefix $(MK_CTX), $(NGINX_CERT))
 
 all: $(NGINX_)
-	docker compose -f srcs/docker-compose.yml up
+	docker compose -f srcs/docker-compose.yml --profile all up
+
+mariadb:
+	docker compose -f srcs/docker-compose.yml --profile mariadb up
 
 $(NGINX_): $(DEPENDENCY)
 
@@ -30,4 +33,4 @@ $(DEPENDENCY):
 
 fclean:
 	rm $(MK_CTX)$(CERT_KEY) $(MK_CTX)$(CERT_)
-.PHONY: all $(NGINX_)
+.PHONY: all $(NGINX_) mariadb

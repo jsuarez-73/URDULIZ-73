@@ -1,16 +1,7 @@
 # syntax=docker/dockerfile:1
 FROM alpine:3.19 AS nginx
-ARG PUBK_NAME
-ARG PUBK_NGINX
-ARG	NGINX_CONF
-ARG	NGINX_CONF_NAME
-ARG DIRKEY
-ARG DIRCRT
-ARG CERT_NAME
-ARG	CERT_
-ARG NGINX_DIR_DFLT_CONF
-ARG	NGINX_DOMAIN_NAME
-ARG	NGINX_DIRKEY
+ARG PUBK_NAME PUBK_NGINX NGINX_CONF NGINX_CONF_NAME DIRKEY DIRCRT CERT_NAME \
+	CERT_ NGINX_DIR_DFLT_CONF NGINX_DOMAIN_NAME NGINX_DIRKEY
 COPY ${PUBK_NGINX} /tmp/${PUBK_NAME}.org
 #Update repositories registries and install nginx dependencies
 RUN apk update && apk add openssl curl ca-certificates 
@@ -44,4 +35,5 @@ RUN	cat ${DIRCRT}/${CERT_NAME} >> \
 RUN	--mount=type=secret,id=nginx_key\
 	cp /run/secrets/nginx_key ${NGINX_DIRKEY}
 EXPOSE	443
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx"]
+CMD ["-g", "daemon off;"]
