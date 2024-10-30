@@ -15,10 +15,30 @@ include srcs/.env
 DEPENDENCY=$(addprefix $(MK_CTX), $(NGINX_CERT))
 
 all: $(NGINX_)
+	mkdir -p ${DB_DIR}
+	mkdir -p ${WP_DIR}
 	docker compose -f srcs/docker-compose.yml --profile all up
 
+wordpress:
+	mkdir -p ${WP_DIR}
+	docker compose -f srcs/docker-compose.yml --profile wordpress up
+
 mariadb:
+	mkdir -p ${DB_DIR}
 	docker compose -f srcs/docker-compose.yml --profile mariadb up
+
+mdb_wp:
+	mkdir -p ${DB_DIR}
+	mkdir -p ${WP_DIR}
+	docker compose -f srcs/docker-compose.yml --profile mariadb --profile wordpress up
+
+ngnx_mdb: $(DEPENDENCY)
+	mkdir -p ${DB_DIR}
+	docker compose -f srcs/docker-compose.yml --profile mariadb --profile nginx up
+
+ngnx: $(DEPENDENCY)
+	mkdir -p ${WP_DIR}
+	docker compose -f srcs/docker-compose.yml --profile nginx up
 
 $(NGINX_): $(DEPENDENCY)
 
@@ -32,5 +52,8 @@ $(DEPENDENCY):
 	chmod 755 $(MK_CTX)$(NGINX_CONF)
 
 fclean:
-	rm $(MK_CTX)$(CERT_KEY) $(MK_CTX)$(CERT_)
-.PHONY: all $(NGINX_) mariadb
+	rm -rf $(MK_CTX)$(CERT_KEY) $(MK_CTX)$(CERT_)
+	dprune
+	docker volume rm -f inception_db
+
+.PHONY: all $(NGINX_) mariadb wordpress mdb_wp ngnx_mdb ngnx

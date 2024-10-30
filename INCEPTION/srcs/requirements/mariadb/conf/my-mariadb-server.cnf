@@ -1,0 +1,5 @@
+[mariadb]
+datadir=/opt/mysql/mysql/data
+init_file=/tmp/set_mariadb.sql
+skip_networking=0
+bind_address=*

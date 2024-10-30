@@ -1,0 +1,21 @@
+#Global parameters
+path: /opt/wordpress/
+
+#subcommand defaults
+config create:
+  dbuser: wordpress
+  dbname: wordpress
+  dbhost: mariadb
+
+#core install defaults
+core install:
+  url: jsuarez-.42.fr
+  title: TuMariachi
+  admin_user: jsuarez-
+  admin_email: jsuarez-@42.fr
+  skip_email:
+
+#server configuration default
+server:
+  host: 0.0.0.0
+  port: 9000

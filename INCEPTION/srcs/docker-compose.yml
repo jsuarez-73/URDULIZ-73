@@ -24,6 +24,10 @@ services:
     hostname: ${NGINX_HOST_NAME}
     domainname: ${NGINX_DOMAIN_NAME}
     profiles: [nginx, all]
+    networks:
+      - back-tier
+    volumes:
+      - wp:/opt/nginx/
 
   mariadb:
     build:
@@ -31,24 +35,47 @@ services:
       dockerfile: ${DIR_MARIADB}/Dockerfile
       no_cache: true
       args:
-        MDB_CNF: ${MDB_CNF}
-        MDB_SQL: ${MDB_SQL}
-        DIR_MDB_CNF: ${DIR_MDB_CNF}
-        DATADIR: ${DATADIR} 
+        MDB_CNF_FL: ${MDB_CNF_FL}
         TOOL_CNF: ${TOOL_CNF}
         ADMN_USER: ${ADMN_USER}
         WDPRSS_USER: ${WDPRSS_USER}
       secrets:
         - mariadb_admin_key
         - mariadb_wdprss_key
-    ports:
-      - 3306:3306
+    expose:
+      - 3306
     profiles: [mariadb, all]
+    networks:
+      - back-tier
     volumes:
-      - db:${DATADIR}
+      - db:/opt/mysql/mysql/data
+
+  wordpress:
+    build:
+      context: .
+      dockerfile: ${DIR_WP}/Dockerfile
+      no_cache: true
+      args:
+        WP_PHAR: ${WP_PHAR}
+        VS: ${VS}
+        WP_CONF: ${WP_CONF}
+        WP_CLI_CONFIG_PATH: ${WP_CLI_CONFIG_PATH}
+        WP_INIT: ${WP_INIT}
+      secrets:
+        - mariadb_admin_key
+        - mariadb_wdprss_key
+    expose:
+      - 9000
+    profiles: [wordpress, all]
+    networks:
+      - back-tier
+    volumes:
+      - wp:/opt/wordpress/
+    depends_on:
+      - mariadb
 
 networks:
-  front-tier:
+  back-tier:
 
 secrets:
   nginx_key:
@@ -60,3 +87,14 @@ secrets:
 
 volumes:
   db:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DB_DIR}
+  wp:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${WP_DIR}
