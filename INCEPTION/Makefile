@@ -27,7 +27,7 @@ bonus: $(NGINX_)
 	mkdir -p ${WEB_DIR}
 	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
 	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
-		--profile web --profile redis --profile ftp --profile all up
+		--profile adminer --profile web --profile redis --profile ftp --profile all up
 redis:
 	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
 	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
@@ -40,6 +40,10 @@ web:
 	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
 	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
 		--profile web up
+adminer:
+	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
+	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
+		--profile adminer up
 
 web_ngnx: $(DEPENDENCY)
 	mkdir -p ${DB_DIR}
@@ -87,4 +91,5 @@ fclean:
 	dprune
 	docker volume rm -f inception_db
 
-.PHONY: all $(NGINX_) mariadb wordpress mdb_wp ngnx_mdb ngnx bonus redis ftp wp_bonus web web_ngnx
+.PHONY: all $(NGINX_) mariadb wordpress mdb_wp ngnx_mdb ngnx bonus redis ftp wp_bonus web web_ngnx \
+	adminer

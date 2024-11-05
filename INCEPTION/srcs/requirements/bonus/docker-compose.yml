@@ -28,12 +28,12 @@ services:
     ports:
       - "20:20"
       - "21:21"
-      - "40000-50000:40000-50000"
+      - "40000-40010:40000-40010"
       - "990:990"
     expose:
       - 21
       - 20
-      - "40000-50000"
+      - "40000-40010"
       - 990
     profiles: [ftp, bonus]
     networks:
@@ -53,6 +53,20 @@ services:
       - back-tier
     volumes:
       - web:/var/www
+
+  adminer:
+    build:
+      context:  .
+      dockerfile: ${ADM_DIR}/Dockerfile
+      no_cache: true
+      args:
+        VS: ${VS}
+    expose:
+      - 8080
+    restart:  always
+    profiles: [adminer, bonus]
+    networks:
+      - back-tier
 
 secrets:
   ftp_secret:
