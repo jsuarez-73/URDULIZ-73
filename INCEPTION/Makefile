@@ -15,9 +15,39 @@ include srcs/.env
 DEPENDENCY=$(addprefix $(MK_CTX), $(NGINX_CERT))
 
 all: $(NGINX_)
+	sed -i -e '/^BONUS/s/BONUS.*/BONUS=0/' srcs/.env
 	mkdir -p ${DB_DIR}
 	mkdir -p ${WP_DIR}
+	mkdir -p ${WEB_DIR}
 	docker compose -f srcs/docker-compose.yml --profile all up
+
+bonus: $(NGINX_)
+	mkdir -p ${DB_DIR}
+	mkdir -p ${WP_DIR}
+	mkdir -p ${WEB_DIR}
+	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
+	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
+		--profile web --profile redis --profile ftp --profile all up
+redis:
+	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
+	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
+		--profile redis up
+ftp:
+	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
+	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
+		--profile ftp up
+web:
+	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
+	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
+		--profile web up
+
+web_ngnx: $(DEPENDENCY)
+	mkdir -p ${DB_DIR}
+	mkdir -p ${WP_DIR}
+	mkdir -p ${WEB_DIR}
+	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
+	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
+		--profile web --profile redis --profile ftp --profile all up
 
 wordpress:
 	mkdir -p ${WP_DIR}
@@ -30,6 +60,7 @@ mariadb:
 mdb_wp:
 	mkdir -p ${DB_DIR}
 	mkdir -p ${WP_DIR}
+	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
 	docker compose -f srcs/docker-compose.yml --profile mariadb --profile wordpress up
 
 ngnx_mdb: $(DEPENDENCY)
@@ -56,4 +87,4 @@ fclean:
 	dprune
 	docker volume rm -f inception_db
 
-.PHONY: all $(NGINX_) mariadb wordpress mdb_wp ngnx_mdb ngnx
+.PHONY: all $(NGINX_) mariadb wordpress mdb_wp ngnx_mdb ngnx bonus redis ftp wp_bonus web web_ngnx

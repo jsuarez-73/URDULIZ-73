@@ -27,7 +27,7 @@ services:
     networks:
       - back-tier
     volumes:
-      - wp:/opt/nginx/
+      - wp:/opt/nginx/wp
 
   mariadb:
     build:
@@ -64,6 +64,8 @@ services:
       secrets:
         - mariadb_admin_key
         - mariadb_wdprss_key
+    environment:
+      BONUS: ${BONUS}
     expose:
       - 9000
     profiles: [wordpress, all]

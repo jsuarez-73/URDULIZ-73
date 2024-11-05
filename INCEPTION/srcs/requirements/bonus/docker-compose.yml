@@ -1,0 +1,67 @@
+include:
+  - path:
+    - docker-compose.yml
+    - ${DIR_BONUS}/override.yml
+name: Bonus_inception
+services:
+  redis:
+    build:
+      context: .
+      dockerfile: ${DIR_REDIS}/Dockerfile
+      no_cache: true
+    expose: 
+     - 6379
+    profiles: [redis, bonus]
+    networks:
+      - back-tier
+  ftp:
+    build:
+      context: .
+      dockerfile: ${DIR_FTP}/Dockerfile
+      args:
+        CONF_VSFTPD: ${CONF_VSFTPD}
+        TOOL_VSFTPD: ${TOOL_VSFTPD}
+      no_cache: true
+      secrets:
+        - ftp_secret
+    restart: always
+    ports:
+      - "20:20"
+      - "21:21"
+      - "40000-50000:40000-50000"
+      - "990:990"
+    expose:
+      - 21
+      - 20
+      - "40000-50000"
+      - 990
+    profiles: [ftp, bonus]
+    networks:
+      - back-tier
+    volumes:
+      - wp:/opt/wordpress/
+
+  web:
+    build:
+      context: .
+      dockerfile: ${DIR_WEB}/Dockerfile
+      no_cache: true
+      args:
+        DIR_WEB: ${DIR_WEB}
+    profiles: [web, bonus]
+    networks:
+      - back-tier
+    volumes:
+      - web:/var/www
+
+secrets:
+  ftp_secret:
+    environment: "PASS_FTP"
+
+volumes:
+  web:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${WEB_DIR}
