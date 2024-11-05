@@ -26,15 +26,9 @@ services:
         - ftp_secret
     restart: always
     ports:
-      - "20:20"
       - "21:21"
-      - "40000-40010:40000-40010"
-      - "990:990"
     expose:
       - 21
-      - 20
-      - "40000-40010"
-      - 990
     profiles: [ftp, bonus]
     networks:
       - back-tier
@@ -65,6 +59,19 @@ services:
       - 8080
     restart:  always
     profiles: [adminer, bonus]
+    networks:
+      - back-tier
+        #cambiar nombre del servicio aca
+  ttyd:
+    build:
+      context:  .
+      dockerfile: ${TTYD_DIR}/Dockerfile
+      no_cache: true
+    ports:
+      - 3001:3001
+    expose:
+      - 3001
+    profiles: [ttyd, bonus]
     networks:
       - back-tier
 
