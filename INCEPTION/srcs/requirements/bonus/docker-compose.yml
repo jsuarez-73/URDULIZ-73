@@ -1,14 +1,14 @@
 include:
   - path:
-    - docker-compose.yml
-    - ${DIR_BONUS}/override.yml
+    - ../../docker-compose.yml
+    - override.yml
 name: Bonus_inception
 services:
   redis:
     container_name: redis
     build:
       context: .
-      dockerfile: ${DIR_REDIS}/Dockerfile
+      dockerfile: redis/Dockerfile
       no_cache: true
     expose: 
      - 6379
@@ -19,7 +19,7 @@ services:
     container_name: ftp
     build:
       context: .
-      dockerfile: ${DIR_FTP}/Dockerfile
+      dockerfile: ftp/Dockerfile
       args:
         CONF_VSFTPD: ${CONF_VSFTPD}
         TOOL_VSFTPD: ${TOOL_VSFTPD}
@@ -43,7 +43,7 @@ services:
     container_name: web
     build:
       context: .
-      dockerfile: ${DIR_WEB}/Dockerfile
+      dockerfile: web/Dockerfile
       no_cache: true
       args:
         DIR_WEB: ${DIR_WEB}
@@ -54,9 +54,10 @@ services:
       - web:/var/www
 
   adminer:
+    container_name: adminer
     build:
       context:  .
-      dockerfile: ${ADM_DIR}/Dockerfile
+      dockerfile: adminer/Dockerfile
       no_cache: true
       args:
         VS: ${VS}
@@ -71,7 +72,7 @@ services:
     container_name: uptime
     build:
       context:  .
-      dockerfile: ${UP_DIR}/Dockerfile
+      dockerfile: uptime/Dockerfile
       no_cache: true
     ports:
       - 3001:3001

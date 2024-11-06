@@ -13,74 +13,31 @@
 include srcs/.env
 
 DEPENDENCY=$(addprefix $(MK_CTX), $(NGINX_CERT))
+VOLUMES=${DB_DIR} ${WP_DIR} ${WEB_DIR}
 
-all: $(NGINX_)
+all: $(DEPENDENCY) $(VOLUMES)
 	sed -i -e '/^BONUS/s/BONUS.*/BONUS=0/' srcs/.env
-	mkdir -p ${DB_DIR}
-	mkdir -p ${WP_DIR}
-	mkdir -p ${WEB_DIR}
 	docker compose -f srcs/docker-compose.yml --profile all up
 
-bonus: $(NGINX_)
-	mkdir -p ${DB_DIR}
-	mkdir -p ${WP_DIR}
-	mkdir -p ${WEB_DIR}
+bonus: $(DEPENDENCY) $(VOLUMES)
 	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
-	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
-		--profile uptime --profile adminer --profile web --profile redis --profile ftp \
-		--profile all up
-redis:
-	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
-	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
-		--profile redis up
-ftp:
-	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
-	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
-		--profile ftp up
-web:
-	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
-	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
-		--profile web up
-adminer:
-	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
-	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
-		--profile adminer up
-uptime:
-	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
-	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
-		--profile uptime up
+	docker compose --env-file srcs/.env -f ${MK_DIR_BONUS}/docker-compose.yml \
+		--profile bonus --profile all up
+clean:
+	docker compose -f ./srcs/docker-compose.yml down
 
-web_ngnx: $(DEPENDENCY)
-	mkdir -p ${DB_DIR}
-	mkdir -p ${WP_DIR}
-	mkdir -p ${WEB_DIR}
-	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
-	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
-		--profile web --profile redis --profile ftp --profile all up
+re: clean
+	docker compose -f srcs/docker-compose.yml up --build
 
-wordpress:
-	mkdir -p ${WP_DIR}
-	docker compose -f srcs/docker-compose.yml --profile wordpress up
-
-mariadb:
-	mkdir -p ${DB_DIR}
-	docker compose -f srcs/docker-compose.yml --profile mariadb up
-
-mdb_wp:
-	mkdir -p ${DB_DIR}
-	mkdir -p ${WP_DIR}
-	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
-	docker compose -f srcs/docker-compose.yml --profile mariadb --profile wordpress up
-
-ngnx_mdb: $(DEPENDENCY)
-	mkdir -p ${DB_DIR}
-	docker compose -f srcs/docker-compose.yml --profile mariadb --profile nginx up
-
-ngnx: $(DEPENDENCY)
-	mkdir -p ${WP_DIR}
-	docker compose -f srcs/docker-compose.yml --profile nginx up
-
-$(NGINX_): $(DEPENDENCY)
+fclean:
+	rm -rf $(MK_CTX)$(CERT_KEY) $(MK_CTX)$(CERT_)
+	docker stop $$(docker ps -qa); \
+	docker rm $$(docker ps -qa); \
+	docker rmi -f $$(docker images -qa); \
+	docker volume rm $$(docker volume ls -q); \
+	docker network rm $$(docker network ls -q) 2>/dev/null; \
+	docker system prune --all --volumes -f; \
+	sudo rm -rf ${VOLUMES_DIR}
 
 $(DEPENDENCY):
 	#Create the certificate x509 without PEM password (noenc) and with the subjects
@@ -91,10 +48,10 @@ $(DEPENDENCY):
 		-subj "/C=ES/ST=Bizkaia/L=Galdakao/CN=localhost/"
 	chmod 755 $(MK_CTX)$(NGINX_CONF)
 
-fclean:
-	rm -rf $(MK_CTX)$(CERT_KEY) $(MK_CTX)$(CERT_)
-	dprune
-	docker volume rm -f inception_db
+$(VOLUMES):
+	mkdir -p ${DB_DIR}
+	mkdir -p ${WP_DIR}
+	mkdir -p ${WEB_DIR}
 
-.PHONY: all $(NGINX_) mariadb wordpress mdb_wp ngnx_mdb ngnx bonus redis ftp wp_bonus web web_ngnx \
-	adminer
+
+.PHONY: all $(NGINX_) bonus fclean re clean

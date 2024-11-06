@@ -17,6 +17,8 @@ services:
         NGINX_DIR_DFLT_CONF: ${NGINX_DIR_DFLT_CONF}
         NGINX_DOMAIN_NAME: ${NGINX_DOMAIN_NAME}
         NGINX_DIRKEY: ${DIRKEY}/${CERT_KEY_NAME}
+        TOOL_NGINX: ${TOOL_NGINX}
+        BONUS: ${BONUS}
       no_cache: true
       secrets:
         - nginx_key

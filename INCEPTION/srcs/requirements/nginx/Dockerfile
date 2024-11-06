@@ -1,8 +1,10 @@
 # syntax=docker/dockerfile:1
 FROM alpine:3.19 AS nginx
 ARG PUBK_NAME PUBK_NGINX NGINX_CONF NGINX_CONF_NAME DIRKEY DIRCRT CERT_NAME \
-	CERT_ NGINX_DIR_DFLT_CONF NGINX_DOMAIN_NAME NGINX_DIRKEY
+	CERT_ NGINX_DIR_DFLT_CONF NGINX_DOMAIN_NAME NGINX_DIRKEY TOOL_NGINX BONUS
+ENV BONUS=${BONUS}
 COPY ${PUBK_NGINX} /tmp/${PUBK_NAME}.org
+COPY ${TOOL_NGINX}/set_nginx_conf.sh /usr/local/bin/run_conf_setup.sh
 #Update repositories registries and install nginx dependencies
 RUN apk update && apk add openssl curl ca-certificates 
 #Add to repositories looked by apk the mainline repository from nginx.
@@ -30,6 +32,7 @@ RUN	sed -i -e '/listen.*;$/a\' \
 		\\tssl_certificate_key ${NGINX_DIRKEY};\\n" \
 		/etc/nginx/conf.d/${NGINX_CONF_NAME}
 #Add our certificate to the certificates trusted by Openssl
+RUN	chmod +x /usr/local/bin/run_conf_setup.sh && /usr/local/bin/run_conf_setup.sh
 RUN	cat ${DIRCRT}/${CERT_NAME} >> \
 	$(openssl version -d | egrep -o '/[^"]*')/cert.pem
 RUN	--mount=type=secret,id=nginx_key\
