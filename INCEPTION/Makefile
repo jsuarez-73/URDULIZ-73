@@ -27,7 +27,7 @@ bonus: $(NGINX_)
 	mkdir -p ${WEB_DIR}
 	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
 	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
-		--profile ttyd --profile adminer --profile web --profile redis --profile ftp \
+		--profile uptime --profile adminer --profile web --profile redis --profile ftp \
 		--profile all up
 redis:
 	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
@@ -45,10 +45,10 @@ adminer:
 	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
 	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
 		--profile adminer up
-ttyd:
+uptime:
 	sed -i -e '/^BONUS/s/BONUS.*/BONUS=1/' srcs/.env
 	docker compose -f srcs/docker-compose.yml -f ${MK_DIR_BONUS}/docker-compose.yml \
-		--profile ttyd up
+		--profile uptime up
 
 web_ngnx: $(DEPENDENCY)
 	mkdir -p ${DB_DIR}

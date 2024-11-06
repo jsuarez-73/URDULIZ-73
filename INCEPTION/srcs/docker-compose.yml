@@ -1,6 +1,7 @@
 name: Inception
 services:
   nginx:
+    container_name: nginx
     build: 
       context: .
       dockerfile: ${DIR_NGINX}/Dockerfile
@@ -30,6 +31,7 @@ services:
       - wp:/opt/nginx/wp
 
   mariadb:
+    container_name: mariadb
     build:
       context: .
       dockerfile: ${DIR_MARIADB}/Dockerfile
@@ -51,6 +53,7 @@ services:
       - db:/opt/mysql/mysql/data
 
   wordpress:
+    container_name: wordpress
     build:
       context: .
       dockerfile: ${DIR_WP}/Dockerfile

@@ -1,6 +1,6 @@
-FROM alpine:3.19 AS ttyd
+FROM alpine:3.19 AS uptime
 RUN	apk update && apk add curl git
-RUN	apk add nodejs npm
+RUN	apk add nodejs npm python3
 RUN git clone https://github.com/louislam/uptime-kuma.git
 WORKDIR uptime-kuma
 RUN npm run setup
